@@ -1,0 +1,318 @@
+# =====================================================================================
+#  Hand-authored building specification (the ONLY manually digitised input).
+#  Everything else (walls, room polygons, walking routes, travel-time matrix, renders)
+#  is derived deterministically from this file + the six floor-plan photos.
+#
+#  Coordinate frame (metres): origin = NW corner of the building envelope,
+#  x -> east (0 .. 39.475), y -> south (0 .. 50.0).  "Up" on the plans is north.
+# =====================================================================================
+
+meta:
+  name: "Hypothetical High School - main building"
+  envelope_ns_m: 50.0          # given: max top-to-bottom extent of the floor plans
+  # E-W extent is NOT given; it is measured from the photos: metric rectification of all six
+  # photos gives envelope aspect W/H = 0.773 .. 0.811 (median 0.7895) -> 39.475 m.
+  envelope_aspect: 0.7895
+  floor_to_floor_m: 4.5        # visualisation only (does not affect travel times)
+
+timing:
+  walk_speed_mps: 1.2          # casual indoor walking speed (Fruin / Weidmann: 1.2-1.35 m/s)
+  stair_up_s_per_floor: 15.0   # given
+  stair_down_s_per_floor: 10.0 # given
+  elevator:
+    enabled: false             # students normally take stairs; switch on for accessibility runs
+    wait_s: 25.0
+    per_floor_s: 3.0
+    door_s: 6.0
+
+routing:
+  grid_m: 0.10                 # routing raster resolution
+  comfort_clearance_m: 0.55    # people keep ~0.5 m from walls; closer costs more
+  min_clearance_m: 0.18        # hard limit (narrowest door passable ~0.6 m)
+  wall_penalty: 1.5            # cost multiplier strength inside the comfort band
+
+# Photo calibration: approximate outer-wall segments in ORIGINAL photo pixels.
+# They are snapped to the drawn wall centre-line (sub-pixel) at build time; the four
+# wall lines are intersected into the envelope corners NW/NE/SE/SW which are mapped to
+# (0,0) (W,0) (W,H) (0,H).
+calibration:
+  1F: {N: [[560, 280], [180, 280]], W: [[173, 290], [200, 1170]], S: [[225, 1397], [850, 1425]], E: [[1135, 505], [1098, 1290]]}
+  2F: {N: [[365, 511], [748, 513]], W: [[359, 520], [388, 1108]], S: [[395, 1114], [730, 1121]], E: [[883, 632], [867, 1042]]}
+  3F: {N: [[380, 472], [770, 470]], W: [[265, 505], [318, 1222]], S: [[325, 1229], [748, 1255]], E: [[950, 628], [922, 1162]]}
+  4F: {N: [[452, 504], [772, 504]], W: [[350, 532], [381, 1135]], S: [[388, 1141], [750, 1150]], E: [[921, 634], [899, 1086]]}
+  B1: {N: [[260, 275], [1130, 277]], W: [[253, 282], [300, 1262]], S: [[308, 1271], [1058, 1300]], E: [[1135, 284], [1064, 1294]]}
+  B2: {N: [[172, 303], [1084, 325]], W: [[165, 310], [240, 1306]], S: [[248, 1314], [998, 1356]], E: [[1090, 332], [1004, 1349]]}
+
+# -------------------------------------------------------------------------------------
+# Floors.  footprint = walkable interior outline; blocked = voids / exterior stairs etc.
+# rooms: id, name (from the wall directory), kind, seed = label centre (auto-detected,
+# hand-matched).  region (optional) overrides automatic room-polygon extraction.
+# -------------------------------------------------------------------------------------
+floors:
+  - id: B2
+    level: -2
+    image: B2.jpg
+    footprint: [[0, 0], [39.475, 0], [39.475, 50], [0, 50]]
+    blocked: []
+    erase: [[27.2, 36.9, 28.85, 39.2], [35.8, 38.4, 38.9, 40.8]]   # glyphs touching walls ("06", "04")
+    rooms:
+      - {id: B201, name: Racing Smart Car Studio, kind: lab, seed: [35.5, 12.4]}
+      - {id: B202, name: Operator-controlled Robotics Arena, kind: lab, seed: [35.6, 25.9]}
+      - {id: B203, name: Physics & Intelligent Integration Lab, kind: lab, seed: [35.6, 31.9]}
+      - {id: B204, name: Biomechanics & Rehabilitation Engineering Lab, kind: lab, seed: [35.4, 39.6]}
+      - {id: B205, name: B205, kind: service, seed: [31.7, 48.9], region: [[29.0, 47.8], [39.4, 47.8], [39.4, 49.8], [29.0, 49.8]]}
+      - {id: B206, name: B206, kind: lab, seed: [26.8, 38.0]}
+      - {id: B207, name: B207, kind: lab, seed: [22.3, 38.0]}
+      - {id: B208, name: Property Management Office, kind: office, seed: [16.5, 38.1]}
+      - {id: B209, name: B209, kind: lab, seed: [16.7, 47.0]}
+      - {id: B210, name: B210, kind: lab, seed: [4.8, 42.7]}
+      - {id: B211, name: B211, kind: lab, seed: [4.7, 31.6]}
+      - {id: B212, name: Laser Shooting Center, kind: lab, seed: [4.8, 22.4]}
+      - {id: B213, name: 3D Innovation Lab, kind: lab, seed: [3.3, 11.5]}
+      - {id: B214, name: Robotics Development Center, kind: lab, seed: [3.3, 3.3]}
+      - {id: B215, name: AI Computing Lab, kind: lab, seed: [9.5, 3.2]}
+      - {id: B216, name: Library, kind: library, seed: [16.5, 10.0]}
+      - {id: B217, name: Drone Flight Center, kind: lab, seed: [21.1, 26.3]}
+
+  - id: B1
+    level: -1
+    image: B1.jpg
+    footprint: [[0, 0], [39.475, 0], [39.475, 50], [0, 50]]
+    blocked: []
+    erase: [[18.3, 42.6, 28.0, 45.2], [0.6, 27.4, 9.0, 30.0]]      # "ICE RINK", "THEATER" captions
+    rooms:
+      - {id: B101, name: Dance Studio, kind: arts, seed: [23.3, 12.3]}
+      - {id: B102, name: B102, kind: arts, seed: [34.3, 10.3]}
+      - {id: B103, name: B103, kind: arts, seed: [34.3, 14.0]}
+      - {id: B104, name: B104, kind: arts, seed: [35.7, 25.8]}
+      - {id: B105, name: Recording Room A, kind: arts, seed: [35.7, 31.9]}
+      - {id: B106, name: Recording Room B, kind: arts, seed: [35.8, 39.4]}
+      - {id: B107, name: B107, kind: service, seed: [35.8, 48.8]}
+      # the rink hall is open-plan and is the only access to B107 -> passable (others may walk through)
+      - {id: B108, name: Ice Rink, kind: sport, seed: [22.9, 43.0], passable: true, region: [[12.0, 39.7], [28.3, 39.7], [28.3, 49.3], [12.0, 49.3]]}
+      - {id: B109, name: B109 (rink west), kind: sport, seed: [7.0, 43.5], passable: true, region: [[0.4, 39.7], [12.0, 39.7], [12.0, 49.3], [0.4, 49.3]]}
+      - {id: B110, name: Theater, kind: arts, seed: [4.8, 27.5]}
+      - {id: B111, name: Control Room, kind: arts, seed: [8.4, 17.6]}
+      - {id: B112, name: Dressing Room, kind: arts, seed: [5.3, 13.4]}
+      - {id: B113, name: B113, kind: arts, seed: [16.6, 12.4]}
+
+  - id: 1F
+    level: 0
+    image: 1F.jpg
+    footprint: [[0, 0], [27.2, 0], [27.2, 7.1], [29.1, 7.1], [29.1, 12.6], [31.5, 12.6], [31.5, 9.0],
+                [39.475, 9.0], [39.475, 44.1], [29.0, 44.1], [29.0, 50], [0, 50]]
+    blocked:
+      - {name: atrium void (north), poly: [[13.5, 17.5], [26.5, 17.5], [26.5, 30.0], [13.5, 25.3]]}
+      - {name: atrium void (south), poly: [[13.5, 27.0], [26.5, 31.7], [26.5, 35.5], [13.5, 35.5]]}
+    rooms:
+      - {id: "101", name: Reading Room, kind: library, seed: [35.3, 12.4]}
+      - {id: "102", name: Teaching Affairs Office, kind: office, seed: [35.4, 17.0], region: [[33.6, 15.8], [39.4, 15.8], [39.4, 18.4], [33.6, 18.4]]}
+      - {id: "103", name: "103", kind: classroom, seed: [36.7, 31.9]}
+      - {id: "104", name: "104", kind: classroom, seed: [35.5, 39.8]}
+      - {id: "105", name: Conversation Room, kind: office, seed: [25.2, 36.7], region: [[24.3, 35.6], [26.4, 35.6], [26.4, 38.4], [24.3, 38.4]]}
+      - {id: "106", name: "106", kind: classroom, seed: [23.7, 45.8]}
+      - {id: "107", name: "107", kind: classroom, seed: [16.8, 46.1]}
+      - {id: "108", name: "108", kind: classroom, seed: [10.0, 46.4]}
+      - {id: "109", name: "109", kind: classroom, seed: [3.7, 46.6]}
+      - {id: "110", name: Grade 11 Homeroom Teachers Office, kind: office, seed: [16.8, 37.9]}
+      - {id: "111", name: "111", kind: classroom, seed: [3.5, 18.0]}
+      - {id: "112", name: "112", kind: classroom, seed: [2.4, 12.3]}
+      - {id: "113", name: Copy Room, kind: service, seed: [2.4, 7.5]}
+      - {id: "114", name: "114", kind: classroom, seed: [3.6, 2.6]}
+      - {id: "115", name: "115", kind: classroom, seed: [10.0, 2.6]}
+      - {id: "116", name: "116", kind: classroom, seed: [16.7, 12.3]}
+      - {id: "117", name: Teachers Office 1A, kind: office, seed: [11.4, 12.3]}
+      # reception is an open lobby; region fixed to the counter zone so it does not swallow the hall
+      - {id: RECEPTION, name: Reception, kind: service, seed: [23.5, 2.7], region: [[19.8, 0.3], [27.0, 0.3], [27.0, 5.2], [19.8, 5.2]]}
+
+  - id: 2F
+    level: 1
+    image: 2F.jpg
+    footprint: [[0, 0], [29.1, 0], [29.1, 7.2], [35.2, 7.2], [35.2, 9.0], [39.475, 9.0], [39.475, 43.6],
+                [29.0, 43.6], [29.0, 50], [0, 50]]
+    blocked:
+      - {name: atrium void, poly: [[14.0, 18.0], [26.5, 18.0], [26.5, 34.6], [14.0, 34.6]]}
+      - {name: exterior escape stair, poly: [[29.1, 7.2], [31.4, 7.2], [31.4, 13.7], [29.1, 13.7]]}
+    rooms:
+      - {id: "201", name: "201", kind: classroom, seed: [36.8, 12.3]}
+      - {id: "202", name: Academic Leadership Team, kind: office, seed: [36.9, 25.9]}
+      - {id: "203", name: "203", kind: classroom, seed: [36.9, 32.1]}
+      - {id: "204", name: "204", kind: classroom, seed: [37.0, 39.3]}
+      - {id: "205", name: Conference Room, kind: office, seed: [28.0, 46.7]}
+      - {id: "206", name: "206", kind: classroom, seed: [23.2, 46.9]}
+      - {id: "207", name: "207", kind: classroom, seed: [17.0, 47.1]}
+      - {id: "208", name: "208", kind: classroom, seed: [10.5, 47.4]}
+      - {id: "209", name: "209", kind: classroom, seed: [3.5, 47.8]}
+      - {id: "210", name: Grade 10 Homeroom Teachers Office, kind: office, seed: [17.0, 38.4]}
+      - {id: "211", name: Conversation Room, kind: office, seed: [12.2, 37.6]}
+      - {id: "212", name: "212", kind: classroom, seed: [3.6, 38.7]}
+      - {id: "213", name: "213", kind: classroom, seed: [3.7, 18.5]}
+      - {id: "214", name: "214", kind: classroom, seed: [3.7, 12.9]}
+      - {id: "215", name: "215", kind: classroom, seed: [3.5, 3.1]}
+      - {id: "216", name: "216", kind: classroom, seed: [10.4, 3.1]}
+      - {id: "217", name: "217", kind: classroom, seed: [23.6, 3.1]}
+      - {id: "218", name: "218", kind: classroom, seed: [24.1, 12.6]}
+      - {id: "219", name: "219", kind: classroom, seed: [17.3, 12.7]}
+      - {id: "220", name: Teachers Office 2A, kind: office, seed: [11.7, 12.8]}
+
+  - id: 3F
+    level: 2
+    image: 3F.jpg
+    footprint: [[0, 1.6], [6.6, 1.6], [6.6, 0], [29.1, 0], [29.1, 14.4], [31.6, 14.4], [31.6, 8.9],
+                [39.475, 8.9], [39.475, 43.6], [31.6, 43.6], [31.6, 40.1], [29.0, 40.1], [29.0, 50], [0, 50]]
+    blocked:
+      - {name: atrium void, poly: [[10.8, 18.3], [26.5, 18.3], [26.5, 35.3], [10.8, 35.3]]}
+    rooms:
+      - {id: "301", name: "301", kind: classroom, seed: [36.9, 12.6]}
+      - {id: "302", name: Principal's Office, kind: office, seed: [37.0, 26.2]}
+      - {id: "303", name: "303", kind: classroom, seed: [37.0, 31.8]}
+      - {id: "304", name: "304", kind: classroom, seed: [37.1, 39.4]}
+      - {id: "305", name: Conversation Room, kind: office, seed: [28.0, 46.6]}
+      - {id: "306", name: "306", kind: classroom, seed: [23.4, 46.8]}
+      - {id: "307", name: "307", kind: classroom, seed: [17.0, 47.1]}
+      - {id: "308", name: "308", kind: classroom, seed: [10.4, 47.4]}
+      - {id: "309", name: "309", kind: classroom, seed: [3.6, 47.8]}
+      - {id: "310", name: Teacher Advisor Office, kind: office, seed: [17.1, 37.8]}
+      - {id: "311", name: Faculty Lounge, kind: office, seed: [26.8, 36.3], region: [[24.3, 35.1], [28.9, 35.1], [28.9, 38.5], [24.3, 38.5]]}
+      - {id: "312", name: "312", kind: classroom, seed: [3.7, 38.4]}
+      - {id: "313", name: Teachers Office 3A, kind: office, seed: [3.7, 18.8]}
+      - {id: "314", name: Teachers Office 3B, kind: office, seed: [3.7, 12.6]}
+      - {id: "315", name: Conference Room, kind: office, seed: [3.5, 3.8]}
+      - {id: "316", name: "316", kind: classroom, seed: [10.4, 3.8]}
+      - {id: "317", name: "317", kind: classroom, seed: [23.6, 3.8]}
+      - {id: "318", name: "318", kind: classroom, seed: [23.5, 12.9]}
+      - {id: "319", name: "319", kind: classroom, seed: [17.1, 13.0]}
+      - {id: "320", name: Teachers Office 3C, kind: office, seed: [11.8, 13.0]}
+
+  - id: 4F
+    level: 3
+    image: 4F.jpg
+    # U-shaped storey around the open courtyard; the east rectangle is a roof terrace (no rooms)
+    footprint: [[0, 1.6], [6.6, 1.6], [6.6, 0], [28.8, 0], [28.8, 16.3], [10.4, 16.3], [10.4, 38.6],
+                [12.6, 38.6], [12.6, 35.4], [28.8, 35.4], [28.8, 50], [0, 50]]
+    blocked: []
+    erase: [[26.35, 46.2, 28.45, 48.4]]                            # "401" glyphs touching wall
+    rooms:
+      - {id: "401", name: Teachers Office 4A, kind: office, seed: [27.4, 47.3]}
+      - {id: "402", name: "402", kind: classroom, seed: [22.2, 47.1]}
+      - {id: "403", name: "403", kind: classroom, seed: [16.5, 47.0]}
+      - {id: "404", name: "404", kind: classroom, seed: [9.9, 47.0]}
+      - {id: "405", name: "405", kind: classroom, seed: [3.2, 47.1]}
+      - {id: "406", name: Grade 9 Homeroom Teachers Office, kind: office, seed: [16.5, 38.6]}
+      - {id: "407", name: STEAMS Advisor Office, kind: office, seed: [2.2, 38.6]}
+      - {id: "408", name: "408", kind: classroom, seed: [2.3, 18.7]}
+      - {id: "409", name: "409", kind: classroom, seed: [2.2, 12.4]}
+      - {id: "410", name: "410", kind: classroom, seed: [3.4, 3.7]}
+      - {id: "411", name: "411", kind: classroom, seed: [9.9, 3.7]}
+      - {id: "412", name: "412", kind: classroom, seed: [22.9, 3.7]}
+      - {id: "413", name: "413", kind: classroom, seed: [22.9, 12.9]}
+      - {id: "414", name: "414", kind: classroom, seed: [17.6, 12.9]}
+      - {id: "415", name: Wellness Space, kind: office, seed: [11.5, 11.8]}
+
+# -------------------------------------------------------------------------------------
+# Vertical connectors.
+#   plan     shaft rectangle [x0, y0, x1, y1] - the SAME on every floor (stairwells are vertical);
+#            it is blocked for walking and drawn as treads / lift car.
+#   shape    dogleg (two flights + half-landing) | straight | spiral | lift
+#   floors   bottom -> top; landing = corridor point where the stair/lift is entered on that floor.
+#   block    (optional, per floor) walking obstacle if different from plan.
+# Exterior escape stairs (2F north-east, 1F west & south, basement south-east exit) are not
+# part of the internal circulation and are deliberately omitted.  The 3F atrium stair drawn
+# inside the void has no landing on the 2F plan, so it is not modelled.
+# -------------------------------------------------------------------------------------
+connectors:
+  - id: S1
+    name: North core stair
+    story: Main stair beside the lifts; the only stair that serves every level (B2-4F).
+    type: stair
+    shape: dogleg
+    plan: [14.6, 0.6, 19.8, 3.2]
+    floors:
+      B2: {landing: [19.4, 6.6]}
+      B1: {landing: [19.4, 6.6]}
+      1F: {landing: [19.4, 6.4]}
+      2F: {landing: [19.4, 6.6]}
+      3F: {landing: [19.4, 6.6]}
+      4F: {landing: [19.4, 6.6]}
+  - id: E1
+    name: North core lifts
+    story: Two lift cars in the north core, B2-4F (off for student routing unless enabled).
+    type: elevator
+    shape: lift
+    plan: [13.6, 3.0, 18.6, 5.5]
+    floors:
+      B2: {landing: [16.1, 6.4]}
+      B1: {landing: [16.1, 6.4]}
+      1F: {landing: [16.1, 6.2]}
+      2F: {landing: [16.1, 6.6]}
+      3F: {landing: [16.1, 6.6]}
+      4F: {landing: [16.1, 6.6]}
+  - id: S2
+    name: East stair
+    story: East-wing stair next to the toilets, B2-3F (the 4F east wing is a roof terrace).
+    type: stair
+    shape: dogleg
+    plan: [33.8, 18.3, 36.8, 22.6]
+    floors:
+      B2: {landing: [32.9, 21.0]}
+      B1: {landing: [32.8, 20.5]}
+      1F: {landing: [32.9, 20.3]}
+      2F: {landing: [33.2, 20.5]}
+      3F: {landing: [33.2, 20.3]}
+  - id: S3
+    name: South-west stair
+    story: West stair linking the basements to the ground floor, B2-1F (ends at the 1F west exit).
+    type: stair
+    shape: dogleg
+    plan: [4.0, 36.2, 7.4, 39.2]
+    floors:
+      B2: {landing: [5.0, 40.1]}
+      B1: {landing: [8.6, 38.0]}
+      1F: {landing: [8.0, 37.9]}
+  - id: S4
+    name: South-east stair
+    story: Stair in the passage east of the south corridor, 1F-2F only.
+    type: stair
+    shape: dogleg
+    plan: [28.9, 36.6, 31.2, 43.8]
+    floors:
+      1F: {landing: [30.0, 35.9]}
+      2F: {landing: [30.0, 35.8]}
+  - id: S4B
+    name: South-east basement stair
+    story: Basement stair in the south-east corner, B2-B1 (it continues outdoors, not into 1F).
+    type: stair
+    shape: dogleg
+    plan: [33.8, 44.5, 37.2, 47.4]
+    floors:
+      B2: {landing: [30.6, 45.0]}
+      B1: {landing: [30.2, 44.8]}
+  - id: S5
+    name: South-central stair
+    story: Stair beside 110/210/310/406, 1F-4F (does not go below ground).
+    type: stair
+    shape: dogleg
+    plan: [20.4, 37.0, 24.3, 40.6]
+    floors:
+      1F: {landing: [25.0, 39.9]}
+      2F: {landing: [25.0, 38.8]}
+      3F: {landing: [25.0, 40.0]}
+      4F: {landing: [25.0, 40.5]}
+  - id: S6
+    name: East open stair
+    story: Open straight flight in the east corridor, 2F-3F, rising from north to south.
+    type: stair
+    shape: straight
+    plan: [29.3, 17.4, 31.2, 24.6]
+    floors:
+      2F: {landing: [30.3, 16.8]}
+      3F: {landing: [30.3, 25.3]}
+  - id: S7
+    name: Atrium spiral stair
+    story: Spiral stair in the 1F atrium void down to the B1 hall, B1-1F.
+    type: stair
+    shape: spiral
+    plan: [22.0, 19.4, 25.8, 23.2]
+    floors:
+      B1: {landing: [23.9, 24.0]}
+      1F: {landing: [27.4, 19.7]}

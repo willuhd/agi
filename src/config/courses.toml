@@ -1,0 +1,292 @@
+# Course contact loads for scheduling. READ THIS FIRST:
+# - .gpa "weight" (6.0 AP / 4.5 school) is a GPA CREDIT multiplier. It prices
+#   grade points. It is NOT time. It appears NOWHERE in this file.
+# - Catalog prose states contact time for ~16 entries only (Econ/Business/
+#   Psych/WorldLang chapters + G9 M2/M3 forms). Everything else is n/s.
+# - apschedule.png gives OBSERVED weekly slots (two-week mean) for 10 courses
+#   of one G11-AP student. Observed slots and catalog periods disagree
+#   (Macro: 3.5 observed vs 4.5 catalog) — both recorded, neither derived.
+# - Units are kept EXACTLY as stated. credit-hr =/= teaching-period =/= slot
+#   until the registrar says otherwise. No conversions anywhere in code.
+# load = number or null (n/s). NEVER invent a number.
+
+[schema]
+fields = ["load", "unit", "track", "level", "room_kind", "parity", "source"]
+units = ["periods", "teaching_periods", "credit_hr", "slots_observed"]
+room_kinds = ["classroom", "lab", "arts", "sport"]
+
+# --- Stated in catalog prose (contact time, units as written) ---
+[courses."AP Macroeconomics"]
+load = 4.5
+unit = "periods"
+track = "G11AP"
+level = "AP"
+room_kind = "classroom"
+parity = "split"
+source = "catalog p.41 ECO111E171 (Duration: 1 year; 4.5 periods per week)"
+
+[courses."AP Microeconomics"]
+load = 4.5
+unit = "periods"
+track = "G10/G11AP"
+level = "AP"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.41 ECO110E170 (Duration: 1 year; 4.5 periods per week)"
+
+[courses."AP Business with Personal Finance"]
+load = 3.0
+unit = "periods"
+track = "G12"
+level = "AP"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.42 (Course length: one year; 3 periods per week)"
+
+[courses."IB Economics"]
+load = 4.5
+unit = "periods"
+track = "IB"
+level = "mixed"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.42 ECO111E160 (Duration: 2 years; 4.5 periods per week)"
+
+[courses."Business Management"]
+load = 3.0
+unit = "periods"
+track = "G11/G12 shared"
+level = "standard"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.44 ECO111E130 (Duration: One year; 3 periods per week)"
+notes = "G11+G12 identical contents: single shared slot"
+
+[courses."Accounting"]
+load = 4.5
+unit = "periods"
+track = "G12"
+level = "standard"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.44 ACC112E130 (Duration: One year; 4.5 periods per week)"
+
+[courses."AQA A-Level Economics"]
+load = 4.5
+unit = "periods"
+track = "ALevel"
+level = "AS/A2"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.45 (Teaching period: 4.5 periods per week)"
+
+[courses."G10 Economics and Business"]
+load = 4.0
+unit = "teaching_periods"
+track = "G10"
+level = "mixed"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.45 ECO110E110/130 (Teaching period: 1 year; 4 teaching periods per week)"
+
+[courses."IB Business Management SL"]
+load = 4.5
+unit = "periods"
+track = "IB"
+level = "SL"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.45 BUS111E140 (Teaching period: 2 years; 4.5 periods per week)"
+
+[courses."AP Psychology"]
+load = 4.5
+unit = "periods"
+track = "G11AP"
+level = "AP"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.46 PSY111E170 (Duration: 1 year; 4.5 periods per week)"
+
+[courses."IB Psychology SL"]
+load = 4.5
+unit = "periods"
+track = "IB"
+level = "SL"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.47 (Duration: 2 years, 4.5 periods per week)"
+
+[courses."IB Psychology HL"]
+load = 4.5
+unit = "periods"
+track = "IB"
+level = "HL"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.47 (Duration: 2 years, 4.5 periods per week)"
+
+[courses."Optional Psychology"]
+load = 1.5
+unit = "periods"
+track = "G9-G12 optional"
+level = "standard"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.47 PSY20HE001 (Duration: 1 Semester; 1.5 periods per week)"
+
+[courses."World Language French"]
+load = 3.0
+unit = "teaching_periods"
+track = "G11/G12"
+level = "mixed"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.55 LAN111E130 (Duration: 2 years; 3 teaching periods per week)"
+
+[courses."World Language Japanese"]
+load = 3.0
+unit = "teaching_periods"
+track = "G11/G12"
+level = "mixed"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.55 LAN111E132 (Duration: 2 years, 3 teaching periods per week)"
+
+[courses."World Language Spanish"]
+load = 3.0
+unit = "teaching_periods"
+track = "G11/G12"
+level = "mixed"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.56 LAN111E132 (Duration: 2 years, 3 teaching periods per week)"
+
+[courses."G9 Module 2 (Bio/Computing/Programming/PhysGeog)"]
+load = 4.0
+unit = "credit_hr"
+track = "G9"
+level = "mixed"
+room_kind = "classroom"
+parity = "all"
+source = "catalog selection form printed p.8 (choose 1; 4 credit hrs/wk)"
+
+[courses."G9 Module 3 (Music/Arts)"]
+load = 2.0
+unit = "credit_hr"
+track = "G9"
+level = "standard"
+room_kind = "arts"
+parity = "all"
+source = "catalog selection form printed p.8 (choose 1; 2 credit hrs/wk; letters grade)"
+
+[courses."Economics and Business optional"]
+load = 1.5
+unit = "periods"
+track = "G9-G12 optional"
+level = "standard"
+room_kind = "classroom"
+parity = "all"
+source = "catalog p.41 (one semester, 1.5-2 periods per week; lower bound kept)"
+notes = "range 1.5-2; transcript-listed, NOT in GPA"
+
+[courses."Global Mindset"]
+load = 1.0
+unit = "periods"
+track = "G9-G10"
+level = "standard"
+room_kind = "classroom"
+parity = "all"
+source = "catalog (weekly course; 1 period)"
+
+# --- Observed on one real G11-AP grid (slots/week, two-week mean) ---
+# These are MEASUREMENTS of a single student, not catalog statements.
+[courses."OBS AP Calculus BC"]
+load = 5.0
+unit = "slots_observed"
+track = "G11AP"
+level = "AP"
+room_kind = "classroom"
+parity = "all"
+source = "apschedule.png (Mon7 Tue7 Wed1 Thu1 Fri4)"
+
+[courses."OBS AP Chemistry"]
+load = 5.0
+unit = "slots_observed"
+track = "G11AP"
+level = "AP"
+room_kind = "lab"
+parity = "all"
+source = "apschedule.png (Mon5 Wed3 Wed4 Thu4 Fri1)"
+
+[courses."OBS AP Physics 1"]
+load = 5.0
+unit = "slots_observed"
+track = "G11AP"
+level = "AP"
+room_kind = "lab"
+parity = "all"
+source = "apschedule.png (Mon3 Mon4 Tue1 Wed5 Fri3)"
+
+[courses."OBS AP English Language and Composition"]
+load = 6.0
+unit = "slots_observed"
+track = "G11AP"
+level = "AP"
+room_kind = "classroom"
+parity = "all"
+source = "apschedule.png (Mon2 Tue6 Wed2 Thu2 Thu3 Fri2)"
+
+[courses."OBS AP Macro-economics"]
+load = 3.5
+unit = "slots_observed"
+track = "G11AP"
+level = "AP"
+room_kind = "classroom"
+parity = "split"
+source = "apschedule.png (Mon1 Tue3 Tue4-Even Thu5)"
+notes = "CONFLICT: 3.5 observed slots vs 4.5 catalog periods — unresolved, registrar call"
+
+[courses."OBS Chinese"]
+load = 2.5
+unit = "slots_observed"
+track = "G11AP"
+level = "standard"
+room_kind = "classroom"
+parity = "split"
+source = "apschedule.png (Mon6 Tue4-Odd Fri5)"
+
+[courses."OBS Linear Algebra"]
+load = 1.0
+unit = "slots_observed"
+track = "G11AP"
+level = "S"
+room_kind = "classroom"
+parity = "all"
+source = "apschedule.png (Tue5)"
+
+[courses."OBS Personal Growth"]
+load = 1.0
+unit = "slots_observed"
+track = "G11AP"
+level = "standard"
+room_kind = "classroom"
+parity = "all"
+source = "apschedule.png (Tue2)"
+
+[courses."OBS Tennis"]
+load = 3.0
+unit = "slots_observed"
+track = "G11AP"
+level = "standard"
+room_kind = "sport"
+parity = "split"
+source = "apschedule.png (Wed6-Even Wed7-Even Thu6 Thu7)"
+
+[courses."OBS CAS"]
+load = 1.0
+unit = "slots_observed"
+track = "G11AP"
+level = "standard"
+room_kind = "classroom"
+parity = "split"
+source = "apschedule.png (Wed6-Odd Wed7-Odd)"

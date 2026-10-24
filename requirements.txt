@@ -1,0 +1,6 @@
+# Runtime requirements. Create the venv from the shared Python 3.14 build,
+# then install this file:
+#   ../.python3.14/install/bin/python3 -m venv .venv
+#   ./.venv/bin/pip install -r requirements.txt
+numpy==2.5.4          # schoolmap building model (only non-stdlib dep there)
+ortools==9.15.6755    # CP-SAT core optimizer + repair operator

@@ -1,0 +1,84 @@
+# Module selection rules = HARD constraints on student demand.
+# Source: catalog_extract.md §b (forms at printed pp. 8-10, verified vs renders).
+# These rules determine which (course, level) bundles a student may take;
+# the simulator enforces them, the optimizer takes resulting demand as input.
+
+# A course runs only if MORE than 5 students apply (catalog p.6 literal).
+[floor]
+min_students_to_run = 6  # ">5" i.e. >= 6; confirm vs registrar
+
+[grade9.module2]
+choose = 1
+hours_per_week = 4
+unit = "credit_hr"
+options = ["Biology", "Computing Essentials (S)", "Programming Methodology (H)", "Physical Geography"]
+gates = { "Programming Methodology (H)" = "maths_honor_level" }
+
+[grade9.module3]
+choose = 1
+hours_per_week = 2
+unit = "credit_hr"
+grade_scale = "letters"
+options = ["Music", "Arts"]
+
+# G9 streaming (placement, not choice): physics H from G8-H; chem starts N,
+# streams to S/S+/H after midterm. Simulator models as post-hoc split.
+[grade9.streaming]
+physics_H_feeder = "G8 Physics H"
+chemistry_start = "N"
+chemistry_streams = ["S", "S+", "H"]
+
+[grade10.module1]
+choose_one_combo = true
+combos = [["Physics", "Chemistry"], ["Chemistry", "Biology"], ["Physics", "Biology"]]
+
+[grade10.module2]
+choose = 1
+admin_approval = true
+options = ["Visual Arts", "Economics", "Computer Fundamentals", "Human Geography", "Western Theatre", "Music Appreciation"]
+
+# G11 AP form (printed p.9). M1<=2; 2-in-M1 blocks M3+M4; 1-in-M1 picks bundle.
+[grade11ap.module1]
+max = 2
+options_school = ["Physics", "Chemistry", "Biology"]
+options_ap = ["AP Physics 1", "AP Chemistry", "AP Biology"]
+block_M3_M4_if_2 = true
+if_1_pick = ["M3+M4", "M3only", "M4only"]
+
+[grade11ap.module2]
+choose = 1
+options_school = ["US Overview", "Human Geography 2", "Chinese History", "Western Civilization 1"]
+options_ap = ["AP Psychology", "AP Computer Science A", "AP Human Geography", "AP US History", "AP World History", "AP Microeconomics", "AP Macroeconomics", "AP Art History"]
+# AP Micro/Macro ONLY if (2 AP in M1) OR (1 AP in M1 AND AP-ES/Drawing/3D in M4).
+gate_AP_econ = "two_AP_in_M1_or_(one_AP_in_M1_and_M4_studio_or_ES)"
+
+[grade11ap.module3]
+max = 1
+allow_no_choice = true
+options_school = ["Environmental Engineering", "Philosophy", "Creative Writing", "Business Management", "Computer Skills", "Introduction to Law", "Psychology", "Introduction to Sociology"]
+options_ap = ["AP Music Theory"]
+
+[grade11ap.module4]
+max = 1
+allow_no_choice = true
+options_school = ["Opera Singing", "Applied Acting", "A Cappella", "Arts 1"]
+options_ap = ["AP Microeconomics", "AP Macroeconomics", "AP Environmental Science", "AP Drawing", "AP 3-D Art and Design"]
+exclusions = [
+  "AP_ES_in_M4 => M1<=1 and no M3",
+  "AP_Econ_or_Draw_or_3D_in_M4 => no AP in M3",
+]
+
+# G12: no-repeat G11 (except No-Choice + Philosophy); M4 continues G11->G12.
+[grade12]
+no_repeat_G11 = true
+repeat_exceptions = ["No Choice", "Philosophy"]
+M4_continues = true
+
+# Shared slots: same classroom, cross-grade demand pools.
+[shared_slots]
+"Business Management" = ["G11", "G12"]
+"school Psychology" = ["G11", "G12"]
+"IB SL/HL same classroom" = true
+"Chinese levels I-X span G9-G12" = true
+# IBD runs an INDEPENDENT schedule; no transfers school<->IBD.
+IBD_independent = true

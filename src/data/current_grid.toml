@@ -1,0 +1,290 @@
+# Hand-encoded current state: one real G11-AP week from apschedule.png.
+# This is the "current timetable" the statement asks us to beat.
+# parity: all | even | odd. Two-week mean for even/odd.
+[[slot]]
+day = "Mon"
+period = 1
+course = "OBS AP Macro-economics"
+room = "114"
+teacher = "He"
+parity = "all"
+
+[[slot]]
+day = "Mon"
+period = 2
+course = "OBS AP English Language and Composition"
+room = "103"
+teacher = "Haig"
+parity = "all"
+
+[[slot]]
+day = "Mon"
+period = 3
+course = "OBS AP Physics 1"
+room = "108"
+teacher = "Balli"
+parity = "all"
+
+[[slot]]
+day = "Mon"
+period = 4
+course = "OBS AP Physics 1"
+room = "108"
+teacher = "Balli"
+parity = "all"
+
+[[slot]]
+day = "Mon"
+period = 5
+course = "OBS AP Chemistry"
+room = "106"
+teacher = "Zhang"
+parity = "all"
+
+[[slot]]
+day = "Mon"
+period = 6
+course = "OBS Chinese"
+room = "106"
+teacher = "Lu"
+parity = "all"
+
+[[slot]]
+day = "Mon"
+period = 7
+course = "OBS AP Calculus BC"
+room = "103"
+teacher = "Zhao"
+parity = "all"
+
+[[slot]]
+day = "Tue"
+period = 1
+course = "OBS AP Physics 1"
+room = "108"
+teacher = "Balli"
+parity = "all"
+
+[[slot]]
+day = "Tue"
+period = 2
+course = "OBS Personal Growth"
+room = "111"
+teacher = "Simpson"
+parity = "all"
+
+[[slot]]
+day = "Tue"
+period = 3
+course = "OBS AP Macro-economics"
+room = "114"
+teacher = "He"
+parity = "all"
+
+[[slot]]
+day = "Tue"
+period = 4
+course = "OBS AP Macro-economics"
+room = "114"
+teacher = "He"
+parity = "even"
+
+[[slot]]
+day = "Tue"
+period = 4
+course = "OBS Chinese"
+room = "106"
+teacher = "Lu"
+parity = "odd"
+
+[[slot]]
+day = "Tue"
+period = 5
+course = "OBS Linear Algebra"
+room = "103"
+teacher = "Li"
+parity = "all"
+
+[[slot]]
+day = "Tue"
+period = 6
+course = "OBS AP English Language and Composition"
+room = "103"
+teacher = "Haig"
+parity = "all"
+
+[[slot]]
+day = "Tue"
+period = 7
+course = "OBS AP Calculus BC"
+room = "103"
+teacher = "Zhao"
+parity = "all"
+
+[[slot]]
+day = "Wed"
+period = 1
+course = "OBS AP Calculus BC"
+room = "103"
+teacher = "Zhao"
+parity = "all"
+
+[[slot]]
+day = "Wed"
+period = 2
+course = "OBS AP English Language and Composition"
+room = "103"
+teacher = "Haig"
+parity = "all"
+
+[[slot]]
+day = "Wed"
+period = 3
+course = "OBS AP Chemistry"
+room = "106"
+teacher = "Zhang"
+parity = "all"
+
+[[slot]]
+day = "Wed"
+period = 4
+course = "OBS AP Chemistry"
+room = "106"
+teacher = "Zhang"
+parity = "all"
+
+[[slot]]
+day = "Wed"
+period = 5
+course = "OBS AP Physics 1"
+room = "108"
+teacher = "Balli"
+parity = "all"
+
+[[slot]]
+day = "Wed"
+period = 6
+course = "OBS Tennis"
+room = "108"
+teacher = "LiHong"
+parity = "even"
+
+[[slot]]
+day = "Wed"
+period = 6
+course = "OBS CAS"
+room = "111"
+teacher = "Zhuang"
+parity = "odd"
+
+[[slot]]
+day = "Wed"
+period = 7
+course = "OBS CAS"
+room = "111"
+teacher = "Zhuang"
+parity = "odd"
+
+[[slot]]
+day = "Wed"
+period = 7
+course = "OBS Tennis"
+room = "108"
+teacher = "LiHong"
+parity = "even"
+
+[[slot]]
+day = "Thu"
+period = 1
+course = "OBS AP Calculus BC"
+room = "103"
+teacher = "Zhao"
+parity = "all"
+
+[[slot]]
+day = "Thu"
+period = 2
+course = "OBS AP English Language and Composition"
+room = "103"
+teacher = "Haig"
+parity = "all"
+
+[[slot]]
+day = "Thu"
+period = 3
+course = "OBS AP English Language and Composition"
+room = "103"
+teacher = "Haig"
+parity = "all"
+
+[[slot]]
+day = "Thu"
+period = 4
+course = "OBS AP Chemistry"
+room = "106"
+teacher = "Zhang"
+parity = "all"
+
+[[slot]]
+day = "Thu"
+period = 5
+course = "OBS AP Macro-economics"
+room = "114"
+teacher = "He"
+parity = "all"
+
+[[slot]]
+day = "Thu"
+period = 6
+course = "OBS Tennis"
+room = "108"
+teacher = "LiHong"
+parity = "all"
+
+[[slot]]
+day = "Thu"
+period = 7
+course = "OBS Tennis"
+room = "108"
+teacher = "LiHong"
+parity = "all"
+
+[[slot]]
+day = "Fri"
+period = 1
+course = "OBS AP Chemistry"
+room = "106"
+teacher = "Zhang"
+parity = "all"
+
+[[slot]]
+day = "Fri"
+period = 2
+course = "OBS AP English Language and Composition"
+room = "103"
+teacher = "Haig"
+parity = "all"
+
+[[slot]]
+day = "Fri"
+period = 3
+course = "OBS AP Physics 1"
+room = "108"
+teacher = "Balli"
+parity = "all"
+
+[[slot]]
+day = "Fri"
+period = 4
+course = "OBS AP Calculus BC"
+room = "103"
+teacher = "Zhao"
+parity = "all"
+
+[[slot]]
+day = "Fri"
+period = 5
+course = "OBS Chinese"
+room = "106"
+teacher = "Lu"
+parity = "all"

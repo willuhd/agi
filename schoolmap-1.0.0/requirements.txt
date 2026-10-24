@@ -1,0 +1,7 @@
+# runtime
+numpy>=1.21
+# rebuild from photos (pip install .[build])
+scipy>=1.8
+opencv-python>=4.6
+matplotlib>=3.5
+pyyaml>=6.0

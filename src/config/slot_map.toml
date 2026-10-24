@@ -1,0 +1,14 @@
+# Grid-slot mapping. PROVISIONAL — every factor ASSUMPTION pending registrar.
+# The optimizer thinks in GRID SLOTS; catalog loads think in mixed units.
+# This table is the single chokepoint where units meet. Change factors here
+# once, never in code. Rounding: half up (4.5 -> 5). If the registrar rules
+# 4.5 periods = 4 slots + a half-slot lab, this table gains a remainder rule.
+[unit_to_slots]
+periods = 1.0
+teaching_periods = 1.0
+credit_hr = 1.0
+slots_observed = 1.0
+
+[rounding]
+mode = "half_up"
+minimum_slots = 1

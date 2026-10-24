@@ -1,0 +1,89 @@
+# Period / day structure. All times local. Durations in minutes.
+# Unequal periods are first-class: contact accounting uses minutes, not slot counts.
+
+[school]
+days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
+lunch_after_period = 4   # lunch break follows period 4
+
+[[period]]
+id = 1
+start = "08:30"
+end = "09:30"
+minutes = 60
+
+[[period]]
+id = 2
+start = "09:40"
+end = "10:20"
+minutes = 40
+
+[[period]]
+id = 3
+start = "10:30"
+end = "11:10"
+minutes = 40
+
+[[period]]
+id = 4
+start = "11:20"
+end = "12:05"
+minutes = 45
+
+[[period]]
+id = 5
+start = "13:15"
+end = "14:10"
+minutes = 55
+
+[[period]]
+id = 6
+start = "14:20"
+end = "15:00"
+minutes = 40
+
+[[period]]
+id = 7
+start = "15:10"
+end = "15:50"
+minutes = 40
+
+# Gaps between consecutive periods, in minutes, for reachability tau.
+# gap[i] = minutes between end of period i and start of period i+1.
+[gaps_minutes]
+"1-2" = 10
+"2-3" = 10
+"3-4" = 10
+"4-5" = 70   # lunch
+"5-6" = 10
+"6-7" = 10
+
+# Structural day-shape: which (day, period) slots do not exist.
+# Friday P6-P7 off observed in the G11 AP sample schedule.
+[day_shape]
+off_slots = [["Fri", 6], ["Fri", 7]]
+
+# Fixed blocks (observed, not inferred). These slots are pre-placed by policy;
+# the optimizer schedules around them, never moves them.
+[fixed_blocks]
+# PE: Monday + Thursday period 5 (first afternoon slot), all grades.
+PE = [["Mon", 5], ["Thu", 5]]
+# IB optional block: Tuesday period 5 (1h).
+IB_optional = [["Tue", 5]]
+# AP/A-level optional blocks: Wed P6+P7 every OTHER week (parity-split,
+# cf. Tennis-Even/CAS-Odd in the sample grid), Thu P6+P7 EVERY week.
+AP_optional_biweekly = [["Wed", 6], ["Wed", 7]]
+AP_optional_weekly = [["Thu", 6], ["Thu", 7]]
+
+# Week parity. Slots tagged Even-only or Odd-only count at half weight,
+# i.e. contact hours are the TWO-WEEK MEAN. Untagged slots weight 1.0.
+[parity]
+mode = "two_week_mean"
+even_only_weight = 0.5
+odd_only_weight = 0.5
+standard_weight = 1.0
+
+# Horizon: everything is modeled per week; semester totals = weekly x weeks.
+# (Track 1 invariant is per-semester contact hours.)
+[horizon]
+semester_weeks = 20
+two_week_cycles_per_semester = 10

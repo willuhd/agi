@@ -1,0 +1,81 @@
+# Synthetic population parameters. Seed => reproducible runs.
+# COUNTS ARE PLACEHOLDER ASSUMPTIONS — replace with registrar numbers.
+# Everything downstream (sections, teacher load, clashes) scales from here,
+# so getting real counts is the single highest-value data upgrade.
+
+[seed]
+value = 20261024
+
+[counts]
+# Headcounts from user (Oct 2026). G9/G10 per grade; G11 ~210 (10 homerooms:
+# 11-1..11-4 IB + 6 AP => IB 40%); G12 ~215 (10 homerooms, XMT building).
+G9 = 250
+G10 = 250
+G11 = 210
+G12 = 215
+subject_teachers = 60  # ASSUMPTION — non-homeroom staff; need roster
+
+# 1 homeroom teacher each; ZX pins 406/210/110 (teachers.toml). G12 homeroom
+# offices are in XMT (unmodeled) — office recorded as XMT pseudo-room.
+[homerooms]
+G9 = 12
+G10 = 11
+G11AP = 6
+G11IB = 4
+G12 = 10
+
+[tracks.G11]
+# IB = homerooms 11-1..11-4 (4/10 = 40%); lottery retired, homeroom decides.
+IB_share = 0.4
+AP_share = 0.6
+
+# Per-subject level mixes. Levels: standard < honors < S/S+ < H+.
+# PROVISIONAL — invented shares, 5 entries only; H+/N tiers unmodeled.
+# Real streaming percentages needed per subject per grade (registrar).
+[levels.G9.math]
+honors_share = 0.25
+S_share = 0.0
+Splus_share = 0.0
+[levels.G9.english]
+honors_share = 0.20
+S_share = 0.0
+Splus_share = 0.0
+[levels.G10.math]
+honors_share = 0.25
+S_share = 0.05
+Splus_share = 0.0
+[levels.G10.physics]
+honors_share = 0.30
+S_share = 0.05
+Splus_share = 0.0
+[levels.G11AP.math]
+S_share = 0.15
+Splus_share = 0.05
+
+# Elective preference model: each student ranks electives; popularity
+# weights drive demand. Dirichlet concentration: lower = more skewed tastes.
+[electives]
+popularity = { tennis = 3.0, art = 2.0, music = 2.0, robotics = 2.5, drama = 1.0 }
+dirichlet_concentration = 4.0
+
+# Teacher preference archetypes (gamma_i lives here). Shares sum to 1.
+# extra_period_pay: willingness to take overload if compensated (your $$$ knob).
+[teacher_archetypes.morning]
+share = 0.3
+max_consecutive = 3
+early_ok = true
+extra_period_pay = 0.5
+[teacher_archetypes.balanced]
+share = 0.5
+max_consecutive = 4
+early_ok = true
+extra_period_pay = 1.0
+[teacher_archetypes.constrained]
+share = 0.2
+max_consecutive = 2
+early_ok = false
+extra_period_pay = 2.0
+
+[groups]
+by = ["department", "load_band"]
+load_bands = ["light", "normal", "heavy"]
