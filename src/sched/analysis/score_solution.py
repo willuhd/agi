@@ -13,12 +13,23 @@ from __future__ import annotations
 
 
 def teacher_stats(assignment: dict, meetings: list[dict], travel: dict,
-                  buildings_cfg: dict, knobs_cfg: dict | None = None) -> dict:
+                  buildings_cfg: dict, knobs_cfg: dict | None = None,
+                  periods_cfg: dict | None = None) -> dict:
     """Per teacher: periods, travel seconds, rooms taught (ordered by slot).
-    Legs touching travel-disabled cohorts (G12/XMT) price at zero."""
-    from sched.simulation.staffing import leg_seconds, travel_enabled
-    scope = {"travel_scope": knobs_cfg.get("travel_scope", {})} \
-        if knobs_cfg else {}
+    Legs touching travel-disabled cohorts (G12/XMT) price at zero.
+    Gap-aware: same-day successive teachings only; lunch-straddling pairs
+    free iff knobs.toml [travel_pricing] lunch_free (boundary from
+    periods.toml [school] lunch_after_period). No hardcoded periods here."""
+    from sched.simulation.staffing import leg_cost, travel_enabled, DAY_ORDER
+    scope = {"travel_scope": (knobs_cfg or {}).get("travel_scope", {})}
+    pricing = (knobs_cfg or {}).get("travel_pricing", {})
+    lunch_free = pricing.get("lunch_free", True)
+    overnight_free = pricing.get("overnight_free", True)
+    lunch_after = 4
+    if periods_cfg is not None:
+        lunch_after = periods_cfg.get("school", {}).get(
+            "lunch_after_period",
+            periods_cfg.get("lunch_after_period", 4))
     by_teacher: dict = {}
     info = {m["id"]: m for m in meetings}
     for mid, (slot, room) in assignment.items():
@@ -26,22 +37,29 @@ def teacher_stats(assignment: dict, meetings: list[dict], travel: dict,
             (slot, room, info[mid]["cohort"]))
     stats = {}
     for t, lst in by_teacher.items():
-        lst.sort()
+        lst.sort(key=lambda x: (DAY_ORDER.get(x[0][0], 99), x[0][1]))
         rooms = [r for _, r, _ in lst]
         trav = 0.0
-        for (_, a, ca), (_, b, cb) in zip(lst, lst[1:]):
+        for ((d1, p1), a, ca), ((d2, p2), b, cb) in zip(lst, lst[1:]):
             if travel_enabled(ca, scope) and travel_enabled(cb, scope):
-                trav += leg_seconds(a, b, travel, buildings_cfg)
+                trav += leg_cost(a, b, travel, buildings_cfg, d1, p1, d2, p2,
+                                 lunch_after=lunch_after,
+                                 lunch_free=lunch_free,
+                                 overnight_free=overnight_free)
         best, run = 1 if lst else 0, 1 if lst else 0
         slots_only = [s for s, _, _ in lst]
         for (d1, p1), (d2, p2) in zip(slots_only, slots_only[1:]):
-            if d1 == d2 and p2 == p1 + 1 and not (p1 == 4 and p2 == 5):
+            if d1 == d2 and p2 == p1 + 1 and not (
+                    p1 == lunch_after and p2 == lunch_after + 1):
                 run += 1
                 best = max(best, run)
             else:
                 run = 1
         stats[t] = {"periods": len(lst), "travel_s": trav,
-                    "rooms": rooms, "max_run": best}
+                    "rooms": rooms, "max_run": best,
+                    "travel_policy": {"lunch_after": lunch_after,
+                                      "lunch_free": lunch_free,
+                                      "overnight_free": overnight_free}}
     return stats
 
 
@@ -124,7 +142,7 @@ def main() -> None:
         str(Path(__file__).resolve().parent.parent.parent.parent
             / "schoolmap-1.0.0/output/travel_time_s.csv"))
     stats = teacher_stats(res["assignment"], meetings, travel,
-                          cfg["buildings"], cfg["knobs"])
+                          cfg["buildings"], cfg["knobs"], cfg["periods"])
     offices = {t: S.assign_office(
         next(x for x in teachers if x.id == t), None, cfg["teachers"])
         for t in stats}

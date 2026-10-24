@@ -47,3 +47,11 @@ teacher_move_price = 0.0
 [travel_scope]
 grades = ["G9", "G10", "G11"]
 G12_disabled_reason = "XMT building has no metric model"
+
+# Travel pricing policy (sched pipeline). No hardcodes in code: the scorer
+# reads these knobs. price_mode is reserved ("hard_zero" adopted).
+[travel_pricing]
+price_mode = "hard_zero"
+lunch_free = true       # same-day successive pair straddling lunch costs 0
+overnight_free = true   # cross-day successive assignments cost 0 (no overnight walk)
+# lunch boundary itself lives in periods.toml [school] lunch_after_period; do NOT duplicate it here.

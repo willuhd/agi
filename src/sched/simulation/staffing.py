@@ -68,6 +68,37 @@ def leg_seconds(a: str, b: str, travel: dict | None,
     return 60.0  # unknown ZX pair fallback
 
 
+DAY_ORDER = {"Mon": 0, "Tue": 1, "Wed": 2, "Thu": 3, "Fri": 4}
+
+
+def straddles_lunch(d1: str, p1: int, d2: str, p2: int,
+                    lunch_after: int = 4) -> bool:
+    """Same-day successive teachings spanning the lunch break.
+
+    Lunch boundary comes from periods.toml [school] lunch_after_period
+    (caller threads it through); never hardcoded at the call site.
+    Covers target->target+1 as well as wider spans (e.g. P4->P6 when P5 free).
+    """
+    return d1 == d2 and p1 <= lunch_after and p2 > lunch_after
+
+
+def leg_cost(a: str, b: str, travel: dict | None, buildings_cfg: dict,
+             d1: str | None = None, p1: int | None = None,
+             d2: str | None = None, p2: int | None = None,
+             lunch_after: int = 4, lunch_free: bool = True,
+             overnight_free: bool = True) -> float:
+    """Gap-aware leg cost. Policy flags come from knobs.toml [travel_pricing]
+    and periods.toml lunch_after_period — no hardcoded periods in code."""
+    if d1 is not None and d2 is not None:
+        if d1 != d2:
+            return (0.0 if overnight_free else leg_seconds(a, b, travel,
+                                                           buildings_cfg))
+        if (p1 is not None and p2 is not None and lunch_free
+                and straddles_lunch(d1, p1, d2, p2, lunch_after)):
+            return 0.0
+    return leg_seconds(a, b, travel, buildings_cfg)
+
+
 def preference_loss(periods: int, travel_s: float, office: str,
                     rooms_taught: list[str], cfg: dict,
                     max_run: int = 0,

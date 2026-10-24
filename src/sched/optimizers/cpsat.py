@@ -1,5 +1,11 @@
 """CP-SAT core optimizer (OR-Tools). The search layer.
 
+DEPRECATED / REFERENCE ONLY — the integrated runtime is src/tt/model.py
+(solve_slots + assign_rooms). This single-cohort stickiness demo is kept for
+audit/comparison; its travel scorer lives on in
+src/sched/analysis/score_solution.py (gap-aware) and its repair pattern in
+src/tt/shocks.py (unified energy). New solver work belongs in src/tt.
+
 Scope v1 (explicit):
 - Meetings (unit slots) pre-expanded from sections via expand_sections().
 - Teacher per meeting is GIVEN (dept-matched upstream); joint

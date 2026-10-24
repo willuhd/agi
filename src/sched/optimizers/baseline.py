@@ -1,5 +1,10 @@
 """Baseline optimizer: largest-sections-first greedy with hard feasibility.
 
+DEPRECATED / REFERENCE ONLY — the integrated runtime is src/tt
+(world -> solve_slots -> assign_rooms -> checker -> metrics). This module is
+kept for audit comparison (status-quo-style greedy) and is NOT part of the
+solve path. New knobs belong in src/config/tt.toml, not here.
+
 Places each section into clash-free (day, period, room) slots honoring:
   - room-kind fit (lab/arts/sport/classroom),
   - no double-booking of rooms or teachers,

@@ -19,6 +19,37 @@ from .config import minutes_band
 from .world import World, need_area
 
 
+def lunch_after(w: World) -> int:
+    """Lunch boundary from config, never hardcoded (tt.toml [slots] lunch_after)."""
+    return w.cfg["slots"]["lunch_after"]
+
+
+def travel_policy(w: World) -> dict:
+    """Gap-pricing policy from tt.toml [travel] (lunch_free, price_mode, cross_seconds)."""
+    return w.cfg.get("travel", {})
+
+
+def arts_policy(w: World) -> dict:
+    """Arts before-lunch preference from tt.toml [arts]."""
+    return w.cfg.get("arts", {})
+
+
+def straddles_lunch_periods(p1: int, p2: int, lunch_after_p: int) -> bool:
+    return p1 <= lunch_after_p and p2 > lunch_after_p
+
+
+def leg_free(w: World, s1: int, s2: int) -> bool:
+    """Hard-zero rule, fully config-driven: same-day pair straddling lunch
+    is free iff [travel] lunch_free. price_mode reserved for future 'excess'."""
+    tp = travel_policy(w)
+    if not tp.get("lunch_free", True):
+        return False
+    a, b = w.slots[s1], w.slots[s2]
+    if a["day"] != b["day"]:
+        return True  # no overnight walk (not a real leg)
+    return straddles_lunch_periods(a["period"], b["period"], lunch_after(w))
+
+
 def day_groups(w: World) -> list[list[int]]:
     g = defaultdict(list)
     for s in w.slots:
@@ -51,8 +82,18 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
     skip = skip or set()
     cfg = w.cfg
     sv = cfg["solve"]
-    wt = {k: sv[k] for k in ("w_gap", "w_heavy", "w_spread", "w_morning", "w_tgap")}
+    wt = {k: sv[k] for k in ("w_gap", "w_heavy", "w_spread", "w_morning", "w_tgap")
+          if k in sv}
+    for k in ("w_arts_p4", "w_xmt_adj"):
+        if k in sv:
+            wt[k] = sv[k]
     wt.update(weights or {})
+    ap = arts_policy(w)
+    tp = travel_policy(w)
+    arts_on = ap.get("before_lunch_enabled", True) and wt.get("w_arts_p4", 0) > 0
+    arts_target = ap.get("target_period", lunch_after(w))
+    xmt_on = (sv.get("xmt_adj_enabled", True) and wt.get("w_xmt_adj", 0) > 0
+              and tp.get("price_mode", "hard_zero") is not None)
     fixed = fixed or {}
     T = len(w.slots)
     m = cp_model.CpModel()
@@ -78,26 +119,44 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
     def tot(items):
         return sum(items) if items else 0
 
+    def parity_of(g: str) -> str:
+        return getattr(S[g], "parity", "all")
+
+    def lanes(group: list[str]) -> list[list[str]]:
+        """Parity lanes: even-only and odd-only sections share a slot with each
+        other (alternate weeks) but never with 'all'. Returns the two lane
+        groupings [all+even, all+odd]; 'all'-only groups collapse to one lane."""
+        ev = [g for g in group if parity_of(g) in ("all", "even")]
+        od = [g for g in group if parity_of(g) in ("all", "odd")]
+        if ev == od:
+            return [ev]
+        return [ev, od]
+
     # --- hard: students (signature = identical section sets), teachers, room capacity -----------
+    # Parity-aware: an even-only and an odd-only section may share a slot
+    # (alternate weeks); enforced as one cap per lane. Disabled (single lane)
+    # when every section is parity "all" — the default with empty split lists.
     sigs = Counter()
     ssec = w.student_sections()
     for sid, lst in ssec.items():
         sigs[frozenset(lst)] += 1
     for sig in ([] if 'student' in skip else sigs):
-        for s in range(T):
-            e = tot([Z[g][s] for g in sig])
-            if not isinstance(e, int) or e > 1:
-                m.Add(e <= 1)
+        for lane in lanes(list(sig)):
+            for s in range(T):
+                e = tot([Z[g][s] for g in lane])
+                if not isinstance(e, int) or e > 1:
+                    m.Add(e <= 1)
     by_teacher = defaultdict(list)
     for g, sec in S.items():
         by_teacher[sec.teacher].append(g)
     for tid, gs in ([] if 'teacher' in skip else by_teacher.items()):
         if ('t:' + tid) in skip:
             continue
-        for s in range(T):
-            e = tot([Z[g][s] for g in gs])
-            if not isinstance(e, int) or e > 1:
-                m.Add(e <= 1)
+        for lane in lanes(gs):
+            for s in range(T):
+                e = tot([Z[g][s] for g in lane])
+                if not isinstance(e, int) or e > 1:
+                    m.Add(e <= 1)
     days = day_groups(w)
     for tid, gs in ([] if 'consec' in skip else by_teacher.items()):
         mc = w.teachers[tid].max_consec
@@ -110,6 +169,8 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
                     if not isinstance(e, int):
                         m.Add(e + ext <= mc)
     # room capacity by kind and area (nested thresholds => Hall's condition is exact)
+    # Parity-aware: one cap per lane (even-week / odd-week); collapses to the
+    # old single cap when no even/odd sections exist.
     for kind in ([] if 'room' in skip else ("classroom", "lab", "arts")):
         areas = sorted(r.area for r in w.rooms.values() if r.kind == kind)
         gk = [g for g, sec in S.items() if sec.kind == kind]
@@ -117,20 +178,27 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
         for lv in levels:
             cap = sum(1 for a in areas if a >= lv - 1e-9)
             gl = [g for g in gk if need_area(S[g], cfg) >= lv - 1e-9]
-            for s in range(T):
-                e = tot([Z[g][s] for g in gl])
-                if not isinstance(e, int):
-                    m.Add(e <= cap)
-    # --- hard: minute invariant (weekly minutes of every section within +-tol of nominal) -------
+            for lane in lanes(gl):
+                for s in range(T):
+                    e = tot([Z[g][s] for g in lane])
+                    if not isinstance(e, int):
+                        m.Add(e <= cap)
+    # --- hard: minute invariant (two-week mean for parity sections) -------
+    # Even/odd-only meetings count at 0.5 (tt.toml [parity] weights): a 4-slot
+    # even-only section owes ~2 slots' worth of weekly minutes.
     nom = nominal_minutes(w)
     tol = sv["minutes_tol"]
+    pw = {"all": cfg.get("parity", {}).get("standard_weight", 1.0),
+          "even": cfg.get("parity", {}).get("even_only_weight", 0.5),
+          "odd": cfg.get("parity", {}).get("odd_only_weight", 0.5)}
     for g, sec in S.items():
         if g in fixed:
             continue
         e = tot([Z[g][s] * w.slots[s]["minutes"] for s in range(T) if not isinstance(Z[g][s], int)])
+        wgt = pw.get(getattr(sec, "parity", "all"), 1.0)
         lo, hi = minutes_band(sec.n, nom, cfg)
-        m.Add(e >= int(math.ceil(lo - 1e-6)))
-        m.Add(e <= int(math.floor(hi + 1e-6)))
+        m.Add(e * wgt >= int(math.ceil(lo * wgt - 1e-6)))
+        m.Add(e * wgt <= int(math.floor(hi * wgt + 1e-6)))
     # --- hard: lab double periods ------------------------------------------------------------------
     for g, sec in S.items():
         if g in fixed or not sec.double:
@@ -209,7 +277,65 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
             occ = {s: (1 if s in t.external_busy else tot([Z[g][s] for g in gs])) for s in range(T)}
             if all(isinstance(v, int) for v in occ.values()):
                 continue
-            obj += gap_terms(occ, int(round(wt["w_tgap"] * 10)), f"t{tid}")
+            obj += gap_terms(occ, int(round(wt.get("w_tgap", 0) * 10)), f"t{tid}")
+        if arts_on:
+            # Soft before-lunch preference: each arts-kind meeting in the target
+            # period earns w_arts_p4 * size (subtracted from the minimization).
+            # All names/thresholds from tt.toml [arts] + [solve]; disable via
+            # before_lunch_enabled=false or w_arts_p4=0.
+            for g, sec in S.items():
+                if g in fixed or sec.kind != "arts":
+                    continue
+                bonus = int(round(wt["w_arts_p4"] * sec.size))
+                if bonus <= 0:
+                    continue
+                for s in range(T):
+                    if isinstance(Z[g][s], int):
+                        continue
+                    if w.slots[s]["period"] != arts_target:
+                        continue
+                    if s in w.blocked[sec.grade]:
+                        continue
+                    obj.append(-bonus * Z[g][s])
+        if xmt_on:
+            # Teacher ZX<->XMT (external_busy) adjacency: teaching in a slot
+            # next to an XMT busy slot on the same day costs w_xmt_adj, unless
+            # the pair straddles lunch (free iff [travel] lunch_free).
+            # Disable via xmt_adj_enabled=false or w_xmt_adj=0.
+            lunch_p = lunch_after(w)
+            lunch_free = tp.get("lunch_free", True)
+            by_day_idx = defaultdict(list)
+            for s in range(T):
+                by_day_idx[w.slots[s]["day"]].append(s)
+            neigh = defaultdict(list)  # busy slot -> adjacent teachable slots
+            for d, lst in by_day_idx.items():
+                by_per = {w.slots[s]["period"]: s for s in lst}
+                for s in lst:
+                    p = w.slots[s]["period"]
+                    for q in (p - 1, p + 1):
+                        n = by_per.get(q)
+                        if n is None:
+                            continue
+                        if lunch_free and straddles_lunch_periods(
+                                min(p, q), max(p, q), lunch_p):
+                            continue
+                        neigh[s].append(n)
+            wxmt = int(round(wt["w_xmt_adj"]))
+            if wxmt > 0:
+                for tid, gs in by_teacher.items():
+                    t = w.teachers[tid]
+                    if not t.external_busy:
+                        continue
+                    teachable = [g for g in gs if g not in fixed]
+                    if not teachable:
+                        continue
+                    for b in t.external_busy:
+                        for n in neigh.get(b, []):
+                            e = tot([Z[g][n] for g in teachable
+                                     if not isinstance(Z[g][n], int)])
+                            if isinstance(e, int):
+                                continue
+                            obj.append(wxmt * e)
         if prev and churn_w:
             for g, old in prev.items():
                 if g in fixed or g not in Z:
@@ -371,7 +497,15 @@ def assign_rooms(w: World, slot_of: dict, iters: int | None = None, seed: int = 
 
 
 def person_seconds(w: World, room: dict, L: Counter) -> float:
-    return sum(c * tau(w, room[a], room[b]) for (a, b), c in L.items())
+    """Gap-aware person-seconds: lunch-straddling legs cost 0 iff
+    [travel] lunch_free (tt.toml). 1x vs 2x still additive otherwise."""
+    total = 0.0
+    for (a, b), c in L.items():
+        (g1, s1), (g2, s2) = a, b
+        if leg_free(w, s1, s2):
+            continue
+        total += c * tau(w, room[a], room[b])
+    return total
 
 
 def polish_rooms(w, room, L, iters, seed, forbid_rooms):
@@ -392,7 +526,14 @@ def polish_rooms(w, room, L, iters, seed, forbid_rooms):
             rooms_of_kind[r.kind].append(r)
 
     def cost_of(mt, r):
-        return sum(c * tau(w, r, room[o]) for o, c in adj[mt])
+        g, s = mt
+        total = 0.0
+        for o, c in adj[mt]:
+            go, so = o
+            if leg_free(w, s, so):
+                continue
+            total += c * tau(w, r, room[o])
+        return total
 
     temp0 = 30.0
     for it in range(iters):

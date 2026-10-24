@@ -5,7 +5,7 @@ import json
 import time
 from pathlib import Path
 
-from . import checker, config, emulator, metrics, model, world
+from . import checker, config, conflicts, emulator, metrics, model, world
 
 OUT = Path(__file__).resolve().parent.parent.parent / "output"
 
@@ -19,14 +19,31 @@ def summarize(w, slot_of, room, label):
 
 def run_optimizer(w, hint=None, time_limit=None, seed=0, verbose=False):
     t0 = time.time()
+    cert = certificate_report(w)
     r = model.solve_slots(w, time_limit=time_limit, hint=hint)
     t1 = time.time()
     if not r["assignment"]:
-        return None, r
+        return None, {**r, "certificate": cert}
     slot_of = r["assignment"]
     room, info = model.assign_rooms(w, slot_of, seed=seed)
-    return (slot_of, room), {**{k: v for k, v in r.items() if k != "assignment"}, "room_info": {
+    return (slot_of, room), {**{k: v for k, v in r.items() if k != "assignment"}, "certificate": cert, "room_info": {
         k: v for k, v in info.items() if k != "homes"}, "t_slots": t1 - t0, "t_rooms": time.time() - t1}
+
+
+def certificate_report(w):
+    """Per-grade conflict-graph certificate (ported sched/graph/conflicts.py).
+    Necessary-feasibility pre-check; stored on the result, never a hard abort."""
+    ssec = w.student_sections()
+    out = {}
+    for grade in ("G9", "G10", "G11AP"):
+        secs = {g: s for g, s in w.sections.items() if s.grade == grade}
+        if not secs:
+            continue
+        avail = len(w.slots) - len(w.blocked.get(grade, set()))
+        sub = {sid: [g for g in lst if g in secs] for sid, lst in ssec.items()}
+        sub = {sid: lst for sid, lst in sub.items() if len(lst) > 1}
+        out[grade] = conflicts.certificate(secs, avail, sub or None)
+    return out
 
 
 def pipeline(cfg=None, overrides=None, emu_seeds=(0,), time_limit=None, save=None):

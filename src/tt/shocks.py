@@ -62,6 +62,10 @@ def _delta(w, base, so1, rm1, so0, rm0, extra=None):
     rchg = sum(1 for k, r in rm1.items() if rm0.get(k) != r)
     out = {"feasible": c["ok"], "violations": c["violations"], "moved_meetings": moved,
            "room_changes": rchg,
+           # unified repair energy (ported sched repair.solve_incremental):
+           # rooms-changed + 10 x moved-meetings; uncovered periods priced
+           # separately via lost_student_periods. Weights are convention, not TOML.
+           "energy_total": rchg + 10 * moved,
            "delta_student_lost_min_mean": m1["students"]["lost_min_week_mean"] - base["students"]["lost_min_week_mean"],
            "delta_student_travel_s_mean": m1["students"]["travel_s_mean"] - base["students"]["travel_s_mean"]}
     out.update(extra or {})
@@ -96,6 +100,9 @@ def room_closure(w: World, slot_of, room, base_metrics, rng: random.Random, n_ro
 
 
 def teacher_absence(w: World, slot_of, room, base_metrics, rng: random.Random):
+    """Substitute-teacher repair (unified with sched repair.replacement_teachers:
+    eligible = dept-qualified, non-busy, non-external-busy; least-loaded first).
+    Reports the replacement map + unified energy (moved=0, rooms=0 here)."""
     tid = rng.choice(sorted({s.teacher for s in w.sections.values()}))
     day = rng.choice(sorted({s["day"] for s in w.slots}))
     meets = [(g, s) for g, sec in w.sections.items() if sec.teacher == tid for s in slot_of[g]
@@ -107,6 +114,7 @@ def teacher_absence(w: World, slot_of, room, base_metrics, rng: random.Random):
             busy[sec.teacher].add(s)
             load[sec.teacher] += 1
     covered = 0
+    replacements: dict[str, str] = {}
     for g, s in meets:
         dept = w.sections[g].dept
         cands = [t for t in w.teachers.values() if t.id != tid and dept in t.depts
@@ -115,10 +123,13 @@ def teacher_absence(w: World, slot_of, room, base_metrics, rng: random.Random):
             sub = min(cands, key=lambda t: load[t.id])
             busy[sub.id].add(s)
             load[sub.id] += 1
+            replacements[f"{g}|{s}"] = sub.id
             covered += 1
     n = len(meets)
     return {"feasible": True, "level": "substitute", "teacher": tid, "day": day, "affected_meetings": n,
             "covered": covered, "uncovered": n - covered, "moved_meetings": 0, "room_changes": 0,
+            "energy_total": 0,
+            "replacements": replacements,
             "delta_student_lost_min_mean": 0.0, "delta_student_travel_s_mean": 0.0,
             "lost_student_periods": sum(w.sections[g].size for (g, s) in meets[covered:]) if covered < n else 0}
 

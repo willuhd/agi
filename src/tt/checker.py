@@ -52,18 +52,25 @@ def check(w: World, slot_of: dict, room: dict, tol: float | None = None) -> dict
             v["H7"].append(g)
         if sec.dept not in t.depts:
             v["H4"].append((g, "ineligible", sec.teacher))
-    # teachers
+    # teachers (parity-aware: even-only + odd-only may share a slot)
     tslots = defaultdict(list)
     for g, sec in S.items():
         for s in slot_of.get(g, []):
             tslots[sec.teacher].append((s, g))
     for tid, lst in tslots.items():
+        lanes = defaultdict(int)  # (slot, lane) counts; lane = even-week / odd-week
+        for s, g in lst:
+            p = getattr(S[g], "parity", "all")
+            if p in ("all", "even"):
+                lanes[(s, "even")] += 1
+            if p in ("all", "odd"):
+                lanes[(s, "odd")] += 1
+        for (s, lane), n in lanes.items():
+            if n > 1:
+                v["H4"].append((tid, s, f"double-{lane}"))
         seen = defaultdict(int)
         for s, g in lst:
             seen[s] += 1
-        for s, c in seen.items():
-            if c > 1:
-                v["H4"].append((tid, s, "double"))
         occ = set(seen)
         mc = w.teachers[tid].max_consec
         by_day = defaultdict(list)
@@ -77,16 +84,20 @@ def check(w: World, slot_of: dict, room: dict, tol: float | None = None) -> dict
                 if run > mc:
                     v["H6"].append((tid, d))
                     break
-    # students
+    # students (parity-aware: even-only + odd-only may share a slot)
     ssec = w.student_sections()
     for sid, lst in ssec.items():
-        c = defaultdict(int)
+        lanes = defaultdict(int)
         per_course = defaultdict(int)
         for g in lst:
+            p = getattr(S[g], "parity", "all")
             for s in slot_of.get(g, []):
-                c[s] += 1
+                if p in ("all", "even"):
+                    lanes[(s, "even")] += 1
+                if p in ("all", "odd"):
+                    lanes[(s, "odd")] += 1
             per_course[S[g].course] += len(set(slot_of.get(g, [])))
-        if any(n > 1 for n in c.values()):
+        if any(n > 1 for n in lanes.values()):
             v["H3"].append(sid)
         for ck in w.students[sid]["courses"]:
             if per_course.get(ck, 0) != w.courses[ck].slots:
@@ -101,7 +112,14 @@ def check(w: World, slot_of: dict, room: dict, tol: float | None = None) -> dict
         if room_obj is None or room_obj.kind != sec.kind or room_obj.area < need_area(sec, cfg) - 1e-9:
             v["H5"].append((g, s, r))
     for (s, r), gs in rs.items():
-        if len(gs) > 1:
+        lanes = defaultdict(int)
+        for g in gs:
+            p = getattr(S[g], "parity", "all")
+            if p in ("all", "even"):
+                lanes["even"] += 1
+            if p in ("all", "odd"):
+                lanes["odd"] += 1
+        if any(n > 1 for n in lanes.values()):
             v["H5"].append((s, r, "double"))
     for g, sec in S.items():
         for s in slot_of.get(g, []):

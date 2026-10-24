@@ -61,7 +61,65 @@ w_spread = 2.0             # same section twice a day (non-lab)
 w_morning = 0.15           # hard (credit>=5) subjects late in day
 w_tgap = 1.5               # teacher idle gaps
 w_teacher_leg = 1.0        # a teacher's walking second counts this much vs a student's (person-seconds)
+w_arts_p4 = 5.0            # bonus per student for each arts-kind meeting in the before-lunch period (subtracted)
+w_xmt_adj = 8.0            # penalty per teacher meeting adjacent to an XMT/external_busy slot (same-day, non-lunch)
+xmt_adj_enabled = true     # price teacher ZX<->XMT adjacency at all
 room_polish_iters = 40000
+
+[travel]
+# Gap-aware pricing policy. lunch_free=true => any same-day successive pair
+# straddling lunch (p1 <= lunch_after < p2) costs 0 (70-min gap absorbs the walk).
+# price_mode is reserved: "hard_zero" is the adopted rule; "excess" would charge max(0, tau-gap).
+price_mode = "hard_zero"
+lunch_free = true
+cross_seconds = 1200.0     # one ZX<->XMT leg (no metric model; mirrors buildings.toml 20x60)
+
+[arts]
+# Soft before-lunch preference for arts-kind rooms (B1 arts -> classrooms).
+before_lunch_enabled = true
+target_period = 4          # arts meetings here earn the w_arts_p4 bonus
+
+[parity]
+# Two-week mean (mirrors sched periods.toml [parity]). Machinery is live but
+# inert until parity_split_courses names a course: sections default to "all".
+mode = "two_week_mean"
+even_only_weight = 0.5
+odd_only_weight = 0.5
+standard_weight = 1.0
+# course keys whose sections meet every OTHER week, alternating even/odd
+# (e.g. ["ap_mac"] would split that course's sections into even/odd pairs).
+split_courses = []
+even_courses = []
+odd_courses = []
+
+[offices]
+# Ported from sched teachers.toml [homeroom]+[dept_offices]. No hardcoded
+# offices in code: build_teachers reads these. Set enabled=false to skip
+# office assignment (offices recorded as "") and zero colocation cost.
+enabled = true
+pins = { G9 = "406", G10 = "210", G11AP = "110" }
+math = "313"
+english = "314"
+physics = "320"
+chemistry = "320"
+biology = "313"
+econ = "314"
+humanities = "314"
+language = "117"
+arts = "407"
+pe = "407"
+cs = "313"
+colocation_price_per_floor = 0.5
+
+[preference]
+# Ported from sched teachers.toml [load]+[travel]+[fatigue]. All soft costs;
+# set any price to 0 to disable that term. tt metrics TCFG defaults are kept
+# as fallback when a key is missing here.
+target_periods = 20
+overload_price = 1.0
+underload_price = 1.5
+price_per_second = 0.02
+price_per_extra_consecutive = 1.5
 
 [emulator]
 p_stay = "auto"            # probability the hand-scheduler keeps the previous room; calibrated to 21 changes/week
@@ -71,3 +129,5 @@ target_changes = 21.0
 alpha = 1.0
 beta = 0.5
 cvar_q = 0.8
+group_department = 0.3   # ported sched weights.group.department: sum of per-dept CVaRs
+beta_prime = 0.25        # ported sched beta_prime: spread of dept means

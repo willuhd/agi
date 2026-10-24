@@ -124,10 +124,15 @@ class Section:
     homerooms: dict = field(default_factory=dict)  # homeroom -> count
     double: bool = False
     hard: bool = False
+    parity: str = "all"  # all | even | odd (two-week mean; see tt.toml [parity])
 
     @property
     def size(self) -> int:
         return len(self.students)
+
+    @property
+    def parity_weight(self) -> float:
+        return {"all": 1.0, "even": 0.5, "odd": 0.5}.get(self.parity, 1.0)
 
 
 @dataclass
@@ -145,6 +150,18 @@ class Teacher:
     depts: set
     max_consec: int
     external_busy: set = field(default_factory=set)  # slot idx
+    office: str = ""  # tt.toml [offices] dept default; "" when disabled
+
+
+FLOOR_INDEX = {"B2": -2, "B1": -1, "1F": 0, "2F": 1, "3F": 2, "4F": 3}
+
+
+def office_for(dept: str, cfg: dict) -> str:
+    """Dept-default office from tt.toml [offices]; "" when disabled."""
+    ocfg = cfg.get("offices", {})
+    if not ocfg.get("enabled", True):
+        return ""
+    return ocfg.get(dept, "314")
 
 
 @dataclass
@@ -338,8 +355,17 @@ def build_sections(cfg, courses, students, rng):
             hr = defaultdict(int)
             for s in ch:
                 hr[students[s]["homeroom"]] += 1
+            pcfg = cfg.get("parity", {})
+            if ck in pcfg.get("even_courses", []):
+                parity = "even"
+            elif ck in pcfg.get("odd_courses", []):
+                parity = "odd"
+            elif ck in pcfg.get("split_courses", []) and len(chunks) > 1:
+                parity = "even" if i % 2 == 0 else "odd"
+            else:
+                parity = "all"
             sec = Section(f"{ck}#{i}", ck, crs.grade, ch, crs.slots, crs.kind, crs.dept,
-                          homerooms=dict(hr), hard=crs.hard,
+                          homerooms=dict(hr), hard=crs.hard, parity=parity,
                           double=(crs.practical and crs.slots >= 3 and cfg["solve"]["lab_doubles"]))
             sections[sec.id] = sec
     return sections, floor_dropped
@@ -358,7 +384,8 @@ def build_teachers(cfg, sections, slots, rng):
             a = rng.choices([k for k, _ in arch], [v for _, v in arch])[0]
             tid = f"{dept[:3].upper()}{i:02d}"
             ds = {dept}
-            teachers[tid] = Teacher(tid, dept, ds, tc["max_consecutive"][a])
+            teachers[tid] = Teacher(tid, dept, ds, tc["max_consecutive"][a],
+                                    office=office_for(dept, cfg))
     # a share of teachers can also cover a second department (cross-qualified)
     depts = sorted(load)
     near = {"math": ["cs", "econ"], "cs": ["math"], "econ": ["math", "humanities"],
