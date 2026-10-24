@@ -110,16 +110,20 @@ def make_mutations(w: World, slot_of, room) -> dict:
             so[g2][0] = nxt
     out["H6"] = (so, rm, w6)
 
-    # H7: lab section loses its double
+    # H7: a practical section loses its double period (move meetings apart until none are adjacent)
     so, rm = _clone(slot_of, room)
     labs = [g for g in S if S[g].double]
     if labs:
         g = labs[0]
-        pr = _find_adjacent_pair(w, so[g])
-        if pr:
+        for _ in range(6):
+            pr = _find_adjacent_pair(w, so[g])
+            if not pr:
+                break
             a, b = pr
             for cand in range(T):
-                if cand not in so[g] and all(abs(cand - x) > 1 or w.slots[cand]["day"] != w.slots[x]["day"] for x in so[g]):
+                if cand in so[g] or cand in w.blocked[S[g].grade]:
+                    continue
+                if all(abs(cand - x) > 1 or w.slots[cand]["day"] != w.slots[x]["day"] for x in so[g] if x != b):
                     rm[(g, cand)] = rm.pop((g, b))
                     so[g][so[g].index(b)] = cand
                     break

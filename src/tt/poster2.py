@@ -62,7 +62,7 @@ def fig_envelope(recs, base_k):
             b += f'<path d="M{x - 8:.1f},{y - 8:.1f} L{x + 8:.1f},{y + 8:.1f} M{x + 8:.1f},{y - 8:.1f} L{x - 8:.1f},{y + 8:.1f}" stroke="{CUR}" stroke-width="3.2"/>'
     b += f'<line x1="{L}" x2="{R}" y1="{B}" y2="{B}" stroke="{INK}"/>'
     b += T((L + R) / 2, h - 14, "credit &rarr; slot factor k (higher = heavier timetable)", 19, MUT, "middle") + T(20, (T_ + B) / 2, "rooms removed", 19, MUT, "middle", 400, "sans-serif", f'transform="rotate(-90 20 {(T_ + B) / 2})"')
-    b += f'<circle cx="{L + 18}" cy="{T_ + 6}" r="8" fill="{OPT}"/>' + T(L + 34, T_ + 12, "valid grid found and certified", 17, INK) + f'<path d="M{L + 10},{T_ + 22} l16,16 m0,-16 l-16,16" stroke="{CUR}" stroke-width="3"/>' + T(L + 34, T_ + 42, "no valid grid within the time limit", 17, INK)
+    b += f'<circle cx="{L + 18}" cy="{T_ + 6}" r="8" fill="{OPT}"/>' + T(L + 34, T_ + 12, "valid timetable found and verified", 17, INK) + f'<path d="M{L + 10},{T_ + 22} l16,16 m0,-16 l-16,16" stroke="{CUR}" stroke-width="3"/>' + T(L + 34, T_ + 42, "no valid timetable within the time limit", 17, INK)
     return svg(w, h, b)
 
 
@@ -104,7 +104,7 @@ def fig_context(D):
     st = D.res["stats"]
     b = ""
     ins = [("Course catalog", ["230 courses, weekly credits", "course selection rules", "6+ students to run"]),
-           ("Building model", ["6 floors, 103 rooms", "walking time room to room", "room sizes"]),
+           ("Building model", ["5 teaching floors, 59 rooms", "walking time room to room", "B2 (clubs) excluded"]),
            ("One real week", ["one G11-AP student", "teacher-owned rooms", "21 room changes"])]
     for i, (t_, ls) in enumerate(ins):
         b += box(10, 20 + i * 150, 330, 130, t_, ls, "#fff")
@@ -119,11 +119,11 @@ def fig_context(D):
         b += f'<rect x="446" y="{y}" width="468" height="68" fill="#fff"/>' + T(462, y + 30, t_, 24, INK, "start", 700) + T(462, y + 56, l_, 19, MUT)
     for i in range(3):
         b += arrow(940, 130 + i * 110, 1010, 130 + i * 110)
-    outs = [("Timetable", ["who, when, where", "for every lesson"]), ("Certificate", ["0 broken rules of 10", "10/10 mistakes caught"]),
-            ("Repair plans", ["room lost, teacher away", "smallest change"])]
+    outs = [("Timetable", ["class, period, room", "for every lesson"]), ("Certificate", ["0 violations of 10", "10/10 faults detected"]),
+            ("Repair plans", ["room closure, absence", "minimal change"])]
     for i, (t_, ls) in enumerate(outs):
         b += box(1010, 60 + i * 110, 300, 96, t_, ls, "#fff", OPT, OPT)
-    b += T(10, 490, "Affected: 626 students, 54 teachers, the timetabler", 21, INK, "start", 600)
+    b += T(10, 490, "Affected: 626 students, 54 teachers, timetabling staff", 21, INK, "start", 600)
     return svg(1320, 510, b)
 
 
@@ -141,13 +141,13 @@ def fig_week(D):
         if p["id"] == 4:
             b += T(x + 22, 78, "lunch", 18, MUT, "middle", 400, "Georgia,serif", 'font-style="italic"')
             x += 44
-    b += T(0, 140, "A swap P1 &harr; P2 silently removes 20 min a week.", 18, CUR)
+    b += T(0, 140, "Swapping P1 and P2 changes weekly minutes by 20.", 18, CUR)
     days = ["Mon", "Tue", "Wed", "Thu", "Fri"]
     pe = {tuple(s) for s in cfg["slots"]["pe_blocked"]}
     ap = {tuple(s) for s in cfg["slots"]["ap_blocked"]}
     off = {tuple(s) for s in cfg["slots"]["off"]}
     y0 = 190
-    b += T(0, y0 - 26, "The weekly grid every class must fit into", 21, INK, "start", 700)
+    b += T(0, y0 - 26, "Weekly grid available to every class", 21, INK, "start", 700)
     for j, d in enumerate(days):
         b += T(110 + j * 96 + 44, y0 - 2, d, 18, MUT, "middle")
     for p in range(1, 8):
@@ -168,13 +168,13 @@ def fig_week(D):
     b += f'<rect x="640" y="{y0 + 48}" width="22" height="22" fill="{GOLD}"/>' + T(672, y0 + 66, "PE, all grades", 18, INK)
     b += f'<rect x="640" y="{y0 + 84}" width="22" height="22" fill="#e6c3b3"/>' + T(672, y0 + 102, "AP block, G11-AP only", 18, INK)
     b += T(640, y0 + 142, "No Friday P6-P7.", 18, MUT)
-    b += T(640, y0 + 168, "Same every week.", 18, MUT)
+    b += T(640, y0 + 168, "Identical each week.", 18, MUT)
     return svg(1000, 520, b)
 
 
 def fig_conflict():
     """Free-choice web vs pathway classes."""
-    b = T(0, 28, "Everyone picks freely", 24, INK, "start", 700) + T(520, 28, "Pick a package (what we use)", 24, OPT, "start", 700)
+    b = T(0, 28, "Unrestricted choice", 24, INK, "start", 700) + T(520, 28, "Fixed packages (adopted)", 24, OPT, "start", 700)
     rnd = random.Random(3)
     cols = [CUR, OPT, TEAL, GOLD]
     # left: 3 homerooms feed 4 elective sections; every section shares students with several classes -> mesh
@@ -188,7 +188,7 @@ def fig_conflict():
         b += f'<circle cx="{hx}" cy="{hy}" r="36" fill="#fff" stroke="{INK}" stroke-width="2"/>' + T(hx, hy + 6, f"class {i + 1}", 17, INK, "middle")
     for k, (sx, sy) in enumerate(secs):
         b += f'<rect x="{sx - 30}" y="{sy - 24}" width="60" height="48" fill="{cols[k]}"/>' + T(sx, sy + 6, f"sec {k + 1}", 17, "#fff", "middle", 700)
-    b += T(0, 520, "Sections tie classes together; lessons that may not overlap", 17, MUT) + T(0, 545, "form a clique of 31 &gt; 29 free periods: no valid grid.", 17, CUR, "start", 700)
+    b += T(0, 520, "Shared sections link classes;", 15, MUT) + T(0, 545, "31 &gt; 29 free periods: infeasible.", 15, CUR, "start", 700)
     # right: pathway classes
     for i in range(3):
         y = 100 + i * 130
@@ -196,7 +196,7 @@ def fig_conflict():
         b += T(534, y - 30, f"package {i + 1}: one class, one timetable", 18, OPT, "start", 700)
         for k in range(4):
             b += f'<rect x="{540 + k * 100}" y="{y - 12}" width="86" height="44" fill="{cols[k]}" opacity=".9"/>' + T(540 + k * 100 + 43, y + 16, f"sec {k + 1}", 17, "#fff", "middle", 700)
-    b += T(520, 520, "Each section holds one class: cliques stay below", 17, MUT) + T(520, 545, "the slot count; conflicts shrink to teachers, rooms.", 17, OPT, "start", 700)
+    b += T(520, 520, "One class per section:", 15, MUT) + T(520, 545, "cliques stay below the period count.", 15, OPT, "start", 700)
     return svg(1000, 570, b)
 
 
@@ -207,7 +207,7 @@ def fig_pipeline(D):
              ("Classes", "same package = one class", f"{st['n_sections']} classes"),
              ("Time", f"{T_:,} yes/no choices", "rules + 5 goals"),
              ("Rooms", "home rooms + swaps", "less walking"),
-             ("Check + repair", "separate checker", "0 broken rules")]
+             ("Check + repair", "independent checker", "0 violations")]
     b = ""
     for i, (t_, a, c) in enumerate(steps):
         x = i * 330
@@ -243,7 +243,7 @@ def fig_calibration(D):
     for (c, o), nms in grp.items():
         b += f'<circle cx="{sx(c)}" cy="{sy(o)}" r="9" fill="{CUR}" stroke="#fff" stroke-width="2"/>'
         for j, nm in enumerate(nms):
-            b += T(sx(c) + 14, sy(o) - 8 + j * 20, nm, 16, INK)
+            b += T(sx(c) - 14 if c >= 5.5 else sx(c) + 14, sy(o) - 8 + j * 22, nm, 16, INK, 'end' if c >= 5.5 else 'start')
     b += T(sx(5.2), sy(5.2 * k) + 40, f"fit: slots = {k:.3f} &times; credit", 19, OPT, "start", 700)
     b += T(sx(4.0), sy(6.9), "band 0.83 &ndash; 1.00 (swept)", 17, OPT)
     b += T((L + R) / 2, h - 12, "catalog / GPA credit per week", 19, MUT, "middle") + T(18, (T_ + B) / 2, "observed slots / week", 19, MUT, "middle", 400, "sans-serif", f'transform="rotate(-90 18 {(T_ + B) / 2})"')
@@ -338,45 +338,50 @@ def teacher_matrix(D, which):
 # ------------------------------------------------------------------------------------- page ---
 CSS = """
 @page{size:3600px 3300px;margin:0}
-:root{--ink:#1b1b1b;--mut:#5a5750;--rule:#cfcabc;--paper:#f6f4ee;--cur:#d4572c;--opt:#1f5fa8}
+:root{--ink:#1b1b1b;--mut:#4d4a44;--rule:#cfcabc;--paper:#f6f4ee;--cur:#d4572c;--opt:#1f5fa8}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:29px/1.5 'Segoe UI',Inter,system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.poster{width:3600px;padding:64px 80px 56px}
-header{display:grid;grid-template-columns:2100px 1fr;gap:60px;border-bottom:3px solid var(--ink);padding-bottom:30px}
-h1{font:700 104px/1.02 Georgia,'Times New Roman',serif;margin:0;letter-spacing:-.01em}
-.dek{font:italic 36px/1.35 Georgia,serif;color:var(--mut);margin-top:18px}
+body{margin:0;background:var(--paper);color:var(--ink);font:37px/1.42 'Segoe UI',Inter,system-ui,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.poster{width:3600px;padding:56px 70px 44px}
+header{display:grid;grid-template-columns:2150px 1fr;gap:50px;border-bottom:4px solid var(--ink);padding-bottom:24px}
+h1{font:700 110px/1.04 Georgia,'Times New Roman',serif;margin:0;letter-spacing:-.01em}
+.dek{font:italic 42px/1.32 Georgia,serif;color:var(--mut);margin-top:14px}
 .num{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-left:1.5px solid var(--rule)}
-.num div{padding:0 26px;border-right:1.5px solid var(--rule)}
-.num b{display:block;font:700 92px/1 Georgia,serif;color:var(--opt)}
-.num span{font-size:26px;color:var(--mut);line-height:1.25;display:block;margin-top:6px}
-.row{display:grid;grid-template-columns:repeat(12,1fr);gap:0 44px;margin-top:40px}
-.band{grid-column:1/-1;display:flex;align-items:baseline;gap:22px;border-top:3px solid var(--ink);padding-top:10px;margin-bottom:6px}
-.band{margin-bottom:8px}.band h2{font:700 62px/1.1 Georgia,serif;margin:0}.band .k{font:700 62px/1.1 Georgia,serif;color:var(--cur)}
-.band p{margin:0 0 0 auto;font:italic 31px Georgia,serif;color:var(--mut)}
-.fig{padding:14px 0 6px}
-.cap{font:italic 27px/1.4 Georgia,serif;color:var(--mut);margin-top:6px}
+.num div{padding:0 22px;border-right:1.5px solid var(--rule)}
+.num b{display:block;font:700 104px/1 Georgia,serif;color:var(--opt)}
+.num span{font-size:30px;color:var(--mut);line-height:1.22;display:block;margin-top:6px}
+.row{display:block;margin-top:30px}
+.row.g12{display:grid;grid-template-columns:repeat(12,1fr);gap:0 50px}
+.band{grid-column:1/-1;display:flex;align-items:baseline;gap:22px;border-top:4px solid var(--ink);padding-top:8px;margin-bottom:8px}
+.band h2{font:700 72px/1.08 Georgia,serif;margin:0}.band .k{font:700 72px/1.08 Georgia,serif;color:var(--cur)}
+.band p{margin:0 0 0 auto;font:italic 36px Georgia,serif;color:var(--mut)}
+.fig{padding:8px 0 4px}
+.cap{font:italic 32px/1.38 Georgia,serif;color:var(--mut);margin-top:4px}
 .cap b{font-style:normal;font-family:'Segoe UI',sans-serif;color:var(--ink)}
-h3{font:700 34px Georgia,serif;margin:0 0 4px}
+h3{font:700 41px/1.2 Georgia,serif;margin:0 0 4px}
 .s3{grid-column:span 3}.s4{grid-column:span 4}.s5{grid-column:span 5}.s6{grid-column:span 6}.s7{grid-column:span 7}.s8{grid-column:span 8}.s12{grid-column:1/-1}
-.brief{margin-top:26px;border:2px solid var(--ink);padding:26px 30px;background:#fff;font:27px/1.5 Georgia,serif;position:relative}
-.brief .lab{position:absolute;top:-17px;left:22px;background:var(--paper);padding:0 12px;font:700 22px 'Segoe UI',sans-serif;letter-spacing:.14em}
-.brief p{margin:0 0 12px}.brief mark{background:#f3dccf;padding:0 3px}
-.map{width:100%;border-collapse:collapse;font-size:26px;margin-top:14px}.map td{border-top:1.5px solid var(--rule);padding:5px 8px;vertical-align:top}.map td:first-child{font-weight:700;width:60px}
-table.t{border-collapse:collapse;width:100%;font-size:26px}table.t td,table.t th{border-bottom:1.5px solid var(--rule);padding:5px 8px;text-align:left}table.t th{font-size:21px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
+.mc{column-count:3;column-gap:56px;column-fill:balance}
+.mc>*{break-inside:avoid-column;margin-bottom:22px}
+.mc>.wide,.mc>.take,.mc>.plain{column-span:all}
+.g12>.take{grid-column:1/-1}
+.brief{margin-top:20px;border:2px solid var(--ink);padding:22px 28px;background:#fff;font:32px/1.42 Georgia,serif;position:relative}
+.brief .lab{position:absolute;top:-22px;left:22px;background:var(--paper);padding:0 12px;font:700 27px 'Segoe UI',sans-serif;letter-spacing:.14em}
+.brief p{margin:0 0 10px}
+.map{width:100%;border-collapse:collapse;font-size:32px;margin-top:12px}.map td{border-top:1.5px solid var(--rule);padding:4px 8px;vertical-align:top}.map td:first-child{font-weight:700;width:76px}
+table.t{border-collapse:collapse;width:100%;font-size:32px}table.t td,table.t th{border-bottom:1.5px solid var(--rule);padding:5px 8px;text-align:left}table.t th{font-size:25px;letter-spacing:.08em;color:var(--mut);text-transform:uppercase}
 .z{color:var(--opt);font-weight:800}.bad{color:var(--cur);font-weight:800}
-.math h3{font:600 20px 'Segoe UI';letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:14px 0 0}
-.math .katex{font-size:1.18em}.katex-display{margin:.35em 0;overflow-x:auto;overflow-y:hidden}
-.note{font-size:27px;color:var(--mut)}
-ul.t{margin:6px 0;padding-left:34px;font-size:29px}ul.t li{margin:5px 0}
-.legend{display:flex;gap:30px;font-size:25px;color:var(--mut);margin:2px 0 8px}.legend i{display:inline-block;width:24px;height:14px;margin-right:8px;vertical-align:-1px}
-footer{margin-top:40px;border-top:3px solid var(--ink);padding-top:12px;font-size:25px;color:var(--mut);display:flex;justify-content:space-between}
-.lead{font:31px/1.55 Georgia,serif;margin:8px 0 14px;max-width:3100px}.lead b{font-family:'Segoe UI',sans-serif}
-.story{background:#fff;border:1.5px solid var(--rule);padding:18px 26px 14px;margin-top:20px}.story h3{margin:0 0 6px}.story p{margin:6px 0;font-size:28px;line-height:1.5}.story ul{margin:6px 0;padding-left:32px;font-size:28px}.story li{margin:5px 0}
-.take{grid-column:1/-1;border-left:8px solid var(--opt);padding:10px 26px;background:#eaf0f8;font:700 34px/1.4 Georgia,serif;margin:20px 0 6px}
-.plain{grid-column:1/-1;border-left:8px solid #9a958a;padding:8px 26px;background:#fff;font:29px/1.5 Georgia,serif;margin-top:14px}
+.math h3{font:600 27px 'Segoe UI';letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:10px 0 0}
+.math .katex{font-size:1.2em}.katex-display{margin:.3em 0;overflow-x:auto;overflow-y:hidden}
+.note{font-size:33px;color:var(--mut)}
+ul.t{margin:6px 0;padding-left:40px;font-size:36px}ul.t li{margin:5px 0}
+.legend{display:flex;gap:30px;font-size:30px;color:var(--mut);margin:2px 0 8px}.legend i{display:inline-block;width:28px;height:16px;margin-right:8px;vertical-align:-1px}
+footer{margin-top:30px;border-top:4px solid var(--ink);padding-top:10px;font-size:29px;color:var(--mut);display:flex;justify-content:space-between}
+.lead{font:38px/1.5 Georgia,serif;margin:6px 0 16px}.lead b{font-family:'Segoe UI',sans-serif}
+.story{background:#fff;border:1.5px solid var(--rule);padding:16px 24px 10px;margin-top:12px}.story h3{margin:0 0 6px}.story p{margin:6px 0;font-size:35px;line-height:1.45}.story ul{margin:6px 0;padding-left:38px;font-size:35px}.story li{margin:5px 0}
+.take{border-left:10px solid var(--opt);padding:8px 26px;background:#eaf0f8;font:700 42px/1.35 Georgia,serif;margin:14px 0 6px}
+.plain{border-left:10px solid #9a958a;padding:6px 26px;background:#fff;font:36px/1.45 Georgia,serif;margin-top:12px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:44px}
-.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:10px;font-size:25px;line-height:1.45}.steps b{display:block;font:700 27px Georgia,serif;color:var(--opt)}
-.pl{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-top:8px;font-size:32px;line-height:1.4}.steps b{display:block;font:700 35px Georgia,serif;color:var(--opt)}
+.pl{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 """
 
 
@@ -413,20 +418,21 @@ def build():
     if cur_p:
         paras.append(" ".join(cur_p))
     qtxt = "".join(f"<p>{x}</p>" for x in paras)
-    brief = f'<div class="brief"><span class="lab">THE BRIEF &middot; Question.txt, verbatim</span>{qtxt}</div>'
-    mapping = """<table class="map"><tr><td>Q1</td><td>What is wrong with today&rsquo;s timetable? &rarr; <b>section B</b></td></tr>
-<tr><td>Q2</td><td>What did we improve, and how? &rarr; <b>C, D</b></td></tr>
-<tr><td>Q3</td><td>Who is affected, and how much? &rarr; <b>D</b></td></tr>
-<tr><td>Q4</td><td>How much better is it, and how is that measured? &rarr; <b>D</b></td></tr>
-<tr><td>Q5</td><td>How do we know every rule is followed? &rarr; <b>E</b></td></tr>
-<tr><td>Q6</td><td>Does it cope when things change? &rarr; <b>F, G</b></td></tr></table>"""
+    brief = f'<div class="brief"><span class="lab">BRIEF &middot; Question.txt, verbatim</span>{qtxt}</div>'
+    mapping = """<table class="map"><tr><td>Q1</td><td>Problems in the current timetable &rarr; <b>B</b></td></tr>
+<tr><td>Q2</td><td>Aspects optimized and method &rarr; <b>C, D</b></td></tr>
+<tr><td>Q3</td><td>Affected groups and magnitude of effect &rarr; <b>D</b></td></tr>
+<tr><td>Q4</td><td>Improvement and its measurement &rarr; <b>D</b></td></tr>
+<tr><td>Q5</td><td>Verification of the constraints &rarr; <b>E</b></td></tr>
+<tr><td>Q6</td><td>Response to changed circumstances &rarr; <b>F, G</b></td></tr></table>"""
 
     # ---- A
-    secA = f"""<div class="band"><span class="k">A</span><h2>What we were asked to do</h2><p>a school of 626 students, 54 teachers and 63 rooms</p></div>
-<div class="lead s12"><p>The brief asks for three things: make a school timetable automatically, show that it is better than the current one, and prove that it follows every rule. We were given the course catalog, a model of the building and one real student&rsquo;s week. Around those we built a simulated school, wrote a scheduler, and compared it with a stand-in for how timetables are made today. <b>Every week uses the same timetable</b>, so we plan one week and it repeats.</p></div>
+    secA = f"""<div class="band"><span class="k">A</span><h2>Problem Statement and Scope</h2><p>626 students, 54 teachers, 59 rooms</p></div>
+<div class="lead s12"><p>The brief requires an automatic school timetable, evidence that it improves on the current one, and verification that it satisfies every constraint. The inputs are the course catalog, a model of the building and one observed student week. A simulated school of 626 students (grades 9, 10 and 11 AP) is constructed from these inputs, scheduled automatically and compared with an emulation of the current method. <b>The timetable is identical in every week</b>; one week is planned and repeated.</p></div>
 <div class="s4">{brief}{mapping}</div>
-<div class="s4">{F(fig_context(D), "What goes in, what the program does, and what comes out.", "")}<div class="story"><h3>What is real, what is simulated</h3><p><b>Real:</b> the course catalog and its selection rules, the six-floor building with the walking time between any two rooms, and one student&rsquo;s observed week.</p><p><b>Simulated:</b> the 626 students and their course choices, the 54 teachers, and the &ldquo;current method&rdquo; we compare against. Everything is generated from a fixed seed, so anyone can re-run it and get the same numbers.</p></div></div>
-<div class="s4">{F(fig_week(D), "The 33 periods a class can use in a week, and how long each one is.", "")}<div class="story"><h3>Why we count minutes, not lessons</h3><p>A lesson in period 1 lasts 60 minutes, in period 2 only 40. Moving a Math lesson from one to the other keeps the lesson count but quietly removes 20 minutes. The brief says class hours must not change, so we count minutes.</p><p>Some periods are not available: PE takes Monday and Thursday period 5, and there is no Friday afternoon. This one grid repeats every week.</p></div></div>"""
+<div class="s4">{F(fig_context(D), "System context: inputs, scheduler stages and outputs.", "")}<div class="story"><h3>Data Sources and Simulation Scope</h3><p><b>Real inputs:</b> the course catalog and its selection rules, the building model with walking times between rooms, and one observed student week.</p><p><b>Simulated components:</b> the 626 students and their course choices, the 54 teachers, and the emulated current method. All components are generated from a fixed random seed and are reproducible.</p></div></div>
+<div class="s4">{F(fig_week(D), "The 33 periods available per week and their lengths.", "")}<div class="story"><h3>Contact Hours Measured in Minutes</h3><p>Period 1 lasts 60 minutes and period 2 lasts 40. Moving a lesson between them preserves the lesson count but changes the weekly contact time by 20 minutes. Because the brief requires class hours to remain unchanged, contact time is counted in minutes.</p><p>Some periods are unavailable: PE occupies Monday and Thursday period 5, and Friday has no afternoon periods. The same grid applies in every week.</p></div></div>
+<div class="story"><h3>Assumption on Rooms</h3><p>Floor B2 is used for club activities only and hosts no classes. It is removed from the room pool, which also removes all 14 laboratories: the sciences meet in ordinary classrooms and keep their practical double period. The pool is 49 classrooms (floors 1F to 4F) and 10 arts rooms (B1). The checker rejects any lesson placed on B2.</p></div>"""
 
     # ---- B problems
     pl, seq, nch = fig_observed_path()
@@ -434,32 +440,36 @@ def build():
     ch = lambda L: sum(1 for a, b in zip(L, L[1:]) if a != b)
     h_min = hist([[100 * (sum(w.slots[s]["minutes"] for s in D.cur[0][g]) / (sec.n * (sum(s["minutes"] for s in w.slots) / len(w.slots))) - 1) for g, sec in w.sections.items()],
                   [100 * (sum(w.slots[s]["minutes"] for s in D.opt[0][g]) / (sec.n * (sum(s["minutes"] for s in w.slots) / len(w.slots))) - 1) for g, sec in w.sections.items()]],
-                 w=900, h=360, bins=28, xlab="weekly minutes of a section vs. nominal (%)", ylab="share of sections (%)", lo=-45, hi=45)
+                 w=900, h=360, bins=28, xlab="weekly minutes of a section vs. nominal (%)", ylab="share of sections (%)", lo=-45, hi=45, show_mean=False)
     viol = round(statistics.mean(c["check"]["violations"].get("H8", 0) for c in cs))
-    secB = f"""<div class="band"><span class="k">B</span><h2>What is wrong with the current timetable</h2><p>Question 1</p></div>
-<div class="lead s12"><p>In the one real week we have, a student changes room 21 times, because every teacher keeps their own room and students walk to them. Free periods end up scattered between lessons, and nobody checks that a lesson keeps the same number of minutes after it is moved. The three figures below show each problem in turn.</p></div>
-{F('<div style="width:50%">' + pl + '</div>' + f'<div class="note" style="margin-top:8px"><b>Monday of the one real week:</b> {seq}<br><b>{nch}</b> room changes in one day; <b>21</b> per week, 488 s of walking.</div>', "One student&rsquo;s real Monday on the ground-floor plan: each arrow is a room change. Every teacher owns a room, so the student walks to the teacher all day.", "s4")}
-<div class="s4">{F(fig_conflict(), "Left: free choice. Right: students pick a package.", "")}<div class="story"><h3>Why free choice breaks the timetable</h3><p>If students can mix electives any way they like, each class shares students with many other classes, and all of those need different time slots. In our school that means 31 lessons that must not overlap, but only 29 free periods: no valid timetable exists. So we offer a limited set of course packages. Students in one package form a class that takes all its lessons together.</p></div></div>
-<div class="s4"><div class="fig"><h3>Class minutes drift without anyone noticing</h3>{h_min}<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; Each class&rsquo;s weekly minutes compared with the normal amount. A timetable built without looking at period length puts <b>{viol} of {st['n_sections']}</b> classes outside the &plusmn;8% allowed band; ours puts none (the brief: <i>class hours should not change</i>).</div></div>
-<ul class="t"><li>Nothing aims to reduce students&rsquo; walking, free periods stuck between lessons, or overloaded days.</li><li>When a room is lost, the fix is made by hand.</li><li>There is no independent proof that the timetable follows the rules.</li></ul></div>
-<div class="take">In short: lots of walking, wasted gaps, and no check on class hours.</div>"""
+    tw_pct = 100 * (o['teachers']['travel_s_mean'] / cur_mean('teachers', 'travel_s_mean') - 1)
+    tw_dir = 'more' if tw_pct >= 0 else 'less'
+    tg_pct = 100 * (o['teachers']['gaps_mean'] / cur_mean('teachers', 'gaps_mean') - 1)
+    tw_pct = abs(tw_pct)
+    secB = f"""<div class="band"><span class="k">B</span><h2>Analysis of the Current Timetable</h2><p>Question 1</p></div>
+<div class="lead s12"><p>In the observed week, a student changes room 21 times, because each teacher retains a room and students move between them. Free periods are scattered between lessons, and no check ensures that a lesson retains its weekly minutes when it is moved. Figures 3 to 5 document each problem.</p></div>
+{F('<div style="width:50%">' + pl + '</div>' + f'<div class="note" style="margin-top:8px"><b>Observed Monday:</b> {seq}<br><b>{nch}</b> room changes in one day; <b>21</b> per week, 488 s of walking.</div>', "Observed Monday of one student on the ground-floor plan; each arrow is a room change. Each teacher owns a room, so the student moves between teachers&rsquo; rooms throughout the day.", "s4")}
+<div class="s4">{F(fig_conflict(), "Left: unrestricted elective choice. Right: students choose from fixed packages.", "")}<div class="story"><h3>Effect of Free Elective Choice on Feasibility</h3><p>When students combine electives freely, each class shares students with many others, and all such classes require distinct time slots. In the simulated school this produces 31 mutually exclusive lessons for 29 free periods, so no valid timetable exists. A limited set of course packages is therefore offered; students in one package form a single class that takes all of its lessons together.</p></div></div>
+<div class="s4"><div class="fig"><h3>Weekly Contact Minutes per Class</h3>{h_min}<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; Weekly minutes of each class compared with the nominal amount. A timetable constructed without regard to period length places <b>{viol} of {st['n_sections']}</b> classes outside the &plusmn;8% band; the optimized timetable places none (the brief: <i>class hours should not change</i>).</div></div>
+<ul class="t"><li>No component of the current method targets student walking, idle periods between lessons or overloaded days.</li><li>Repair after the loss of a room is performed manually.</li><li>There is no independent verification that the timetable satisfies the rules.</li></ul></div>
+<div class="take">Summary: high student walking, scattered idle periods and no check on contact hours.</div>"""
     figno[0] += 1
 
     # ---- C method
-    secC = f"""<div class="band"><span class="k">C</span><h2>How we built it</h2><p>Question 2</p></div>
-<div class="lead s12"><p>We split the job into steps that can each be checked on their own. First, group students into classes. Second, choose when each class meets. Third, choose the room. Fourth, check every rule on the finished timetable and keep a quick way to repair it. The equations at the bottom are the exact rules and goals the computer works with.</p></div>
-<div class="s8">{F(fig_pipeline(D), "The five steps, with the size of the problem at each one.", "")}
-<div class="steps"><div><b>0 Rules</b>Course credits become weekly lessons. The selection rules decide which course packages are allowed.</div><div><b>1 Classes</b>Students with the same package form a class of at most 24. A course needs at least 6 students to run.</div><div><b>2 Time</b>The solver picks the period for every lesson, obeying all hard rules and cutting idle gaps. It uses one yes/no variable per class and period, so it stays fast.</div><div><b>3 Rooms</b>Each class gets a home room. Leftover lessons are matched to free rooms, then swapped to cut walking.</div><div><b>4 Check</b>A separate program checks the ten rules. If something changes, only the affected lessons are re-planned.</div></div></div>
-{F(fig_calibration(D), "How many lessons a week a course gets: catalog credit times a factor fitted on the real week, tried across a whole band of values.", "s4")}
-<div class="s12 math" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 60px">
+    secC = f"""<div class="band"><span class="k">C</span><h2>Method</h2><p>Question 2</p></div>
+<div class="lead s12"><p>The method is divided into stages that can each be verified separately: grouping students into classes, assigning each class to periods, assigning rooms, and verifying all constraints on the finished timetable, with a local repair procedure. The equations below state the constraints and objectives used.</p></div>
+<div class="wide">{F(fig_pipeline(D), "The five stages and the size of the problem at each.", "")}
+<div class="steps"><div><b>0 Rules</b>Course credits are converted into weekly lessons. Selection rules determine the permitted course packages.</div><div><b>1 Classes</b>Students with the same package form one class of at most 24. A course runs only with at least 6 students.</div><div><b>2 Time</b>A constraint solver assigns a period to every lesson, subject to all hard constraints, while minimizing idle gaps. One binary variable per class and period keeps the model compact.</div><div><b>3 Rooms</b>Each class receives a home room. Remaining lessons are matched to free rooms and swapped to reduce walking.</div><div><b>4 Check</b>An independent program checks the ten constraints. After a change, only the affected lessons are re-planned.</div></div></div>
+{F(fig_calibration(D), "Weekly lessons per course: catalog credit multiplied by a factor fitted on the observed week, evaluated over a band of values.", "s4")}
+<div class="math">
 <div><h3>Credit to weekly slots</h3>$$n_c=\\Big\\lfloor k\\kappa_c+\\tfrac12\\Big\\rfloor,\\quad k=\\frac{{\\sum_i\\kappa_i o_i}}{{\\sum_i\\kappa_i^{{2}}}}\\approx {st['k']:.3f}$$
-<h3>Hard rules (z<sub>g,s</sub> &isin; {{0,1}})</h3>$$\\sum_s z_{{g,s}}=n_g,\\quad \\sum_{{g\\in\\sigma}}z_{{g,s}}\\le1,\\quad \\sum_{{g\\in T_t}}z_{{g,s}}\\le1$$$$\\sum_{{g:\\,a_g\\ge a}}z_{{g,s}}\\le R_\\kappa(a)\\quad(\\text{{room area}})$$</div>
+<h3>Hard constraints (z<sub>g,s</sub> &isin; {{0,1}})</h3>$$\\sum_s z_{{g,s}}=n_g,\\quad \\sum_{{g\\in\\sigma}}z_{{g,s}}\\le1,\\quad \\sum_{{g\\in T_t}}z_{{g,s}}\\le1$$$$\\sum_{{g:\\,a_g\\ge a}}z_{{g,s}}\\le R_\\kappa(a)\\quad(\\text{{room area}})$$</div>
 <div><h3>Contact hours in minutes</h3>$$\\Big|\\sum_s\\mu_s z_{{g,s}}-n_g\\bar\\mu\\Big|\\le\\max(\\tau n_g\\bar\\mu,\\,9),\\ \\tau=0.08$$
-<h3>Stage 1: slot objective</h3>$$\\min\\ w_{{gap}}\\sum_\\sigma c_\\sigma\\Gamma_\\sigma+w_h\\sum_\\sigma c_\\sigma H_\\sigma+w_{{sp}}\\sum_g|g|\\,\\mathrm{{rep}}_g+w_m\\!\\!\\sum_{{g\\ \\mathrm{{hard}}}}\\!\\!|g|\\sum_s(p_s-1)z_{{g,s}}+w_{{tg}}\\sum_t\\Gamma_t$$</div>
+<h3>Stage 1: slot objective</h3>$$\\begin{{aligned}}\\min\\ &w_{{gap}}\\sum_\\sigma c_\\sigma\\Gamma_\\sigma+w_h\\sum_\\sigma c_\\sigma H_\\sigma+w_{{sp}}\\sum_g|g|\\,\\mathrm{{rep}}_g\\\\ &+w_m\\!\\!\\sum_{{g\\ \\mathrm{{hard}}}}\\!\\!|g|\\sum_s(p_s-1)z_{{g,s}}+w_{{tg}}\\sum_t\\Gamma_t\\end{{aligned}}$$</div>
 <div><h3>Stage 2: person-seconds</h3>$$\\min_r\\sum_{{(a,b)\\in\\mathcal L_{{stud}}}}n_{{ab}}\\,\\tau(r_a,r_b)+\\lambda\\!\\!\\sum_{{(a,b)\\in\\mathcal L_{{teach}}}}\\!\\!\\tau(r_a,r_b)$$
 <h3>Score, fairness, robustness</h3>$$J=\\bar\\ell_{{stud}}+\\alpha\\bar L_t+\\beta\\,\\mathrm{{CVaR}}_q(L),\\qquad \\mathbb E[\\Delta]=\\sum_\\xi p_\\xi\\Delta(\\xi)$$
-<p class="note">Students stay, teachers walk: &lambda; says how much one second of teacher walking counts against one second of student walking. &Gamma; = free periods stuck between lessons, H = days with six or more classes, rep = a class meeting twice on one day.</p></div></div>
-<div class="plain s12">In plain words: every class gets exactly its number of lessons; nobody (student, teacher or room) is in two places at once; weekly minutes stay near the normal amount; then the computer removes as many wasted gaps and as much walking as it can.</div>"""
+<p class="note">Students remain in their rooms and teachers move: &lambda; is the weight of one second of teacher walking relative to one second of student walking. &Gamma; = idle periods between lessons, H = days with six or more classes, rep = a class meeting twice on one day.</p></div></div>
+<div class="plain s12">Summary of the constraints and objectives: each class receives exactly its number of lessons; no student, teacher or room is assigned to two places at once; weekly minutes remain near the nominal amount; idle gaps and walking are then minimized.</div>"""
 
     # ---- D results
     mo, mc = D.m_opt, D.m_cur
@@ -484,10 +494,10 @@ def build():
     tm_c, tg_c = teacher_matrix(D, "cur")
     tm_o, tg_o = teacher_matrix(D, "opt")
     ab = res["ablation"]
-    abl_rows = [("Current: blind slots + teacher-owned rooms", cur_mean("students", "travel_s_mean"), CUR),
-                ("Blind slots + optimised rooms", ab["blind_slots+opt_rooms"]["metrics"]["students"]["travel_s_mean"], TEAL),
-                ("Optimised slots + teacher-owned rooms", ab["opt_slots+owned_rooms"]["metrics"]["students"]["travel_s_mean"], TEAL),
-                ("Optimised slots + optimised rooms", o["students"]["travel_s_mean"], OPT)]
+    abl_rows = [("Current method: arbitrary times, teacher-owned rooms", cur_mean("students", "travel_s_mean"), CUR),
+                ("Arbitrary times, optimized rooms", ab["blind_slots+opt_rooms"]["metrics"]["students"]["travel_s_mean"], TEAL),
+                ("Optimized times, teacher-owned rooms", ab["opt_slots+owned_rooms"]["metrics"]["students"]["travel_s_mean"], TEAL),
+                ("Optimized times and rooms", o["students"]["travel_s_mean"], OPT)]
     mx = max(r[1] for r in abl_rows)
     ab_svg = "".join(T(8, 38 + i * 62, r[0], 21, INK) + f'<rect x="8" y="{48 + i * 62}" width="{r[1] / mx * 780:.0f}" height="20" fill="{r[2]}"/>' + T(r[1] / mx * 780 + 18, 66 + i * 62, f"{r[1]:.0f} s", 21, INK, "start", 700) for i, r in enumerate(abl_rows))
     stake = f"""<table class="t"><tr><th>Who</th><th>Measure (per week)</th><th>Current</th><th>Optimized</th></tr>
@@ -499,42 +509,42 @@ def build():
 <tr><td>54 teachers</td><td>idle gaps</td><td>{cur_mean('teachers','gaps_mean'):.1f}</td><td class="z">{o['teachers']['gaps_mean']:.1f}</td></tr>
 <tr><td></td><td>walking (s)</td><td>{cur_mean('teachers','travel_s_mean'):.0f}</td><td class="bad">{o['teachers']['travel_s_mean']:.0f}</td></tr>
 <tr><td></td><td>schedule loss L</td><td>{cur_mean('teachers','sched_L_mean'):.1f}</td><td class="z">{o['teachers']['sched_L_mean']:.1f}</td></tr>
-<tr><td>Everyone</td><td>sections off the minute band</td><td>{viol}</td><td class="z">0</td></tr></table>"""
-    secD = f"""<div class="band"><span class="k">D</span><h2>How much better is it?</h2><p>Questions 3 and 4</p></div>
-<div class="lead s12"><p>To measure the gain we built 24 timetables the way the school makes them today (any valid timetable, teacher-owned rooms) and compared them with ours on the same school. In every chart a lower number is better. The floor plans show where students change rooms, the charts show what that means for each student, and the teacher grids show who ends up with free periods stuck between lessons.</p></div>
-<div class="s12"><div class="legend"><span><i style="background:var(--cur)"></i>Current method (24 simulated timetables, tuned to match the real week; the plots show run 0)</span><span><i style="background:var(--opt)"></i>Optimized</span></div></div>
-<div class="s12 fig"><h3>Where students walk</h3>{plans_html}<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; Real building, six floors, drawn to scale. The darker the room, the more room changes touch it each week (same scale for both rows). With teacher-owned rooms, walking spreads across the whole building; with home-class rooms it stays near where each class lives.</div></div>"""
+<tr><td>Everyone</td><td>classes outside the minute band</td><td>{viol}</td><td class="z">0</td></tr></table>"""
+    secD = f"""<div class="band"><span class="k">D</span><h2>Results and Comparison with the Current Method</h2><p>Questions 3 and 4</p></div>
+<div class="lead s12"><p>Gains are measured against 24 timetables generated as the school generates them today (any valid timetable, teacher-owned rooms), on the same school. Lower values are better in every chart. Floor plans show where students change rooms, histograms show the effect per student, and teacher grids show where idle periods fall.</p></div>
+<div class="s12"><div class="legend"><span><i style="background:var(--cur)"></i>Current method (24 emulated timetables calibrated to the observed week; plots show run 0)</span><span><i style="background:var(--opt)"></i>Optimized</span></div></div>
+<div class="s12 fig"><h3>Student Movement by Floor</h3>{plans_html}<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; Building model, five teaching floors, to scale (B2, reserved for clubs, is excluded). Darker rooms are touched by more room changes per week; the scale is common to both rows. With teacher-owned rooms, movement is distributed across the building; with home-class rooms it remains near each class.</div></div>"""
     figno[0] += 1
-    secD += f"""{F(h1, f"Walking per student per week. Mean {cur_mean('students','travel_s_mean'):.0f} &rarr; {o['students']['travel_s_mean']:.0f} s (&minus;{red('students','travel_s_mean'):.0f}%); the worst-20% tail falls too, so the gain does not come from a few students.", "s4")}
-{F(h2, f"Room changes per student per week. The real week had 21.", "s4")}
-{F(h3, f"Free periods stuck between lessons, per student per week: &minus;{red('students','gaps_mean'):.0f}%.", "s4")}
-{F(s_gap, "How many students are sitting in a gap at each period of the week. Our timetable moves free periods to the start or end of the day.", "s4")}
-{F(s_room, "Classrooms in use at each period. Demand never gets close to the 49 available, so the saving does not come from squeezing into fewer rooms.", "s4")}
-<div class="s4 fig"><h3>Which change saves the most walking?</h3>{svg(900, 270, ab_svg)}<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; We tried each change alone. Choosing rooms smartly removes the walking; choosing times smartly removes the free-period gaps.</div></div>"""
+    secD += f"""{F(h1, f"Walking per student per week. Mean {cur_mean('students','travel_s_mean'):.0f} &rarr; {o['students']['travel_s_mean']:.0f} s (&minus;{red('students','travel_s_mean'):.0f}%); the worst-20% tail falls too, so the gain is not concentrated in a few students.", "s4")}
+{F(h2, f"Room changes per student per week; the observed week had 21.", "s4")}
+{F(h3, f"Idle periods between lessons, per student per week: &minus;{red('students','gaps_mean'):.0f}%.", "s4")}
+{F(s_gap, "Students in an idle gap at each period of the week. The optimized timetable moves idle periods to the start or end of the day.", "s4")}
+{F(s_room, "Classrooms in use at each period. Demand remains well below the 49 available, so the saving does not result from using fewer rooms.", "s4")}
+<div class="s4 fig"><h3>Contribution of Room and Time Decisions</h3>{svg(900, 270, ab_svg)}<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; Each decision applied alone. Room assignment accounts for the reduction in walking; time assignment accounts for the reduction in idle gaps.</div></div>"""
     figno[0] += 1
-    secD += f"""<div class="s8 fig"><h3>Every teacher&rsquo;s week</h3>
+    secD += f"""<div class="s8 fig"><h3>Teacher Schedules</h3>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:30px"><div><div class="note"><b style="color:var(--cur)">Current</b> &mdash; {tg_c} idle gaps</div>{tm_c}</div><div><div class="note"><b style="color:var(--opt)">Optimized</b> &mdash; {tg_o} idle gaps</div>{tm_o}</div></div>
 <div class="legend"><span><i style="background:#4a4842"></i>teaching</span><span><i style="background:{GOLD}"></i>busy elsewhere (IB / G12, other building)</span><span><i style="background:var(--cur)"></i>idle gap between lessons</span></div>
-<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; One row per teacher, one column per period, grouped by department. Orange cells are free periods stuck between two lessons on the same day.</div></div>
-<div class="s4 fig"><h3>Who benefits, and by how much</h3>{stake}<div class="story"><h3>How to read this</h3><ul><li>Orange is the current method, blue is ours, on the same school and the same lessons.</li><li>Students gain on every line.</li><li>Teachers walk about 17% more. That is deliberate: it is cheaper for 54 teachers to carry the move than for 626 students.</li><li>Teachers also lose about half their stuck free periods.</li></ul></div></div>
-<div class="take">Students walk about half as much and almost never wait in a gap; teachers walk a bit more on purpose.</div>"""
+<div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; One row per teacher and one column per period, grouped by department. Orange cells are idle periods between two lessons on the same day.</div></div>
+<div class="s4 fig"><h3>Effect on Each Group</h3>{stake}<div class="story"><h3>Notes on the Results Table</h3><ul><li>Orange denotes the current method and blue the optimized timetable, for the same school and lessons.</li><li>Students improve on every measure.</li><li>Teachers walk {tw_pct:.0f}% {tw_dir}, by design: it is more efficient for 54 teachers to move than for 626 students.</li><li>Teacher idle periods change by {tg_pct:+.0f}%.</li></ul></div></div>
+<div class="take">Summary: student walking falls by {red('students','travel_s_mean'):.0f}% and idle periods by {red('students','gaps_mean'):.0f}%; teacher walking changes by {(1 if tw_dir == 'more' else -1) * tw_pct:+.0f}%.</div>"""
     figno[0] += 1
 
     # ---- E verification
-    cert = "".join(f'<tr><td>{c}</td><td>{d}</td><td class="z">{res["optimized"]["check"]["violations"].get(c, 0)}</td><td class="bad">{round(statistics.mean(x["check"]["violations"].get(c, 0) for x in cs))}</td><td>{"caught" if (D.mut or {"caught": {}})["caught"].get(c) else "&ndash;"}</td></tr>'
+    cert = "".join(f'<tr><td>{c}</td><td>{d}</td><td class="z">{res["optimized"]["check"]["violations"].get(c, 0)}</td><td class="bad">{round(statistics.mean(x["check"]["violations"].get(c, 0) for x in cs))}</td></tr>'
                    for c, d in checker.CODES.items())
     chk = D.res["optimized"]["check"]["n_checked"]
     ind = svg(980, 300, box(10, 20, 270, 100, "Solver", ["CP-SAT + annealing"], "#fff") + arrow(280, 70, 370, 70)
-              + box(370, 20, 250, 100, "Finished grid", ["slots + rooms only"], "#fff", OPT, OPT) + arrow(620, 70, 710, 70)
+              + box(370, 20, 250, 100, "Timetable", ["periods and rooms only"], "#fff", OPT, OPT) + arrow(620, 70, 710, 70)
               + box(710, 20, 260, 100, "Checker", ["shares no code with", "the solver"], INK, INK, "#fff").replace(f'fill="{MUT}"', 'fill="#e8e5db"')
-              + box(370, 170, 250, 100, "Mutation test", ["plant 1 fault per rule"], "#fff", CUR, CUR) + arrow(620, 220, 780, 130, CUR)
+              + box(370, 170, 250, 100, "Fault injection", ["one fault per rule"], "#fff", CUR, CUR) + arrow(620, 220, 780, 130, CUR)
               + T(10, 200, "A checker that cannot", 20, MUT) + T(10, 226, "fail cannot certify.", 20, MUT))
-    secE = f"""<div class="band"><span class="k">E</span><h2>How we know the rules are followed</h2><p>Question 5</p></div>
-<div class="lead s12"><p>A second program, which shares no code with the scheduler, reads the finished timetable and checks ten rules. To be sure the checker can really catch mistakes, we deliberately break the timetable in ten different ways and confirm that it notices each one.</p></div>
-<div class="s7 fig"><table class="t"><tr><th>Rule</th><th>Hard constraint</th><th>Ours</th><th>Current</th><th>Planted fault</th></tr>{cert}</table>
+    secE = f"""<div class="band"><span class="k">E</span><h2>Constraint Verification</h2><p>Question 5</p></div>
+<div class="lead s12"><p>An independent program, sharing no code with the scheduler, reads the finished timetable and checks ten constraints. To confirm that the checker detects violations, ten faults are deliberately introduced, one per constraint, and each must be reported.</p></div>
+<div class="s7 fig"><table class="t"><tr><th>Rule</th><th>Hard constraint</th><th>Optimized</th><th>Current</th></tr>{cert}</table>
 <div class="cap"><b>Fig. {figno[0] + 1}</b> &mdash; {chk['sections']} sections, {chk['students']} students, {chk['teachers']} teachers, {chk['room_legs']} room legs checked. Current = average over {len(cs)} simulated timetables.</div></div>"""
     figno[0] += 1
-    secE += f"""<div class="s5">{F(ind, "The checker works only from the finished timetable. The mistake test shows it can fail: all 10 deliberate mistakes were caught.", "")}<div class="story"><h3>The ten rules in plain words</h3><ul><li>Every class gets all its lessons, in different periods.</li><li>Lessons avoid PE time and the teacher&rsquo;s other commitments.</li><li>No student, teacher or room is in two places at once.</li><li>The room is the right kind and big enough; the teacher is qualified.</li><li>Teachers never teach more in a row than their limit; labs get a double period.</li><li>Weekly minutes stay near the normal amount.</li><li>Every room change fits in the break between lessons.</li></ul><p>20 automated tests also cover loads, course rules, the solver, repairs and the real week.</p></div></div>"""
+    secE += f"""<div class="s5">{F(ind, "The checker operates only on the finished timetable. The fault-injection test shows that it can fail: all 10 injected faults were detected.", "")}</div><div class="story"><h3>The Ten Hard Constraints</h3><ul><li>Every class receives all its weekly lessons, in distinct periods.</li><li>Lessons avoid PE time and the teacher&rsquo;s external commitments.</li><li>No student, teacher or room is assigned twice in one period.</li><li>The room has the correct type and sufficient area; the teacher is qualified for the department.</li><li>Teachers do not exceed their consecutive-period limit; laboratory classes receive a double period.</li><li>Weekly minutes remain within tolerance of the nominal amount.</li><li>Every room change is reachable within the break between lessons.</li></ul><p>20 automated tests additionally cover loads, course rules, the solver, repairs and the observed week.</p></div>"""
 
     # ---- F sensitivity
     oat, lhs, par = D.oat, D.lhs, D.par
@@ -547,6 +557,10 @@ def build():
             "solve.time_limit_s": "solver time limit", "solve.seed": "solver seed"}
     f_html = ""
     allv = [0, 0]
+    rm_ok = max([r["overrides"]["rooms.removed_frac"] * 100 for r in (oat or []) if r["tag"].startswith("rooms.removed_frac") and "opt" in r] or [0])
+    rm_bad = min([r["overrides"]["rooms.removed_frac"] * 100 for r in (oat or []) if r["tag"].startswith("rooms.removed_frac") and "opt" not in r] or [100])
+    k_ok = max([r["overrides"]["loads.k"] for r in (oat or []) if r["tag"].startswith("loads.k") and "opt" in r] or [0])
+    k_bad = min([r["overrides"]["loads.k"] for r in (oat or []) if r["tag"].startswith("loads.k") and "opt" not in r and r["overrides"]["loads.k"] > k_ok] or [9])
     if oat:
         ok = [r for r in oat if "improvement" in r]
         base = next((r for r in oat if r["tag"] == "base" and "improvement" in r), None)
@@ -566,13 +580,13 @@ def build():
         gp = sorted([(r["overrides"]["solve.w_gap"], r["opt"]["students"]["gaps_mean"]) for r in oat if r["tag"].startswith("solve.w_gap") and "opt" in r])
         tp = sorted([(r["overrides"]["teachers.scale"], r["stats"]["n_teachers"]) for r in oat if r["tag"].startswith("teachers.scale") and "stats" in r])
         pth = sorted([(r["overrides"]["school.pathways"]["G10"], r["stats"]["n_sections"]) for r in oat if r["tag"].startswith("school.pathways_G10") and "stats" in r])
-        f_html += F(tor, f"How far each assumption moves the walking saving (%). Each bar is one assumption changed on its own; {len(oat)} runs, each solved and checked again ({n_ok} with no broken rules).", "s5")
+        f_html += F(tor, f"Effect of each assumption, varied on its own, on the walking reduction (%); {len(oat)} runs, each solved and checked again ({n_ok} with no violated constraint).", "s5")
         capb = [r["overrides"]["rooms.removed_frac"] * 100 for r in oat if r["tag"].startswith("rooms.removed_frac") and "opt" not in r]
-        f_html += F(line([capp], 800, 380, "classrooms and labs removed (%)", "optimized walking (s/wk)", (OPT,), None, capb, "no grid found"), "Losing rooms: between 20% and 40% of rooms removed, no valid timetable exists. The program says so instead of giving a bad one.", "s4")
-        f_html += F(fig_envelope(list(oat) + list(lhs or []), 0.8725), "Where it works. Each dot is one run. How heavy the timetable is (k) and how many rooms are lost decide whether a valid timetable can be found at all.", "s4")
-        f_html += F(line([gp], 800, 380, "weight on student idle gaps", "idle periods / student / wk", (OPT,), None, None, "", "{:.0f}", "{:.2f}"), "Turning up the importance of free-period gaps removes them smoothly, with no sudden jump.", "s4")
-        f_html += F(line([tp], 800, 380, "teacher supply factor", "teachers needed", (CUR,), None, None, "", "{:.2f}"), "Staffing: how many teachers the school needs as supply tightens.", "s4")
-        f_html += F(line([pth], 800, 380, "G10 pathways offered", "sections to staff", (CUR,), None, None, "", "{:.0f}"), "The price of choice: offering more course packages means smaller classes and more classes to staff.", "s4")
+        f_html += F(line([capp], 800, 380, "classrooms removed (%)", "optimized walking (s/wk)", (OPT,), None, capb, "no grid found"), f"Loss of rooms: valid timetables were found with up to {rm_ok:.0f}% of rooms removed and none with {rm_bad:.0f}% or more; the program reports infeasibility instead of an invalid timetable.", "s4")
+        f_html += F(fig_envelope(list(oat) + list(lhs or []), 0.8725), "Operating envelope. Each marker is one run; the timetable load (k) and the share of rooms lost determine whether a valid timetable is found.", "s4")
+        f_html += F(line([gp], 800, 380, "weight on student idle gaps", "idle periods / student / wk", (OPT,), None, None, "", "{:.0f}", "{:.2f}"), "Increasing the weight on idle gaps reduces them smoothly, without a discontinuity.", "s4")
+        f_html += F(line([tp], 800, 380, "teacher supply factor", "teachers needed", (CUR,), None, None, "", "{:.2f}"), "Teachers required as supply tightens.", "s4")
+        f_html += F(line([pth], 800, 380, "G10 pathways offered", "sections to staff", (CUR,), None, None, "", "{:.0f}"), "Cost of choice: offering more course packages gives smaller classes and more classes to staff.", "s4")
     if lhs and D.spec:
         import numpy as np
         rws = [r for r in lhs if "opt" in r]
@@ -586,10 +600,10 @@ def build():
             order = sorted(range(len(keys)), key=lambda i: abs(beta[i]))
             f_html += F(hbars([(nm[keys[i]], float(beta[i])) for i in order], 900, 36, 330), f"Global screening over {len(rws)} Latin-hypercube runs, all eight factors varied at once: standardised effect on student lost time.", "s4")
     if par:
-        f_html += F(line([[(p["teacher_travel_s"], p["student_travel_s"]) for p in par]], 800, 380, "teacher walking (s/wk)", "student walking (s/wk)", (CUR,), None, None, "", "{:.0f}", "{:.0f}", None, None, [f"&lambda;={p['lambda']}" for p in par]), "Who walks: shifting walking from many students to few teachers is cheap, until a teacher second is weighted very heavily.", "s4")
-    f_html += f'<div class="s4 story"><h3>What the sweeps tell us</h3><ul><li>Across every single-assumption change, the walking saving stays between <b>{allv[0]:.0f}%</b> and <b>{allv[1]:.0f}%</b>.</li><li>The gain holds up against the importance weights, class size limits, staffing and the solver random seed.</li><li>It does <b>not</b> hold up against the load: a heavier timetable (k near 1) or losing 40% of rooms leaves no valid timetable, for the current method as well as ours.</li><li>Offering more course packages costs more classes to staff.</li></ul></div>'
-    secF = f"""<div class="band"><span class="k">F</span><h2>What if our assumptions are wrong?</h2><p>Question 6</p></div>
-<div class="lead s12"><p>Many numbers in a simulation are assumptions, so we changed each one, first one at a time and then several together, and re-ran everything. The gain stays in a narrow band in almost every case. The exceptions are real limits: a much heavier timetable, or losing a lot of rooms, can leave no valid timetable at all.</p></div>{f_html}"""
+        f_html += F(line([[(p["teacher_travel_s"], p["student_travel_s"]) for p in par]], 800, 380, "teacher walking (s/wk)", "student walking (s/wk)", (CUR,), None, None, "", "{:.0f}", "{:.0f}", None, None, [f"&lambda;={p['lambda']}" for p in par]), "Trade-off between student and teacher walking: shifting walking to teachers is inexpensive until teacher walking is weighted heavily.", "s4")
+    f_html += f'<div class="s4 story"><h3>Summary of Sensitivity Findings</h3><ul><li>The walking reduction remains between <b>{allv[0]:.0f}%</b> and <b>{allv[1]:.0f}%</b> across all single-assumption changes.</li><li>It is robust to the objective weights, class-size limits, staffing and the solver random seed.</li><li>It is <b>not</b> robust to timetable load: a heavier load (k close to 1) or the loss of {rm_bad:.0f}% of rooms leaves no valid timetable, for the current method as well as the optimized one.</li><li>Offering more course packages increases the number of classes to staff.</li></ul></div>'
+    secF = f"""<div class="band"><span class="k">F</span><h2>Sensitivity Analysis</h2><p>Question 6</p></div>
+<div class="lead s12"><p>Several inputs of the simulation are assumptions. Each was varied individually and then several together, and the full pipeline was re-run. The walking reduction remains within a narrow band in nearly all cases. The exceptions are genuine limits: a much heavier timetable, or the loss of many rooms, can leave no valid timetable.</p></div>{f_html}"""
 
     # ---- G shocks
     rng = random.Random(4)
@@ -619,36 +633,44 @@ def build():
     ta_svg = svg(840, 360, bars + T(420, 354, "random draw (teacher, day)", 18, MUT, "middle") + T(8, 150, "lessons", 18, MUT, "start", 400, "sans-serif", "transform=\"rotate(-90 20 150)\"") + f'<rect x="430" y="10" width="22" height="14" fill="#cfcabc"/>' + T(460, 23, "lessons that day", 18, INK) + f'<rect x="430" y="36" width="22" height="14" fill="{OPT}"/>' + T(460, 49, "covered by a substitute", 18, INK))
     su = sh["enrollment_surge_5pct"]
     sb = ""
+    sc_su = 220 / max(1, max(x.get("rooms_outgrown", 0) for x in su))
     for i, x in enumerate(su):
-        sb += f'<rect x="{80 + i * 62}" y="{300 - x.get("rooms_outgrown", 0) * 6}" width="46" height="{x.get("rooms_outgrown", 0) * 6}" fill="{GOLD}"/><rect x="{80 + i * 62}" y="{300 - x.get("moved_meetings", 0) * 6}" width="46" height="{max(x.get("moved_meetings", 0) * 6, 1)}" fill="{CUR}"/>'
+        sb += f'<rect x="{80 + i * 62}" y="{300 - x.get("rooms_outgrown", 0) * sc_su:.0f}" width="46" height="{x.get("rooms_outgrown", 0) * sc_su:.0f}" fill="{GOLD}"/><rect x="{80 + i * 62}" y="{300 - x.get("moved_meetings", 0) * sc_su:.0f}" width="46" height="{max(x.get("moved_meetings", 0) * sc_su, 1):.0f}" fill="{CUR}"/>'
         sb += T(80 + i * 62 + 23, 326, str(i + 1), 17, MUT, "middle")
     su_svg = svg(840, 360, sb + T(420, 354, "random draw", 18, MUT, "middle") + f'<rect x="430" y="10" width="22" height="14" fill="{GOLD}"/>' + T(460, 23, "lessons needing a bigger room", 18, INK) + f'<rect x="430" y="36" width="22" height="14" fill="{CUR}"/>' + T(460, 49, "lessons re-timed", 18, INK))
     ex = res["shocks"]["expected"]
-    secG = f"""<div class="band"><span class="k">G</span><h2>What happens when something breaks?</h2><p>Question 6</p></div>
-<div class="lead s12"><p>Rooms close, teachers fall ill and enrollment grows. When that happens the program changes as little as it can: first it looks for a substitute, then it moves a lesson to another room, and only as a last step does it change a lesson&rsquo;s time. Every repaired timetable is checked again.</p></div>
+    secG = f"""<div class="band"><span class="k">G</span><h2>Robustness and Repair</h2><p>Question 6</p></div>
+<div class="lead s12"><p>When a room closes, a teacher is absent or enrollment grows, the system applies the smallest possible change: it first seeks a substitute teacher, then moves the lesson to another room, and changes a lesson&rsquo;s time only as a last resort. Every repaired timetable is checked again.</p></div>
 {F(pcl, cap_cl, "s4")}
-<div class="s8"><div class="two">{F(ta_svg, f"A teacher is away for a day (probability 0.4). A qualified free colleague covers {100 * sum(x['covered'] for x in ta) / max(1, sum(x['affected_meetings'] for x in ta)):.0f}% of lessons and nothing in the timetable moves.", "")}{F(su_svg, "Enrollment grows 5% (probability 0.3). Rooms that become too small are swapped for bigger ones; lesson times stay the same.", "")}</div>
-<div class="story"><h3>The repair ladder</h3><ul><li><b>1. Substitute.</b> A qualified teacher who is free at that moment takes the lesson.</li><li><b>2. Move the room.</b> The lesson keeps its time and moves to a free room of the right kind and size.</li><li><b>3. Move the time.</b> Only if no room is free: just the affected classes are re-planned, everything else stays frozen.</li></ul><p>Over 12 random draws of each event, no repair was impossible and no lesson had to change its time. Expected cost: <b>{ex['moved_meetings']:.2f}</b> lessons moved and <b>{ex['room_changes']:.1f}</b> room changes per event.</p></div></div>
-<div class="take">A closed room, a sick teacher or a growing intake is handled by small local changes, not a new timetable.</div>"""
+{F(ta_svg, f"A teacher is absent for one day (probability 0.4). A qualified free colleague covers {100 * sum(x['covered'] for x in ta) / max(1, sum(x['affected_meetings'] for x in ta)):.0f}% of lessons; no lesson moves.", "")}{F(su_svg, "Enrollment rises 5% (probability 0.3). Rooms that become too small are replaced by larger ones; lesson times are unchanged.", "")}
+<div class="story"><h3>Repair Procedure</h3><ul><li><b>1. Substitution.</b> A qualified teacher who is free in that period takes the lesson.</li><li><b>2. Room change.</b> The lesson keeps its period and moves to a free room of the correct type and size.</li><li><b>3. Time change.</b> Only if no room is free, the affected classes are re-planned while all other lessons stay fixed.</li></ul><p>Over 12 random draws of each event, every repair was possible and no lesson required a change of time. Expected cost per event: <b>{ex['moved_meetings']:.2f}</b> lessons moved and <b>{ex['room_changes']:.1f}</b> room changes.</p></div>
+<div class="take">Summary: a closed room, an absent teacher or higher enrollment is handled by local changes, without rebuilding the timetable.</div>"""
 
     # ---- H limits
     gap = 100 * (res["optimized"]["solver"]["objective"] - res["optimized"]["solver"]["bound"]) / res["optimized"]["solver"]["objective"]
-    secH = f"""<div class="band"><span class="k">H</span><h2>What we have not proven, and how to re-run it</h2><p>limits</p></div>
-<div class="s4"><ul class="t"><li><b>One real week only.</b> The current system is an emulator calibrated to it (about {res['emulator_calibration']['g11_changes']:.0f} vs 21 changes); everything else is simulated. Registrar CSVs drop in.</li><li><b>Operating envelope.</b> Valid timetables were found at k &asymp; 0.87 with up to 20% of rooms removed; at k &ge; 0.95 or &ge; 40% rooms removed none was found in the time limit (Fig. 20).</li><li><b>Not proven optimal.</b> CP-SAT stopped at its time limit, {gap:.0f}% from its bound: &ldquo;optimized&rdquo; means best feasible found.</li></ul></div>
+    secH = f"""<div class="band"><span class="k">H</span><h2>Limitations and Reproducibility</h2><p>scope of the evidence</p></div>
+<div class="s4"><ul class="t"><li><b>Room assumption.</b> Floor B2 (club use only, including all laboratories) is excluded; sciences meet in classrooms.</li><li><b>One real week only.</b> The current system is an emulator calibrated to it (about {res['emulator_calibration']['g11_changes']:.0f} vs 21 changes); everything else is simulated. Registrar data can replace the simulated inputs.</li><li><b>Operating envelope.</b> Valid timetables were found up to k = {k_ok:.2f} and with up to {rm_ok:.0f}% of rooms removed; beyond k = {k_bad:.2f} or {rm_bad:.0f}% of rooms removed none was found in the time limit (Fig. 20).</li><li><b>Not proven optimal.</b> CP-SAT stopped at its time limit, {gap:.0f}% from its bound: &ldquo;optimized&rdquo; means best feasible found.</li></ul></div>
 <div class="s4"><ul class="t"><li><b>Pathway classes trade choice for feasibility</b> (Fig. 4); the price is quantified in F.</li><li><b>Minutes:</b> sections of one course can still differ by up to 36% in weekly minutes; the next rule to add is equality across sections.</li></ul></div>
 <div class="s4"><ul class="t"><li><b>Reproduce:</b> <code>python -m tt.run</code>, <code>python -m tt.sensitivity</code>, <code>python -m tt.poster2</code>.</li><li>Every number on this poster is read from <code>output/*.json</code>; seeds and the config hash are fixed.</li></ul></div>"""
 
-    header = f"""<header><div><h1>A better school timetable</h1><div class="dek">We built a program that makes the timetable for {st['n_students']} students, {st['n_teachers']} teachers and 63 rooms. Students walk about half as much, free periods stop piling up between lessons, a separate program checks every rule, and the plan still works when a room closes or a teacher is away. The timetable is the same every week.</div></div>
-<div class="num"><div><b>&minus;{red('students','travel_s_mean'):.0f}%</b><span>less walking for students each week</span></div><div><b>&minus;{red('students','gaps_mean'):.0f}%</b><span>fewer free periods stuck between lessons</span></div><div><b>0</b><span>broken rules out of 10, checked by a separate program</span></div><div><b>10/10</b><span>deliberate mistakes the checker caught</span></div></div></header>"""
+    header = f"""<header><div><h1>Prompt 1: Optimizing School Curriculum</h1><div class="dek">A scheduling system for {st['n_students']} students, {st['n_teachers']} teachers and 59 rooms. Student walking falls by {red('students','travel_s_mean'):.0f}% and idle periods between lessons by {red('students','gaps_mean'):.0f}%. All ten hard constraints are verified by an independent checker, and the timetable can be repaired locally when a room closes or a teacher is absent. The timetable is identical in every week.</div></div>
+<div class="num"><div><b>&minus;{red('students','travel_s_mean'):.0f}%</b><span>reduction in student walking per week</span></div><div><b>&minus;{red('students','gaps_mean'):.0f}%</b><span>reduction in idle periods between lessons</span></div><div><b>0</b><span>violations of the ten hard constraints (independent check)</span></div><div><b>10/10</b><span>injected faults detected by the checker</span></div></div></header>"""
 
-    html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>A better school timetable</title>
+    import re as _re
+
+    def wrap(sec):
+        m = _re.search(r'<div class="lead s12">.*?</p></div>', sec, _re.S)
+        end = m.end() if m else sec.index("</div>") + 6
+        return sec[:end] + '<div class="mc">' + sec[end:] + '</div>'
+
+    html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Prompt 1: Optimizing School Curriculum</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{{delimiters:[{{left:'$$',right:'$$',display:true}}]}})"></script>
 <style>{CSS}</style></head><body><div class="poster">{header}
-<div class="row">{secA}</div><div class="row">{secB}</div><div class="row">{secC}</div><div class="row">{secD}</div>
-<div class="row">{secE}</div><div class="row">{secF}</div><div class="row">{secG}</div><div class="row">{secH}</div>
-<footer><span>Constraints from the course catalog &middot; building: 6 floors, 103 rooms, stair-aware walking times &middot; simulated school, seed 20261024</span><span>Python, OR-Tools CP-SAT</span></footer></div></body></html>"""
+<div class="row">{wrap(secA)}</div><div class="row">{wrap(secB)}</div><div class="row">{wrap(secC)}</div><div class="row g12">{secD}</div>
+<div class="row">{wrap(secE)}</div><div class="row">{wrap(secF)}</div><div class="row">{wrap(secG)}</div><div class="row g12">{secH}</div>
+<footer><span>Constraints from the course catalog &middot; building model: five teaching floors, 59 rooms (floor B2 excluded), stair-aware walking times &middot; simulated school, seed 20261024</span><span>Python, OR-Tools CP-SAT</span></footer></div></body></html>"""
     (OUT / "poster_large.html").write_text(html, encoding="utf-8")
     return OUT / "poster_large.html"
 

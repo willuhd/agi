@@ -44,6 +44,7 @@ external_busy_prob = 0.3   # share of teachers also serving IB/G12 (XMT) on a fi
 external_busy_slots = 6
 
 [rooms]
+excluded_floors = ["B2"]   # B2 hosts club activities only: no class may be scheduled there (this removes every laboratory)
 area_per_student = 1.2     # m2 per student, capacity from schoolmap area_m2
 removed_frac = 0.0         # fraction of classrooms/labs removed (capacity sensitivity)
 

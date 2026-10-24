@@ -27,7 +27,7 @@ def esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;")
 
 
-FS = 1.16   # global text scale for poster legibility
+FS = 1.3   # global text scale for poster legibility
 
 
 def T(x, y, s, size=20, fill=INK, anchor="start", weight=400, family=SANS, extra=""):
@@ -52,7 +52,7 @@ def ramp(t, hi):
 
 
 # ------------------------------------------------------------------------------ floor plans --
-FLOORS = ["B2", "B1", "1F", "2F", "3F", "4F"]
+FLOORS = ["B1", "1F", "2F", "3F", "4F"]   # B2 is club-only and excluded
 
 
 def plan(floor_id, heat=None, hi=CUR, w=300, closed=(), mark=(), arrows=(), label_min=0.0, show_ids=True,
@@ -127,7 +127,7 @@ def axis_y(L, T_, R, B, lo, hi, n=4, fmt="{:.0f}", w=1000):
 
 
 def hist(series, w=700, h=330, bins=24, xlab="", lo=None, hi=None, colors=(CUR, OPT), names=("Current", "Optimized"),
-         ylab="share of students (%)", density=True, annotate_mean=True):
+         ylab="share of students (%)", density=True, annotate_mean=True, show_mean=True):
     allv = [v for s in series for v in s]
     lo = min(allv) if lo is None else lo
     hi = max(allv) if hi is None else hi
@@ -159,10 +159,10 @@ def hist(series, w=700, h=330, bins=24, xlab="", lo=None, hi=None, colors=(CUR, 
         b += T(sx(v), B + 24, f"{v:.0f}" if hi > 20 else f"{v:.1f}", 17, MUT, "middle")
     b += T((L + R) / 2, h - 10, xlab, 18, MUT, "middle")
     b += T(16, (T_ + B) / 2, ylab, 17, MUT, "middle", 400, SANS, f'transform="rotate(-90 16 {(T_ + B) / 2})"')
-    lx = R - 200
+    lx = R - 330
     for i, (col, nm, s) in enumerate(zip(colors, names, series)):
         b += f'<rect x="{lx}" y="{T_ + 4 + i * 26}" width="18" height="14" fill="{col}" fill-opacity=".5" stroke="{col}"/>'
-        b += T(lx + 26, T_ + 17 + i * 26, f"{nm}  (mean {sum(s) / len(s):.0f})" if hi > 20 else f"{nm}  (mean {sum(s) / len(s):.1f})", 17, INK)
+        b += T(lx + 26, T_ + 17 + i * 26, (nm if not show_mean else (f"{nm}  (mean {sum(s) / len(s):.0f})" if hi > 20 else f"{nm}  (mean {sum(s) / len(s):.1f})")), 17, INK)
     return svg(w, h, b)
 
 

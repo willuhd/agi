@@ -111,8 +111,8 @@ def oat_jobs():
 def lhs_jobs(n=24, seed=7):
     rng = random.Random(seed)
     spec = {   # (low, high, integer?)
-        "solve.w_gap": (0.5, 10, False), "solve.w_teacher_leg": (0, 4, False), "loads.k": (0.83, 1.0, False),
-        "school.section_cap": (20, 28, True), "rooms.removed_frac": (0.0, 0.5, False),
+        "solve.w_gap": (0.5, 10, False), "solve.w_teacher_leg": (0, 4, False), "loads.k": (0.83, 0.93, False),
+        "school.section_cap": (20, 28, True), "rooms.removed_frac": (0.0, 0.3, False),
         "teachers.scale": (0.8, 1.25, False), "teachers.external_busy_prob": (0.0, 0.6, False),
         "school.min_free_periods": (1, 4, True),
     }

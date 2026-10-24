@@ -22,12 +22,12 @@ CUR = {
             ("eng9", "English 9", "Survey Western Lit I S", 6.0, "classroom", "english"),
             ("math9", "Math 9 (Geometry)", "Geometry S", 6.0, "classroom", "math"),
             ("chi9", "Chinese 9", "Chinese Level I Lang+Cult", 3.0, "classroom", "language"),
-            ("phy9", "Physics 9", "Physics 9 S", 3.0, "lab", "physics"),
-            ("che9", "Chemistry 9", "Chemistry 9 S", 3.0, "lab", "chemistry"),
+            ("phy9", "Physics 9", "Physics 9 S", 3.0, "classroom", "physics"),
+            ("che9", "Chemistry 9", "Chemistry 9 S", 3.0, "classroom", "chemistry"),
             ("his9", "World History 9", "World Hist to 1500 S", 4.0, "classroom", "humanities"),
         ],
         "M2": [  # choose 1
-            ("bio9", "Biology 9", "Biology 9 S", 4.0, "lab", "biology"),
+            ("bio9", "Biology 9", "Biology 9 S", 4.0, "classroom", "biology"),
             ("cmp9", "Computing Essentials", "Computing Essentials S", 4.0, "classroom", "cs"),
             ("prg9", "Programming Methodology", "Programming Methodology H", 4.0, "classroom", "cs"),
             ("geo9", "Physical Geography", "Physical Geography S", 4.0, "classroom", "humanities"),
@@ -46,9 +46,9 @@ CUR = {
             ("gm10", "Global Mindset", None, 1.0, "classroom", "humanities"),
         ],
         "M1": [  # choose 2 of 3 (combo)
-            ("phy10", "Physics 10", "Physics 10 S", 3.0, "lab", "physics"),
-            ("che10", "Chemistry 10", "Chemistry 10 S", 3.0, "lab", "chemistry"),
-            ("bio10", "Biology 10", "Biology 10 S", 3.0, "lab", "biology"),
+            ("phy10", "Physics 10", "Physics 10 S", 3.0, "classroom", "physics"),
+            ("che10", "Chemistry 10", "Chemistry 10 S", 3.0, "classroom", "chemistry"),
+            ("bio10", "Biology 10", "Biology 10 S", 3.0, "classroom", "biology"),
         ],
         "M2": [
             ("va10", "Visual Arts", "Visual Arts Standard", 3.0, "arts", "arts"),
@@ -66,9 +66,9 @@ CUR = {
             ("chi11", "Chinese 11", "Chinese Level I Lang+Cult", 3.0, "classroom", "language"),
         ],
         "M1": [
-            ("ap_phy", "AP Physics 1", "AP Physics 1", 6.0, "lab", "physics"),
-            ("ap_che", "AP Chemistry", "AP Chemistry", 6.0, "lab", "chemistry"),
-            ("ap_bio", "AP Biology", "AP Biology", 6.0, "lab", "biology"),
+            ("ap_phy", "AP Physics 1", "AP Physics 1", 6.0, "classroom", "physics"),
+            ("ap_che", "AP Chemistry", "AP Chemistry", 6.0, "classroom", "chemistry"),
+            ("ap_bio", "AP Biology", "AP Biology", 6.0, "classroom", "biology"),
         ],
         "M2": [
             ("ap_psy", "AP Psychology", "AP Psychology", 6.0, "classroom", "econ"),
@@ -91,6 +91,9 @@ CUR = {
     },
 }
 GRADE_SIZE_KEY = {"G9": "G9", "G10": "G10", "G11AP": "G11AP"}
+# Practical subjects: every laboratory is on floor B2 (club use only, excluded), so these courses meet in
+# ordinary classrooms and keep the practical double period.
+PRACTICAL = {"phy9", "che9", "bio9", "phy10", "che10", "bio10", "ap_phy", "ap_che", "ap_bio"}
 OFFICE = {"G9": "406", "G10": "210", "G11AP": "110"}   # homeroom offices (teachers.toml pins)
 
 
@@ -105,6 +108,7 @@ class Course:
     grade: str
     credit_src: str
     hard: bool = False
+    practical: bool = False
 
 
 @dataclass
@@ -165,11 +169,11 @@ class World:
         return out
 
 
-def load_rooms_and_travel():
+def load_rooms_and_travel(excluded_floors=()):
     rooms = {}
     with open(ROOT / "data/building/rooms.csv", encoding="utf-8") as f:
         for r in csv.DictReader(f):
-            if r["kind"] in ("classroom", "lab", "arts"):
+            if r["kind"] in ("classroom", "lab", "arts") and r["floor"] not in excluded_floors:
                 rooms[r["id"]] = Room(r["id"], r["kind"], r["floor"], float(r["area_m2"]))
     with open(ROOT / "data/building/travel_time_s.csv", encoding="utf-8") as f:
         rows = list(csv.reader(f))
@@ -194,7 +198,7 @@ def build_courses(cfg: dict) -> dict:
                 src = "catalog" if credit is not None else "fallback(catalog form / courses.toml)"
                 credit = credit if credit is not None else fb
                 n = catalog.credits_to_slots(credit, cfg)
-                out[key] = Course(key, label, credit, n, kind, dept, g, src, hard=credit >= 5.0)
+                out[key] = Course(key, label, credit, n, kind, dept, g, src, hard=credit >= 5.0, practical=key in PRACTICAL)
     return out
 
 
@@ -336,7 +340,7 @@ def build_sections(cfg, courses, students, rng):
                 hr[students[s]["homeroom"]] += 1
             sec = Section(f"{ck}#{i}", ck, crs.grade, ch, crs.slots, crs.kind, crs.dept,
                           homerooms=dict(hr), hard=crs.hard,
-                          double=(crs.kind == "lab" and crs.slots >= 3 and cfg["solve"]["lab_doubles"]))
+                          double=(crs.practical and crs.slots >= 3 and cfg["solve"]["lab_doubles"]))
             sections[sec.id] = sec
     return sections, floor_dropped
 
@@ -417,7 +421,7 @@ def build(cfg: dict) -> World:
         lost += len(st["courses"]) - len(keep)
         st["courses"] = keep
     teachers, tload = build_teachers(cfg, sections, slots, rng)
-    rooms, travel = load_rooms_and_travel()
+    rooms, travel = load_rooms_and_travel(tuple(cfg["rooms"]["excluded_floors"]))
     rf = cfg["rooms"]["removed_frac"]
     if rf > 0:
         rr = random.Random(7)

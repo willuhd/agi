@@ -1,4 +1,4 @@
-The "schoo" has to produce a timetable that takes care of teachers, students, 
+The school has to produce a timetable that takes care of teachers, students, 
 classrooms and courses all at once. This timetable affects the daily study and work of teachers and 
 students, so having a high-quality timetable is important.  
 We want you to consider the constraints in the school’s timetable and optimize the timetable. By 

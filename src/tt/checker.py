@@ -14,7 +14,7 @@ CODES = {
     "H2": "slot exists, is not a fixed block for the grade, not teacher-external-busy",
     "H3": "no student in two places at once",
     "H4": "no teacher double-booked; teacher qualified for the department",
-    "H5": "room exists, right kind, big enough, not double-booked",
+    "H5": "room exists (not on excluded floor B2), right kind, big enough, not double-booked",
     "H6": "teacher consecutive-period cap",
     "H7": "lab sections have a double period",
     "H8": "weekly minutes within tolerance of nominal (contact-hours invariant)",

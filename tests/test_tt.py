@@ -111,6 +111,15 @@ def test_teachers_qualified_and_capped():
     assert max(load.values()) <= w.cfg["teachers"]["max_load"]
 
 
+def test_floor_b2_hosts_no_classes():
+    """Assumption: B2 is for club activities only, so it is removed from the room pool entirely."""
+    w = world.build(config.load())
+    assert all(r.floor != "B2" for r in w.rooms.values())
+    assert not any(r.kind == "lab" for r in w.rooms.values())
+    assert all(c.kind != "lab" for c in w.courses.values())
+    assert any(s.double for s in w.sections.values())      # practical double periods are kept
+
+
 # ---------------------------------------------------------------- solver + checker --------
 def test_optimized_grid_has_zero_violations(small):
     w, so, rm = small
@@ -121,6 +130,7 @@ def test_optimized_grid_has_zero_violations(small):
 def test_mutation_suite_catches_every_planted_fault(small):
     w, so, rm = small
     res = mutations.run_suite(w, so, rm)
+    assert all(not rid.startswith("B2") for rid in rm.values())
     assert res["baseline_ok"]
     assert all(res["caught"].values()), res["caught"]
 
