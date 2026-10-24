@@ -27,8 +27,12 @@ def esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;")
 
 
+FS = 1.16   # global text scale for poster legibility
+
+
 def T(x, y, s, size=20, fill=INK, anchor="start", weight=400, family=SANS, extra=""):
-    return (f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size}" fill="{fill}" text-anchor="{anchor}" '
+    size = size * FS
+    return (f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size:.1f}" fill="{fill}" text-anchor="{anchor}" '
             f'font-weight="{weight}" font-family="{family}" {extra}>{s}</text>')
 
 
