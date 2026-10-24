@@ -1,0 +1,26 @@
+The following is a teacher's hackathon activity based on a hypothetical high school scenario.
+
+The "school" has to produce a timetable that takes care of teachers, students, 
+classrooms and courses all at once. This timetable affects the daily study and work of teachers and 
+students, so having a high-quality timetable is important.  
+We want you to consider the constraints in the school’s timetable and optimize the timetable. By 
+this, you should design a system and be able to explain why it is better than what we currently have. 
+An example of a constraint is class hours: you may change Math class with English class, but the 
+hours spent on math class in a semester should not change. The result should be a system that 
+automatically schedules timetables. 
+There is no standard answer. How the current system works, which constraints must be satisfied, 
+which aspects are worth improving: all of these are for you to research, judge and trade off, and you 
+should explain your reasoning in your submission. During the presentation, the judges will ask why 
+you made these decisions. 
+2. Evaluating Your Results 
+This problem cares more about which aspects you think can be improved and how you improve 
+them. Your submission should answer: 
+• What problems in the current timetable system did you identify? 
+• Which aspects did you choose to optimize (for example, minimizing student movement 
+between classrooms)? How did you optimize them? 
+• Who do these aspects affect, and how much? Why do they really matter? 
+• Compared with the current timetable, how much does your solution improve things? How 
+do you measure it? 
+• How do you confirm that your timetable satisfies every constraint it must satisfy? 
+• Can your system still cope when circumstances change? 
+How to present your results most convincingly is also up to you.  

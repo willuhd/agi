@@ -1,0 +1,72 @@
+# Full-school timetable pipeline (src/tt). Every number here is a knob; sensitivity.py sweeps them.
+# Dotted override example: {"loads.k": 0.9, "solve.w_gap": 2}
+
+[loads]
+# credits -> weekly slots. k "auto" = least-squares fit on [calibration] pairs.
+k = "auto"
+k_band = [0.83, 1.0]       # sensitivity band (observed ratios span 0.83-1.0)
+rounding = "half_up"
+min_slots = 1
+
+[calibration]
+# (gpa/catalog credit, observed weekly slots) from apschedule.png; Macro excluded (catalog conflict, unresolved)
+pairs = [[6.0, 5.0], [6.0, 5.0], [6.0, 5.0], [6.0, 6.0], [3.0, 2.5]]
+names = ["AP Calc BC", "AP Chem", "AP Phys 1", "AP English Lang", "Chinese"]
+
+[school]
+seed = 20261024
+G9 = 250
+G10 = 250
+G11AP = 126
+homerooms = { G9 = 12, G10 = 11, G11AP = 6 }
+section_cap = 24           # planning cap (catalog states none)
+section_floor = 6          # catalog: runs only if >5 apply
+band_size = { G9 = 4, G10 = 4, G11AP = 3 }   # homerooms per elective band (timetable-aware sectioning)
+min_free_periods = 2       # study-hall policy: no student is scheduled solid (grid capacity minus this)
+pathways = { G10 = 11, G11AP = 10 }      # offered bundles per grade (class = identical choices)
+pathway_skew = { G10 = 0.0, G11AP = 0.4 }  # Zipf exponent of popularity
+
+[slots]
+pe_blocked = [["Mon", 5], ["Thu", 5]]          # PE fixed block, all grades
+ap_blocked = [["Thu", 6], ["Thu", 7]]          # AP optional block (weekly), G11AP only
+off = [["Fri", 6], ["Fri", 7]]
+gap_seconds = 600                              # between-period gap (10 min)
+lunch_after = 4
+
+[teachers]
+target_load = 20
+max_load = 28
+scale = 1.0                # <1 = fewer teachers (staff-shortage sensitivity)
+second_dept_prob = 0.25
+max_consecutive = { morning = 3, balanced = 4, constrained = 2 }
+archetype_share = { morning = 0.3, balanced = 0.5, constrained = 0.2 }
+external_busy_prob = 0.3   # share of teachers also serving IB/G12 (XMT) on a fixed external timetable
+external_busy_slots = 6
+
+[rooms]
+area_per_student = 1.2     # m2 per student, capacity from schoolmap area_m2
+removed_frac = 0.0         # fraction of classrooms/labs removed (capacity sensitivity)
+
+[solve]
+time_limit_s = 90
+workers = 8
+seed = 1
+minutes_floor = 9.0        # min absolute half-band (minutes) so 1-2 slot courses stay schedulable
+minutes_tol = 0.08         # weekly minutes of every section within +-tol of nominal (the "hours unchanged" invariant)
+lab_doubles = true
+w_gap = 3.0                # student idle gaps (per student per gap)
+w_heavy = 1.0              # 6+ classes in a day
+w_spread = 2.0             # same section twice a day (non-lab)
+w_morning = 0.15           # hard (credit>=5) subjects late in day
+w_tgap = 1.5               # teacher idle gaps
+w_teacher_leg = 1.0        # a teacher's walking second counts this much vs a student's (person-seconds)
+room_polish_iters = 40000
+
+[emulator]
+p_stay = "auto"            # probability the hand-scheduler keeps the previous room; calibrated to 21 changes/week
+target_changes = 21.0
+
+[objective]
+alpha = 1.0
+beta = 0.5
+cvar_q = 0.8

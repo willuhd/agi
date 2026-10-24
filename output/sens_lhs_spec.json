@@ -1,0 +1,1 @@
+{"solve.w_gap": [0.5, 10, false], "solve.w_teacher_leg": [0, 4, false], "loads.k": [0.83, 1.0, false], "school.section_cap": [20, 28, true], "rooms.removed_frac": [0.0, 0.5, false], "teachers.scale": [0.8, 1.25, false], "teachers.external_busy_prob": [0.0, 0.6, false], "school.min_free_periods": [1, 4, true]}

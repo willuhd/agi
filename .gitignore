@@ -21,3 +21,6 @@ Temporary Items
 # project specific
 output/
 __pycache__/
+.venv/
+*.pyc
+output/_*
