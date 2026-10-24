@@ -97,7 +97,6 @@ def main():
     # 4 pipeline, week, context
     (IMG / "pipeline.svg").write_text(standalone(fig_pipeline(D), 1120), encoding="utf-8")
     (IMG / "week.svg").write_text(standalone(fig_week(D), 1000), encoding="utf-8")
-    (IMG / "context.svg").write_text(standalone(fig_context(D), 1120), encoding="utf-8")
 
     # 5 sensitivity
     oat, lhs = D.oat, D.lhs or []
@@ -196,7 +195,7 @@ PYTHONPATH=. python -m tt.readme              # this file and docs/img
 cd .. && python -m pytest tests/test_tt.py
 ```
 
-`src/tt/` holds the pipeline, `src/config/tt.toml` every parameter, `docs/Question.txt` the prompt and `docs/improvement_proposal.md` the design rationale.
+`submissions/` holds the thumbnail and eight evidence images. `src/tt/` holds the pipeline, `src/config/tt.toml` every parameter, `docs/Question.txt` the prompt and `docs/improvement_proposal.md` the design rationale.
 """
     (ROOT / "README.md").write_text(md, encoding="utf-8")
     print("wrote README.md and", len(list(IMG.glob('*.svg'))), "figures")

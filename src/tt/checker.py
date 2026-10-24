@@ -16,7 +16,7 @@ CODES = {
     "H4": "no teacher double-booked; teacher qualified for the department",
     "H5": "room exists (not on excluded floor B2), right kind, big enough, not double-booked",
     "H6": "teacher consecutive-period cap",
-    "H7": "lab sections have a double period",
+    "H7": "practical (science) sections have a double period",
     "H8": "weekly minutes within tolerance of nominal (contact-hours invariant)",
     "H9": "each student receives every course's stated weekly slots",
     "H10": "every consecutive-period room change reachable inside the break",

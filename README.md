@@ -73,4 +73,4 @@ PYTHONPATH=. python -m tt.readme              # this file and docs/img
 cd .. && python -m pytest tests/test_tt.py
 ```
 
-`src/tt/` holds the pipeline, `src/config/tt.toml` every parameter, `docs/Question.txt` the prompt and `docs/improvement_proposal.md` the design rationale.
+`submissions/` holds the thumbnail and eight evidence images. `src/tt/` holds the pipeline, `src/config/tt.toml` every parameter, `docs/Question.txt` the prompt and `docs/improvement_proposal.md` the design rationale.
