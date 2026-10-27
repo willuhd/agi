@@ -25,7 +25,7 @@ OAT = {
     "solve.w_gap": [0, 1, 3, 6, 12],
     "solve.w_spread": [0, 2, 8],
     "solve.w_morning": [0, 0.15, 1.0],
-    "solve.w_tgap": [0, 1.5, 6.0],
+    "solve.w_tgap": [0, 0.3, 1.0],
     "solve.w_teacher_leg": [0, 0.5, 1, 3],
     # data uncertainty
     "loads.k": [0.83, 0.8725, 0.95, 1.0],

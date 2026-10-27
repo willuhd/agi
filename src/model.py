@@ -277,10 +277,11 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
             occ = {s: (1 if s in t.external_busy else tot([Z[g][s] for g in gs])) for s in range(T)}
             if all(isinstance(v, int) for v in occ.values()):
                 continue
-            # x10 headcount balancer (~626 students / 54 teachers): per-GROUP gap
+            # Headcount balancer (students/teachers, live ratio): per-GROUP gap
             # totals balance across the two populations (same per-group parity
-            # as J's means); per-person parity holds at w_tgap = w_gap/10.
-            obj += gap_terms(occ, int(round(wt.get("w_tgap", 0) * 10)), f"t{tid}")
+            # as J's means); per-person parity holds at w_tgap = w_gap/ratio.
+            grp = len(w.students) / max(1, len(w.teachers))
+            obj += gap_terms(occ, int(round(wt.get("w_tgap", 0) * grp)), f"t{tid}")
         if arts_on:
             # Soft before-lunch preference: each arts-kind meeting in the target
             # period earns w_arts_p4 * size (subtracted from the minimization).
@@ -551,8 +552,17 @@ def polish_rooms(w, room, L, iters, seed, forbid_rooms):
         return total
 
     temp0 = 30.0
+    # elitism: SA without best-tracking can end worse than it started (the
+    # test_polish_never_worsensperson_seconds property). Snapshot the best grid
+    # seen so far and restore it at the end, so polish provably never worsens.
+    best_room = dict(room)
+    best_cost = person_seconds(w, room, L)
     for it in range(iters):
         temp = temp0 * (1 - it / iters)
+        if it % 500 == 0 and it > 0:
+            cur = person_seconds(w, room, L)
+            if cur < best_cost:
+                best_cost, best_room = cur, dict(room)
         mt = rng.choice(meets)
         g, s = mt
         sec = w.sections[g]
@@ -583,4 +593,7 @@ def polish_rooms(w, room, L, iters, seed, forbid_rooms):
                 occupied[(s, r2)], occupied[(s, r1)] = mt, other
             else:
                 room[mt], room[other] = r1, r2
-    return room
+    final = person_seconds(w, room, L)
+    if final < best_cost:
+        return room
+    return best_room

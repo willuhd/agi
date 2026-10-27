@@ -131,7 +131,23 @@ def main(n_emu=24, solve_time=150, n_shocks=12, out=None):
     slot_of, room = sol
     res["optimized"], mo = summarize(w, slot_of, room, "optimized")
     res["optimized"]["solver"] = info
+    # J is one diagnostic point, not the argmin: Stage 1 minimises slot
+    # surrogates, Stage 2 (below) rooms with fairness weight; the frontier,
+    # not the scalar, is the epsilon-constraint answer (see fair.py).
+    res["J_note"] = ("J is diagnostic: the reported composite at one weight setting. "
+                     "Decisions use fair_frontier (efficiency vs tail tradeoff), not J alone.")
     print("optimized", info["status"], info.get("objective"), info.get("bound"), round(time.time() - t0), flush=True)
+    # fairness stage 2: room-side epsilon frontier on the optimized slots
+    frcfg = cfg.get("fair", {})
+    if frcfg.get("enabled", True):
+        import fair
+        fpts = []
+        for mu in frcfg.get("mus", [0, 1, 4]):
+            _, pt = fair.stage2_point(w, slot_of, float(mu), seed=1, iters=frcfg.get("iters", 15000))
+            fpts.append(pt)
+        res["fair_frontier"] = fpts
+        print("fair", [(p["mu"], round(p["total_person_seconds"]), round(p["student_travel_cvar80"], 1),
+                        p["ok"]) for p in fpts], round(time.time() - t0), flush=True)
     # ablation: blind slots + optimized rooms ; optimized slots + owned rooms
     so_b = emu0["slot_of"]
     room_b, _ = model.assign_rooms(w, so_b)

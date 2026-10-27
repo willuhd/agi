@@ -11,7 +11,9 @@ J (metrics.objective) is reported per point as one diagnostic, not the argmin.
 Tail reweighting is IRLS-style: round-0 rooms give per-person travel via
 metrics.evaluate; sections touching tail persons get their legs up-weighted by
 (1 + mu * share) for two more matching rounds, then a fairness-weighted
-polish. Teachers count via solve.w_teacher_leg, same convention as legs().
+polish. Base matching cost is student-home proximity (as in assign_rooms);
+teacher legs enter through tail boosts on teacher-tail sections and fully in
+the polish leg mix, both via solve.w_teacher_leg, same convention as legs().
 
 Run: PYTHONPATH=src python -m fair [--mus 0,0.5,1,2,4] [--iters 15000]
 """
@@ -126,8 +128,23 @@ def polish_fair(w: World, room: dict, slot_of: dict, mult: dict, iters: int, see
         return total
 
     temp0 = 30.0
+    # elitism like model.polish_rooms: restore the best-seen grid so the
+    # fairness polish provably never worsens its own (fairness-weighted) cost.
+    def fair_total(rm):
+        tot = 0.0
+        for (a, b), c in L.items():
+            if leg_free(w, a[1], b[1]):
+                continue
+            tot += 0.5 * (mult.get(a, 1.0) + mult.get(b, 1.0)) * c * tau(w, rm[a], rm[b])
+        return tot
+    best_room = dict(room)
+    best_cost = fair_total(room)
     for it in range(iters):
         temp = temp0 * (1 - it / iters)
+        if it % 500 == 0 and it > 0:
+            cur = fair_total(room)
+            if cur < best_cost:
+                best_cost, best_room = cur, dict(room)
         mt = rng.choice(meets)
         g, s = mt
         sec = w.sections[g]
@@ -158,7 +175,11 @@ def polish_fair(w: World, room: dict, slot_of: dict, mult: dict, iters: int, see
                 occupied[(s, r2)], occupied[(s, r1)] = mt, other
             else:
                 room[mt], room[other] = r1, r2
-    return room
+    if fair_total(room) < best_cost:
+        return room
+    # restore eliteness: rebuild occupancy for the returned grid is the caller's
+    # (match already valid); occupancy here is internal only.
+    return best_room
 
 
 def stage2_point(w: World, slot_of: dict, mu: float, seed: int, iters: int) -> tuple[dict, dict]:

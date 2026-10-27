@@ -143,3 +143,10 @@ beta = 0.5
 cvar_q = 0.8
 group_department = 0.3   # ported sched weights.group.department: sum of per-dept CVaRs
 beta_prime = 0.25        # ported sched beta_prime: spread of dept means
+
+[fair]
+# Stage-2 epsilon frontier (fair.py): re-optimise ONLY rooms over mu weights.
+# Runs inside run.main after the optimized grid; set enabled=false to skip.
+enabled = true
+mus = [0, 1, 4]
+iters = 15000

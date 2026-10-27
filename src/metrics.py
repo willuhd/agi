@@ -8,11 +8,13 @@ Exchange rates (per-person, per-event parity unless noted):
   contracted load / fatigue overtime = periods x nominal minutes x overload
     (1.0) / underload (1.5) / fatigue (1.5) multipliers;
   office colocation = 0.5 min per floor of separation (stair-cost order).
-Solver-vs-report consistency: the x10 on the solver teacher-gap weight is the
-headcount balancer (~626 students / 54 teachers ~= 11.6) so per-GROUP totals
-balance; per-person parity holds at w_tgap = w_gap/10 = 0.3. J aggregates
-per-group MEANS with O(1) weights (alpha/beta/group terms): same per-group
-parity principle, no hidden exchange rate.
+Solver-vs-report consistency: the solver teacher-gap weight is headcount-balanced
+(live students/teachers ratio, ~11.6) so per-GROUP gap totals carry comparable
+weight in the search, mirroring how J aggregates per-group MEANS with O(1)
+weights; per-person parity holds approximately at w_tgap = w_gap/ratio.
+Scale differs between layers (solver integers vs report minutes) by
+construction; what agrees is the per-person, per-event exchange ratio (1:1
+gaps, ~1:1 walking), stated here instead of hidden.
 
 Students: room changes, walking person-seconds, tight legs, idle periods between classes,
           heavy days (6+ periods), hard-subject lateness, weekly-minute deviation.
@@ -157,7 +159,7 @@ def evaluate(w: World, slot_of: dict, room: dict) -> dict:
             from collections import Counter
             floors = [w.rooms[room[(g, s)]].floor for (s, g) in lst
                       if (g, s) in room and not room[(g, s)].startswith("XMT")]
-            if floors and office in {r.id: r.floor for r in w.rooms.values()}.values() or floors:
+            if floors:
                 office_floor = {"406": "4F", "407": "4F", "313": "3F", "314": "3F",
                                 "320": "3F", "117": "1F", "110": "1F", "210": "2F"}.get(office)
                 if office_floor is None:
@@ -206,12 +208,12 @@ def evaluate(w: World, slot_of: dict, room: dict) -> dict:
             for b in busy:
                 p, d = w.slots[b]["period"], w.slots[b]["day"]
                 for q in (p - 1, p + 1):
-                    n = by_per_day.get(d, {}).get(q)
-                    if n is None or n in busy:
+                    slot_idx = by_per_day.get(d, {}).get(q)
+                    if slot_idx is None or slot_idx in busy:
                         continue
                     if lunch_free and p <= lunch < q or lunch_free and q <= lunch < p:
                         continue
-                    if n in teach:
+                    if slot_idx in teach:
                         xmt_adj += 1
     # group fairness (ported sched formulation.group_terms): per-department CVaR
     # tail + spread of group means. Groups from teacher dept; weights from
