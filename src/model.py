@@ -188,17 +188,17 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
     # even-only section owes ~2 slots' worth of weekly minutes.
     nom = nominal_minutes(w)
     tol = sv["minutes_tol"]
-    pw = {"all": cfg.get("parity", {}).get("standard_weight", 1.0),
-          "even": cfg.get("parity", {}).get("even_only_weight", 0.5),
-          "odd": cfg.get("parity", {}).get("odd_only_weight", 0.5)}
     for g, sec in S.items():
         if g in fixed:
             continue
         e = tot([Z[g][s] * w.slots[s]["minutes"] for s in range(T) if not isinstance(Z[g][s], int)])
-        wgt = pw.get(getattr(sec, "parity", "all"), 1.0)
+        # Parity weight cancels: the two-week mean e*wgt must lie in the band
+        # [lo,hi]*wgt, i.e. e in [lo,hi] for any wgt > 0. Integer-safe form
+        # (the old e*wgt form crashed CP-SAT on wgt=0.5 and never ran, since
+        # no section had non-"all" parity until split_courses was wired).
         lo, hi = minutes_band(sec.n, nom, cfg)
-        m.Add(e * wgt >= int(math.ceil(lo * wgt - 1e-6)))
-        m.Add(e * wgt <= int(math.floor(hi * wgt + 1e-6)))
+        m.Add(e >= int(math.ceil(lo - 1e-6)))
+        m.Add(e <= int(math.floor(hi + 1e-6)))
     # --- hard: lab double periods ------------------------------------------------------------------
     for g, sec in S.items():
         if g in fixed or not sec.double:
