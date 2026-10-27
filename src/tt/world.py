@@ -71,30 +71,52 @@ CUR = {
             ("ap_bio", "AP Biology", "AP Biology", 6.0, "classroom", "biology"),
         ],
         "M2": [
-            ("ap_psy", "AP Psychology", "AP Psychology", 6.0, "classroom", "econ"),
+            ("ap_psy", "AP Psychology", "AP Psychology", 4.5, "classroom", "econ"),
             ("ap_hg", "AP Human Geography", "AP Human Geography", 6.0, "classroom", "humanities"),
-            ("ap_mac", "AP Macroeconomics", "AP Macroeconomics", 6.0, "classroom", "econ"),
-            ("ap_mic", "AP Microeconomics", "AP Microeconomics", 6.0, "classroom", "econ"),
+            ("ap_mac", "AP Macroeconomics", "AP Macroeconomics", 4.5, "classroom", "econ"),
+            ("ap_mic", "AP Microeconomics", "AP Microeconomics", 4.5, "classroom", "econ"),
             ("us11", "US Overview", "US Overview S", 4.5, "classroom", "humanities"),
             ("ch11", "Chinese History", None, 4.5, "classroom", "humanities"),
         ],
         "M3": [
-            ("bm11", "Business Management", "Business Management", 4.5, "classroom", "econ"),
+            ("bm11", "Business Management", "Business Management", 3.0, "classroom", "econ"),
             ("cw11", "Creative Writing", "Creative Writing", 4.5, "classroom", "english"),
-            ("phi11", "Philosophy", None, 4.5, "classroom", "humanities"),
-            ("law11", "Intro to Law", None, 4.5, "classroom", "humanities"),
+            ("phi11", "School Philosophy", "School Philosophy", 4.5, "classroom", "humanities"),
+            ("law11", "Intro to Law", "Introduction to Law", 4.5, "classroom", "humanities"),
         ],
-        "M4": [
+        "M4": [  # E14: AP-ES ⇒ M1<=1 and no M3 (enforced in grade_pathways)
+            ("ap_es", "AP Environmental Sci", "AP Environmental Sci", 6.0, "classroom", "econ"),
             ("art11", "Arts 1", "Arts 1", 4.5, "arts", "arts"),
-            ("acap11", "A Cappella", None, 4.5, "arts", "arts"),
+            ("acap11", "A Cappella", "A Cappella & Ensemble (G11)", 4.5, "arts", "arts"),
         ],
     },
 }
 GRADE_SIZE_KEY = {"G9": "G9", "G10": "G10", "G11AP": "G11AP"}
 # Practical subjects: every laboratory is on floor B2 (club use only, excluded), so these courses meet in
-# ordinary classrooms and keep the practical double period.
-PRACTICAL = {"phy9", "che9", "bio9", "phy10", "che10", "bio10", "ap_phy", "ap_che", "ap_bio"}
+# ordinary classrooms and keep the practical double period. AP ES is a lab venue per the catalog
+# (M4-AP) and follows the same convention.
+PRACTICAL = {"phy9", "che9", "bio9", "phy10", "che10", "bio10", "ap_phy", "ap_che", "ap_bio", "ap_es"}
 OFFICE = {"G9": "406", "G10": "210", "G11AP": "110"}   # homeroom offices (teachers.toml pins)
+
+# Grade home zones (user ruling Oct 2026; mirrors shsid-hackathon wings-per-grade and the
+# Digger ZX-only scope): 3F is the multifunction floor serving G9+G10. G9 lives 4F/3F
+# (office 406), G10 lives 2F/3F (office 210), G11AP classrooms sit on 1F (office 110)
+# with arts in B1. G11IB/G12 live in XMT and enter only as external busy slots.
+GRADE_FLOORS = {"G9": ["4F", "3F"], "G10": ["2F", "3F"], "G11AP": ["1F"]}
+FLOOR_ORDER = {"B2": -2, "B1": -1, "1F": 0, "2F": 1, "3F": 2, "4F": 3}
+
+
+def floor_affinity(grade: str, floor: str, kind: str = "classroom") -> float:
+    """Extra seconds per student for placing a grade's meeting on a floor (same
+    currency as tau: ~one stairwell cost per floor step). Arts rooms all sit on
+    B1, so arts affinity is B1-only; classrooms follow the grade home zones."""
+    if kind == "arts":
+        return 0.0 if floor == "B1" else 30.0
+    pref = GRADE_FLOORS[grade]
+    if floor in pref:
+        return 0.0
+    d = min(abs(FLOOR_ORDER[floor] - FLOOR_ORDER[p]) for p in pref)
+    return 15.0 * d
 
 
 @dataclass
@@ -256,6 +278,8 @@ def grade_pathways(cfg, courses, slots, grade):
                 for b in m2:
                     for c3 in (m3 if r == 1 else [None]):
                         for c4 in (m4 if r == 1 else [None]):
+                            if c4 == "ap_es" and c3 is not None:
+                                continue  # catalog E14: M4 AP-ES ⇒ M1<=1 and no M3
                             legal.append(tuple(a) + (b,) + tuple(x for x in (c3, c4) if x))
     legal = [b for b in legal if core + sum(courses[x].slots for x in b) <= avail]
     rng2 = random.Random(sc["seed"] + 5 + len(grade))

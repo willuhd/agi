@@ -387,8 +387,10 @@ def tau(w: World, a: str, b: str) -> float:
 
 
 def home_rooms(w: World) -> dict:
-    """homeroom -> classroom id, min travel from grade office (teachers.toml pins), distinct, area ok."""
-    from .world import OFFICE
+    """homeroom -> classroom id, min travel from grade office (teachers.toml pins), distinct, area ok.
+    Grade floor-affinity (world.GRADE_FLOORS: G9 4F/3F, G10 2F/3F, G11AP 1F) breaks ties
+    toward the grade's home zone so homes cluster where the grade already operates."""
+    from .world import OFFICE, floor_affinity
     hrs = sorted({st["homeroom"] for st in w.students.values()})
     size = Counter(st["homeroom"] for st in w.students.values())
     cls = [r for r in w.rooms.values() if r.kind == "classroom"]
@@ -404,7 +406,12 @@ def home_rooms(w: World) -> dict:
             m.Add(sum(v for (hh, _), v in x.items() if hh == h) == 1)
         for r in cls:
             m.Add(sum(v for (_, rr), v in x.items() if rr == r.id) <= 1)
-        m.Minimize(sum(int(tau(w, OFFICE[h.split("-H")[0]], r)) * v for (h, r), v in x.items()))
+        m.Minimize(sum(int(tau(w, OFFICE[h.split("-H")[0]], r)
+                           + floor_affinity(h.split("-H")[0], w.rooms[r].floor)) * v
+                       for (h, r), v in x.items()))
+        sv = cp_model.CpSolver()
+        sv.parameters.max_time_in_seconds = 20
+        return x, sv, sv.Solve(m)
         sv = cp_model.CpSolver()
         sv.parameters.max_time_in_seconds = 20
         return x, sv, sv.Solve(m)
@@ -468,7 +475,12 @@ def assign_rooms(w: World, slot_of: dict, iters: int | None = None, seed: int = 
             need = need_area(sec, cfg)
             for r in w.rooms.values():
                 if r.kind == sec.kind and r.area >= need - 1e-9 and r.id not in forbid_rooms:
-                    cost = sum(c * tau(w, homes[h], r.id) for h, c in sec.homerooms.items())
+                    # home-proximity plus grade floor-affinity (G9 4F/3F, G10 2F/3F,
+                    # G11AP 1F, arts B1): keeps each grade's meetings on its own
+                    # floors so students cross floors only via the shared 3F.
+                    from .world import floor_affinity
+                    aff = floor_affinity(sec.grade, r.floor, sec.kind)
+                    cost = sum(c * (tau(w, homes[h], r.id) + aff) for h, c in sec.homerooms.items())
                     x[g, r.id] = (m.NewBoolVar(f"x{g}{r.id}"), int(cost))
         for g in gs:
             m.Add(sum(v for (gg, _), (v, _) in x.items() if gg == g) == 1)

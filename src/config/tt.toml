@@ -30,6 +30,9 @@ pathway_skew = { G10 = 0.0, G11AP = 0.4 }  # Zipf exponent of popularity
 pe_blocked = [["Mon", 5], ["Thu", 5]]          # PE fixed block, all grades
 ap_blocked = [["Thu", 6], ["Thu", 7]]          # AP optional block (weekly), G11AP only
 off = [["Fri", 6], ["Fri", 7]]
+# AP biweekly block Wed P6-P7 (periods.toml AP_optional_biweekly; sample grid
+# Tennis-Even/CAS-Odd) is NOT blocked: M4 sections meet there every OTHER week
+# via [parity] split_courses below (two-week mean, 0.5 weight).
 gap_seconds = 600                              # between-period gap (10 min)
 lunch_after = 4
 
@@ -88,7 +91,10 @@ odd_only_weight = 0.5
 standard_weight = 1.0
 # course keys whose sections meet every OTHER week, alternating even/odd
 # (e.g. ["ap_mac"] would split that course's sections into even/odd pairs).
-split_courses = []
+# M4 courses are the biweekly Wed P6-P7 users (periods.toml AP_optional_biweekly):
+# splitting them models odd/even weeks as a two-week mean (cf. shsid-hackathon
+# Week A/B mirror; Digger odd/even fixed activities).
+split_courses = ["ap_es", "art11", "acap11"]
 even_courses = []
 odd_courses = []
 
@@ -96,6 +102,9 @@ odd_courses = []
 # Ported from sched teachers.toml [homeroom]+[dept_offices]. No hardcoded
 # offices in code: build_teachers reads these. Set enabled=false to skip
 # office assignment (offices recorded as "") and zero colocation cost.
+# Home zones: G9 around 406 (4F, spilling to the shared 3F), G10 around 210
+# (2F, spilling to 3F), G11AP around 110 (1F, arts in B1). G11IB/G12 sit in
+# XMT and enter only as external busy slots on shared teachers.
 enabled = true
 pins = { G9 = "406", G10 = "210", G11AP = "110" }
 math = "313"
