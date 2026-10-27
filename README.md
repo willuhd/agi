@@ -43,13 +43,13 @@ Walking falls by 83%, room changes by 79% and idle periods by 88%. The worst-off
 
 ## Verification
 
-The checker shares no code with the scheduler and finds 0 violations in the optimized timetable. The current-method timetables violate only the weekly-minutes rule (about 109 classes each). Ten injected faults, one per constraint, are all detected. 62 sensitivity runs were solved and checked again; 57 of them produced a timetable with no violation. `pytest tests/` runs 21 tests.
+The checker shares no code with the scheduler and finds 0 violations in the optimized timetable. The current-method timetables violate only the weekly-minutes rule (about 109 classes each). Ten injected faults, one per constraint, are all detected. 62 sensitivity runs were solved and checked again; 58 of them produced a timetable with no violation. `pytest tests/` runs 21 tests.
 
 ## Sensitivity
 
 ![Sensitivity](docs/img/sensitivity.svg)
 
-Across single-assumption changes the walking reduction stays between 78% and 83%. It is robust to objective weights, class-size limits, staffing and the solver seed. It does not survive a much heavier timetable or the loss of 40% of the rooms: no valid timetable was found for the current method or the optimized one.
+Across single-assumption changes the walking reduction stays between 79% and 86%. It is robust to objective weights, class-size limits, staffing and the solver seed. It does not survive a much heavier timetable or the loss of 40% of the rooms: no valid timetable was found for the current method or the optimized one.
 
 ## Repair
 
