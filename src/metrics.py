@@ -1,9 +1,23 @@
 """Stakeholder metrics, all derived from a finished grid (slot_of, room). Units are explicit.
 
+Currency: person-minutes per week, stated once here and used in both the
+solver (src/config/tt.toml [solve], per-event weights) and the report (J).
+Exchange rates (per-person, per-event parity unless noted):
+  idle gap      = nominal period minutes (student and teacher alike);
+  walk second   = 1/60 min (solver w_teacher_leg=1 matches J to ~1%);
+  contracted load / fatigue overtime = periods x nominal minutes x overload
+    (1.0) / underload (1.5) / fatigue (1.5) multipliers;
+  office colocation = 0.5 min per floor of separation (stair-cost order).
+Solver-vs-report consistency: the x10 on the solver teacher-gap weight is the
+headcount balancer (~626 students / 54 teachers ~= 11.6) so per-GROUP totals
+balance; per-person parity holds at w_tgap = w_gap/10 = 0.3. J aggregates
+per-group MEANS with O(1) weights (alpha/beta/group terms): same per-group
+parity principle, no hidden exchange rate.
+
 Students: room changes, walking person-seconds, tight legs, idle periods between classes,
           heavy days (6+ periods), hard-subject lateness, weekly-minute deviation.
-Teachers: loss L_i = load deviation + walking + fatigue + idle gaps (weights from config/tt.toml
-[preference], TCFG below as fallback).
+Teachers: loss L_i = load deviation + walking + fatigue + idle gaps, all in person-minutes
+(constants from config/tt.toml [preference], TCFG below as fallback).
 """
 from __future__ import annotations
 
@@ -12,7 +26,7 @@ from collections import defaultdict
 
 from world import World
 
-TCFG = dict(target=20, over=1.0, under=1.5, per_second=0.02, fatigue=1.5, gap=0.5)
+TCFG = dict(target=20, over=1.0, under=1.5, per_second=1 / 60, fatigue=1.5)
 
 
 def jain(xs):
@@ -131,13 +145,12 @@ def evaluate(w: World, slot_of: dict, room: dict) -> dict:
         under = pref.get("underload_price", TCFG["under"])
         per_second = pref.get("price_per_second", TCFG["per_second"])
         fatigue_p = pref.get("price_per_extra_consecutive", TCFG["fatigue"])
-        load = (periods - target) * over if periods > target else (target - periods) * under
+        load = ((periods - target) * over if periods > target else (target - periods) * under) * nom
         travel_cost = travel * per_second
-        fatigue_cost = max(0, best - mc) * fatigue_p
-        gap_cost = gaps * TCFG["gap"]
-        # office colocation (ported sched staffing.preference_loss): floor gap
-        # between office and predominant teaching floor x price; 0 when offices
-        # disabled or teaching is XMT-only (no ZX floor to compare).
+        fatigue_cost = max(0, best - mc) * fatigue_p * nom
+        gap_cost = gaps * nom
+        # office colocation in minutes: floor gap x price (default 0.5 min/floor,
+        # stair-cost order); 0 when offices disabled or teaching is XMT-only.
         coloc_cost = 0.0
         office = getattr(w.teachers[tid], "office", "")
         if office:
@@ -259,8 +272,11 @@ def evaluate(w: World, slot_of: dict, room: dict) -> dict:
 
 
 def objective(m: dict, cfg: dict) -> float:
-    """Composite J in 'person-minute' currency: students' lost minutes +
-    weighted teacher loss + group fairness (ported sched formulation)."""
+    """Composite J in person-minutes/week (diagnostic): students' lost minutes +
+    weighted teacher loss + group fairness. Per-group parity: each stakeholder
+    group's mean enters with an O(1) weight (alpha/beta/group terms); this is
+    one point on the efficiency-fairness frontier (see fair.py), not the argmin
+    the solver targets -- the solver works the same currency via [solve] weights."""
     o = cfg["objective"]
     s, t = m["students"], m["teachers"]
     base = s["lost_min_week_mean"] + o["alpha"] * t["sched_L_mean"] + o["beta"] * t["sched_L_cvar80"]

@@ -62,7 +62,10 @@ w_gap = 3.0                # student idle gaps (per student per gap)
 w_heavy = 1.0              # 6+ classes in a day
 w_spread = 2.0             # same section twice a day (non-lab)
 w_morning = 0.15           # hard (credit>=5) subjects late in day
-w_tgap = 1.5               # teacher idle gaps
+w_tgap = 0.3               # teacher idle gaps: per-person parity with students
+                             # (w_tgap x headcount-balance 10 = w_gap 3.0; the x10 in
+                             # model.py balances ~626 students / 54 teachers so per-GROUP
+                             # totals balance, same per-group parity as J's means)
 w_teacher_leg = 1.0        # a teacher's walking second counts this much vs a student's (person-seconds)
 w_arts_p4 = 5.0            # bonus per student for each arts-kind meeting in the before-lunch period (subtracted)
 w_xmt_adj = 8.0            # penalty per teacher meeting adjacent to an XMT/external_busy slot (same-day, non-lunch)
@@ -83,7 +86,7 @@ before_lunch_enabled = true
 target_period = 4          # arts meetings here earn the w_arts_p4 bonus
 
 [parity]
-# Two-week mean (mirrors sched periods.toml [parity]). Machinery is live but
+# Two-week mean (mirrors config/periods.toml [parity]). Machinery is live but
 # inert until parity_split_courses names a course: sections default to "all".
 mode = "two_week_mean"
 even_only_weight = 0.5
@@ -121,14 +124,13 @@ cs = "313"
 colocation_price_per_floor = 0.5
 
 [preference]
-# Teacher-loss weights carried over from the original teacher model
-# ([load]+[travel]+[fatigue]). All soft costs;
-# set any price to 0 to disable that term. tt metrics TCFG defaults are kept
-# as fallback when a key is missing here.
+# Teacher-loss prices, all in person-minutes (see metrics.py currency note).
+# load/fatigue multipliers apply to nominal period minutes; walking is exact.
+# Set any price to 0 to disable that term; metrics TCFG defaults are fallback.
 target_periods = 20
 overload_price = 1.0
 underload_price = 1.5
-price_per_second = 0.02
+price_per_second = 0.0167   # 1/60: one walk-second = one walk-minute/60, parity with students
 price_per_extra_consecutive = 1.5
 
 [emulator]

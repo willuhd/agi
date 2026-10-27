@@ -277,6 +277,9 @@ def solve_slots(w: World, time_limit: float | None = None, hint: dict | None = N
             occ = {s: (1 if s in t.external_busy else tot([Z[g][s] for g in gs])) for s in range(T)}
             if all(isinstance(v, int) for v in occ.values()):
                 continue
+            # x10 headcount balancer (~626 students / 54 teachers): per-GROUP gap
+            # totals balance across the two populations (same per-group parity
+            # as J's means); per-person parity holds at w_tgap = w_gap/10.
             obj += gap_terms(occ, int(round(wt.get("w_tgap", 0) * 10)), f"t{tid}")
         if arts_on:
             # Soft before-lunch preference: each arts-kind meeting in the target
