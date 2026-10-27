@@ -1,6 +1,6 @@
 # Prompt 1: Optimizing School Curriculum
 
-Automatic timetabling for a simulated school of 626 students (grades 9, 10 and 11 AP), 54 teachers and 59 rooms.
+Automatic timetabling for a simulated school of 626 students (grades 9, 10 and 11 AP), 53 teachers and 59 rooms.
 The scheduler assigns every lesson a period and a room, checks the result against ten hard constraints with an independent program,
 and compares it with an emulation of the current method. The full write-up is the poster in `output/poster_large.pdf`.
 
@@ -8,12 +8,12 @@ and compares it with an emulation of the current method. The full write-up is th
 
 | Per student, per week | Current | Optimized |
 |---|---|---|
-| Walking | 1006 s | **187 s** |
-| Room changes | 20.1 | **3.7** |
-| Idle periods between lessons | 2.78 | **0.05** |
-| Classes outside the weekly-minutes band | 110 of 270 | **0** |
+| Walking | 779 s | **132 s** |
+| Room changes | 20.0 | **4.2** |
+| Idle periods between lessons | 2.86 | **0.35** |
+| Classes outside the weekly-minutes band | 109 of 268 | **0** |
 
-Teachers' walking changes from 442 to 509 s per week and their idle periods from 6.6 to 2.9. Teachers move between rooms so that students do not.
+Teachers' walking changes from 318 to 385 s per week and their idle periods from 6.8 to 4.0. Teachers move between rooms so that students do not.
 
 ## Assumptions
 
@@ -39,11 +39,11 @@ Teachers' walking changes from 442 to 509 s per week and their idle periods from
 
 ![Distributions](docs/img/distributions.svg)
 
-Walking falls by 81%, room changes by 82% and idle periods by 98%. The worst-off 20% of students also improve (1158 to 331 s), so the gain is not concentrated in a few students.
+Walking falls by 83%, room changes by 79% and idle periods by 88%. The worst-off 20% of students also improve (924 to 265 s), so the gain is not concentrated in a few students.
 
 ## Verification
 
-The checker shares no code with the scheduler and finds 0 violations in the optimized timetable. The current-method timetables violate only the weekly-minutes rule (about 110 classes each). Ten injected faults, one per constraint, are all detected. 62 sensitivity runs were solved and checked again; 57 of them produced a timetable with no violation. `pytest tests/` runs 21 tests.
+The checker shares no code with the scheduler and finds 0 violations in the optimized timetable. The current-method timetables violate only the weekly-minutes rule (about 109 classes each). Ten injected faults, one per constraint, are all detected. 62 sensitivity runs were solved and checked again; 57 of them produced a timetable with no violation. `pytest tests/` runs 21 tests.
 
 ## Sensitivity
 
@@ -53,11 +53,11 @@ Across single-assumption changes the walking reduction stays between 78% and 83%
 
 ## Repair
 
-A teacher absence is covered by a qualified free colleague for 93% of lessons. A closed room moves its lessons to free rooms of the same kind, with no change of time. Over 12 draws of each event, the expected cost is 0.00 lessons re-timed and 20.9 room changes; all repaired timetables pass the checker.
+A teacher absence is covered by a qualified free colleague for 85% of lessons. A closed room moves its lessons to free rooms of the same kind, with no change of time. Over 12 draws of each event, the expected cost is 0.00 lessons re-timed and 20.6 room changes; all repaired timetables pass the checker.
 
 ## Limitations
 
-- Only one real week exists; the current method is an emulator calibrated to it (about 20 room changes against 21 observed).
+- Only one real week exists; the current method is an emulator calibrated to it (about 18 room changes against 21 observed).
 - CP-SAT stopped at its time limit, so "optimized" means the best feasible timetable found, not a proven optimum.
 - Sections of the same course can still differ in weekly minutes; an equality constraint across sections is the next rule to add.
 

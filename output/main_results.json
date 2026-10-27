@@ -2,15 +2,15 @@
  "stats": {
   "k": 0.8725490196078431,
   "n_students": 626,
-  "n_sections": 270,
-  "n_meetings": 954,
-  "n_teachers": 54,
+  "n_sections": 268,
+  "n_meetings": 951,
+  "n_teachers": 53,
   "course_slots_lost_to_floor": 0,
   "floor_dropped": [],
-  "mean_section_size": 17.614814814814814,
+  "mean_section_size": 17.619402985074625,
   "teacher_load_max": 24,
-  "teacher_load_mean": 17.666666666666668,
-  "students_with_free_periods": 601
+  "teacher_load_mean": 17.943396226415093,
+  "students_with_free_periods": 563
  },
  "config": {
   "loads": {
@@ -60,8 +60,11 @@
    "w_heavy": 1.0,
    "w_spread": 2.0,
    "w_morning": 0.15,
-   "w_tgap": 1.5,
+   "w_tgap": 0.3,
    "w_teacher_leg": 1.0,
+   "w_arts_p4": 5.0,
+   "w_xmt_adj": 8.0,
+   "xmt_adj_enabled": true,
    "room_polish_iters": 40000
   },
   "teachers": {
@@ -92,7 +95,7 @@
  },
  "emulator_calibration": {
   "p_own": 0.6,
-  "g11_changes": 19.73015873015873,
+  "g11_changes": 18.333333333333332,
   "target": 21.0
  },
  "current_system": [
@@ -101,599 +104,224 @@
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 19.99361022364217,
-     "travel_s_mean": 1033.561661341853,
-     "travel_s_cvar80": 1191.0856,
-     "travel_total_person_hours": 179.72488888888887,
+     "room_changes_mean": 20.271565495207668,
+     "travel_s_mean": 788.0252396166134,
+     "travel_s_cvar80": 930.0263999999999,
+     "travel_total_person_hours": 137.02883333333332,
      "tight_legs_total": 0,
-     "gaps_mean": 2.8961661341853033,
-     "heavy_days_mean": 3.1996805111821085,
-     "hard_subject_mean_period": 3.8822363765038923,
-     "jain_travel": 0.9884763050530225,
-     "lost_min_week_mean": 150.6251950818085
+     "gaps_mean": 2.6900958466453675,
+     "heavy_days_mean": 3.1853035143769968,
+     "hard_subject_mean_period": 3.7686328938237335,
+     "jain_travel": 0.9814899548105332,
+     "lost_min_week_mean": 137.04119905121502
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 17.34862962962963,
-     "L_cvar80": 23.255200000000002,
-     "sched_L_mean": 12.876407407407408,
-     "sched_L_cvar80": 17.9802,
-     "travel_s_mean": 475.30185185185184,
-     "gaps_mean": 6.7407407407407405,
+     "n": 53,
+     "L_mean": 500.5928344997142,
+     "L_cvar80": 816.832309969697,
+     "sched_L_mean": 312.8741381017725,
+     "sched_L_cvar80": 484.46555503030305,
+     "travel_s_mean": 327.57358490566037,
+     "gaps_mean": 6.660377358490566,
      "fatigue_excess": 0,
-     "jain_L": 0.9172357852065343
+     "jain_L": 0.8175043719110542,
+     "xmt_adjacent_lessons": 67,
+     "coloc_mean": 0.6226415094339622,
+     "group_cvar_sum": 7987.455405454546,
+     "group_spread": 315.381073973064,
+     "group_cvars": {
+      "arts": 924.1022312121213,
+      "biology": 972.0278872727273,
+      "chemistry": 807.0642760606061,
+      "econ": 902.1086581818182,
+      "english": 809.5008060606061,
+      "humanities": 649.7883448484849,
+      "physics": 789.110443030303,
+      "cs": 924.9769712121213,
+      "language": 559.2472927272727,
+      "math": 649.5284948484849
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 237,
+     "meetings_total": 1107,
+     "share_in_target": 0.2140921409214092
     },
     "contact": {
-     "minutes_dev_mean": 0.07844541910331383,
+     "minutes_dev_mean": 0.06614296936370778,
      "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.3888888888888889
+     "course_section_minutes_spread_max": 0.4375
     }
    },
    "check": {
     "violations": {
-     "H8": 120
+     "H8": 89
     },
     "examples": {
      "H8": [
       [
-       "ap_bio#2",
+       "acap11#0",
        200
       ],
       [
-       "ap_che#1",
-       250
-      ],
-      [
-       "ap_mac#0",
+       "acap11#1",
        220
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 681
-    }
-   },
-   "J": 172.49170248921592
-  },
-  {
-   "label": "emulator 1",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 19.63258785942492,
-     "travel_s_mean": 989.9680511182108,
-     "travel_s_cvar80": 1136.6792,
-     "travel_total_person_hours": 172.14444444444445,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.560702875399361,
-     "heavy_days_mean": 3.1613418530351436,
-     "hard_subject_mean_period": 3.638216560509554,
-     "jain_travel": 0.9883795704450616,
-     "lost_min_week_mean": 134.44699390066802
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.239703703703704,
-     "L_cvar80": 22.031399999999998,
-     "sched_L_mean": 11.767481481481482,
-     "sched_L_cvar80": 17.108600000000003,
-     "travel_s_mean": 425.8740740740741,
-     "gaps_mean": 6.5,
-     "fatigue_excess": 0,
-     "jain_L": 0.8874045218195876
-    },
-    "contact": {
-     "minutes_dev_mean": 0.06900341130604289,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.44999999999999996
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 110
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       160
       ],
       [
-       "ap_bio#1",
-       250
-      ],
-      [
-       "ap_bio#2",
-       260
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 674
-    }
-   },
-   "J": 154.7687753821495
-  },
-  {
-   "label": "emulator 2",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.14856230031949,
-     "travel_s_mean": 981.6889776357829,
-     "travel_s_cvar80": 1144.0072,
-     "travel_total_person_hours": 170.70480555555557,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.757188498402556,
-     "heavy_days_mean": 3.027156549520767,
-     "hard_subject_mean_period": 3.7344656758669497,
-     "jain_travel": 0.9890171415157141,
-     "lost_min_week_mean": 143.3592562203505
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.70411111111111,
-     "L_cvar80": 22.8238,
-     "sched_L_mean": 12.23188888888889,
-     "sched_L_cvar80": 17.0232,
-     "travel_s_mean": 447.7055555555556,
-     "gaps_mean": 6.555555555555555,
-     "fatigue_excess": 0,
-     "jain_L": 0.9195816267206793
-    },
-    "contact": {
-     "minutes_dev_mean": 0.073322977582846,
-     "minutes_dev_max": 0.26644736842105265,
-     "course_section_minutes_spread_max": 0.4106666666666667
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 112
-    },
-    "examples": {
-     "H8": [
-      [
-       "ap_bio#0",
-       200
-      ],
-      [
-       "ap_bio#2",
-       255
-      ],
-      [
-       "ap_bio#3",
-       205
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 674
-    }
-   },
-   "J": 164.10274510923938
-  },
-  {
-   "label": "emulator 3",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 19.857827476038338,
-     "travel_s_mean": 1013.9308306709266,
-     "travel_s_cvar80": 1178.6976000000002,
-     "travel_total_person_hours": 176.31130555555558,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.571884984025559,
-     "heavy_days_mean": 3.119808306709265,
-     "hard_subject_mean_period": 3.818966737438075,
-     "jain_travel": 0.9891123927651706,
-     "lost_min_week_mean": 135.36142826023817
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.595111111111112,
-     "L_cvar80": 21.8562,
-     "sched_L_mean": 12.12288888888889,
-     "sched_L_cvar80": 17.57,
-     "travel_s_mean": 445.9592592592593,
-     "gaps_mean": 6.407407407407407,
-     "fatigue_excess": 0,
-     "jain_L": 0.8917832061864983
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07173306530214425,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.4444444444444444
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 112
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       205
-      ],
-      [
-       "ap_bio#1",
-       205
-      ],
-      [
-       "ap_bio#3",
-       205
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 660
-    }
-   },
-   "J": 156.26931714912706
-  },
-  {
-   "label": "emulator 4",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.06549520766773,
-     "travel_s_mean": 986.5870607028754,
-     "travel_s_cvar80": 1111.0288,
-     "travel_total_person_hours": 171.55652777777777,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.621405750798722,
-     "heavy_days_mean": 3.1453674121405752,
-     "hard_subject_mean_period": 3.7453644727530078,
-     "jain_travel": 0.9899939979396332,
-     "lost_min_week_mean": 137.18665529092846
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 15.849296296296297,
-     "L_cvar80": 21.7168,
-     "sched_L_mean": 11.377074074074073,
-     "sched_L_cvar80": 16.6676,
-     "travel_s_mean": 413.29814814814813,
-     "gaps_mean": 6.222222222222222,
-     "fatigue_excess": 0,
-     "jain_L": 0.9061861954256103
-    },
-    "contact": {
-     "minutes_dev_mean": 0.06554093567251462,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.44094488188976383
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 95
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       205
-      ],
-      [
-       "ap_bio#0",
-       205
-      ],
-      [
-       "ap_bio#3",
+       "ap_che#5",
        210
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 683
+     "teachers": 53,
+     "room_legs": 662
     }
    },
-   "J": 156.89752936500253
+   "J": 3167.2300047977687
   },
   {
-   "label": "emulator 5",
+   "label": "emulator 1",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 20.51437699680511,
-     "travel_s_mean": 1037.4369009584664,
-     "travel_s_cvar80": 1221.3064,
-     "travel_total_person_hours": 180.39875,
+     "room_changes_mean": 19.594249201277954,
+     "travel_s_mean": 777.7392971246006,
+     "travel_s_cvar80": 882.7128,
+     "travel_total_person_hours": 135.24022222222223,
      "tight_legs_total": 0,
-     "gaps_mean": 2.865814696485623,
-     "heavy_days_mean": 3.1996805111821085,
-     "hard_subject_mean_period": 3.672186836518047,
-     "jain_travel": 0.9844542218592438,
-     "lost_min_week_mean": 149.29177679349402
+     "gaps_mean": 2.8594249201277955,
+     "heavy_days_mean": 3.2252396166134187,
+     "hard_subject_mean_period": 3.773768216516308,
+     "jain_travel": 0.9878995732426693,
+     "lost_min_week_mean": 144.66916642462968
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 16.970555555555556,
-     "L_cvar80": 22.886000000000003,
-     "sched_L_mean": 12.498333333333333,
-     "sched_L_cvar80": 17.3568,
-     "travel_s_mean": 448.52777777777777,
-     "gaps_mean": 7.055555555555555,
+     "n": 53,
+     "L_mean": 510.8194549285306,
+     "L_cvar80": 850.9386875151515,
+     "sched_L_mean": 323.1007585305889,
+     "sched_L_cvar80": 479.41163342424244,
+     "travel_s_mean": 315.46603773584906,
+     "gaps_mean": 6.886792452830188,
      "fatigue_excess": 0,
-     "jain_L": 0.9060991400308274
+     "jain_L": 0.8240647508037275,
+     "xmt_adjacent_lessons": 63,
+     "coloc_mean": 0.6226415094339622,
+     "group_cvar_sum": 8079.197527575758,
+     "group_spread": 299.84957906204886,
+     "group_cvars": {
+      "arts": 877.8729551515152,
+      "biology": 881.3535651515151,
+      "chemistry": 991.8210603030302,
+      "econ": 899.8007181818182,
+      "english": 992.8213903030303,
+      "humanities": 581.5304357575758,
+      "physics": 788.416723030303,
+      "cs": 786.307513030303,
+      "language": 515.7654966666666,
+      "math": 763.5076700000001
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 224,
+     "meetings_total": 1107,
+     "share_in_target": 0.2023486901535682
     },
     "contact": {
-     "minutes_dev_mean": 0.07706932261208577,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.4242424242424242
+     "minutes_dev_mean": 0.0706948399450118,
+     "minutes_dev_max": 0.19407894736842102,
+     "course_section_minutes_spread_max": 0.3559322033898305
     }
    },
    "check": {
     "violations": {
-     "H8": 117
+     "H8": 103
     },
     "examples": {
      "H8": [
       [
-       "acap11#0",
-       165
+       "acap11#1",
+       220
       ],
       [
-       "ap_che#0",
-       205
-      ],
-      [
-       "ap_hg#0",
+       "ap_bio#2",
        250
+      ],
+      [
+       "ap_che#4",
+       210
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 652
+     "teachers": 53,
+     "room_legs": 666
     }
    },
-   "J": 170.46851012682737
+   "J": 3206.197394705579
   },
   {
-   "label": "emulator 6",
+   "label": "emulator 2",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 20.10702875399361,
-     "travel_s_mean": 998.5899361022365,
-     "travel_s_cvar80": 1152.5984,
-     "travel_total_person_hours": 173.64369444444446,
+     "room_changes_mean": 20.08785942492013,
+     "travel_s_mean": 788.8987220447284,
+     "travel_s_cvar80": 954.0344,
+     "travel_total_person_hours": 137.18072222222222,
      "tight_legs_total": 0,
-     "gaps_mean": 2.9329073482428116,
-     "heavy_days_mean": 3.268370607028754,
-     "hard_subject_mean_period": 3.7640481245576787,
-     "jain_travel": 0.989210842074263,
-     "lost_min_week_mean": 151.73465558137283
+     "gaps_mean": 3.047923322683706,
+     "heavy_days_mean": 3.1038338658146967,
+     "hard_subject_mean_period": 3.7890353920888273,
+     "jain_travel": 0.9757822552250645,
+     "lost_min_week_mean": 153.53750750314646
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 16.986740740740743,
-     "L_cvar80": 23.6686,
-     "sched_L_mean": 12.51451851851852,
-     "sched_L_cvar80": 18.138600000000004,
-     "travel_s_mean": 459.05925925925925,
-     "gaps_mean": 6.666666666666667,
+     "n": 53,
+     "L_mean": 514.3184578387651,
+     "L_cvar80": 806.2654504545455,
+     "sched_L_mean": 326.59976144082333,
+     "sched_L_cvar80": 484.77066303030307,
+     "travel_s_mean": 319.0867924528302,
+     "gaps_mean": 6.962264150943396,
      "fatigue_excess": 0,
-     "jain_L": 0.8956015132849802
+     "jain_L": 0.869967417569462,
+     "xmt_adjacent_lessons": 69,
+     "coloc_mean": 0.5849056603773585,
+     "group_cvar_sum": 7653.44804,
+     "group_spread": 433.9405587373737,
+     "group_cvars": {
+      "arts": 740.143706969697,
+      "biology": 928.8320012121212,
+      "chemistry": 807.934346060606,
+      "econ": 855.8610121212121,
+      "english": 858.5022821212121,
+      "humanities": 788.6889330303031,
+      "physics": 788.0626830303031,
+      "cs": 695.808870909091,
+      "language": 518.2016966666667,
+      "math": 671.4125078787879
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 112,
+     "meetings_total": 1107,
+     "share_in_target": 0.1011743450767841
     },
     "contact": {
-     "minutes_dev_mean": 0.07068287037037037,
+     "minutes_dev_mean": 0.07783164768263943,
      "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.41791044776119407
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 107
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       200
-      ],
-      [
-       "ap_bio#3",
-       205
-      ],
-      [
-       "ap_mac#0",
-       200
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 668
-    }
-   },
-   "J": 173.31847409989135
-  },
-  {
-   "label": "emulator 7",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.078274760383387,
-     "travel_s_mean": 1009.1849840255592,
-     "travel_s_cvar80": 1124.0104,
-     "travel_total_person_hours": 175.48605555555557,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.9201277955271565,
-     "heavy_days_mean": 3.2396166134185305,
-     "hard_subject_mean_period": 3.8387827317763623,
-     "jain_travel": 0.9911106130702094,
-     "lost_min_week_mean": 151.3226057701617
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.452148148148147,
-     "L_cvar80": 21.8016,
-     "sched_L_mean": 11.979925925925926,
-     "sched_L_cvar80": 18.0434,
-     "travel_s_mean": 427.7,
-     "gaps_mean": 6.851851851851852,
-     "fatigue_excess": 0,
-     "jain_L": 0.8834014460145329
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07207054093567251,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.4148148148148148
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 101
-    },
-    "examples": {
-     "H8": [
-      [
-       "ap_bio#1",
-       200
-      ],
-      [
-       "ap_bio#3",
-       205
-      ],
-      [
-       "ap_che#2",
-       270
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 675
-    }
-   },
-   "J": 172.32423169608762
-  },
-  {
-   "label": "emulator 8",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 19.94408945686901,
-     "travel_s_mean": 1002.0581469648563,
-     "travel_s_cvar80": 1141.0783999999999,
-     "travel_total_person_hours": 174.2467777777778,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.6996805111821085,
-     "heavy_days_mean": 3.207667731629393,
-     "hard_subject_mean_period": 3.785987261146497,
-     "jain_travel": 0.9911054798827375,
-     "lost_min_week_mean": 141.04988963113564
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.285481481481483,
-     "L_cvar80": 22.8018,
-     "sched_L_mean": 11.81325925925926,
-     "sched_L_cvar80": 17.418,
-     "travel_s_mean": 422.14444444444445,
-     "gaps_mean": 6.7407407407407405,
-     "fatigue_excess": 0,
-     "jain_L": 0.9062284372081153
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07280762670565302,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.44036697247706424
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 105
-    },
-    "examples": {
-     "H8": [
-      [
-       "art9#2",
-       80
-      ],
-      [
-       "art9#3",
-       80
-      ],
-      [
-       "art9#5",
-       80
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 651
-    }
-   },
-   "J": 161.5721488903949
-  },
-  {
-   "label": "emulator 9",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.359424920127797,
-     "travel_s_mean": 1004.3680511182109,
-     "travel_s_cvar80": 1146.4672,
-     "travel_total_person_hours": 174.64844444444446,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.4712460063897765,
-     "heavy_days_mean": 3.193290734824281,
-     "hard_subject_mean_period": 3.707714083510262,
-     "jain_travel": 0.9872756723632311,
-     "lost_min_week_mean": 130.56655629780232
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 17.253185185185185,
-     "L_cvar80": 23.0232,
-     "sched_L_mean": 12.780962962962963,
-     "sched_L_cvar80": 17.7848,
-     "travel_s_mean": 476.54814814814813,
-     "gaps_mean": 6.5,
-     "fatigue_excess": 0,
-     "jain_L": 0.9119413760679523
-    },
-    "contact": {
-     "minutes_dev_mean": 0.0764589424951267,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.4628099173553719
+     "course_section_minutes_spread_max": 0.411764705882353
     }
    },
    "check": {
@@ -704,122 +332,1611 @@
      "H8": [
       [
        "ap_bio#0",
-       255
-      ],
-      [
-       "ap_bio#2",
-       270
+       260
       ],
       [
        "ap_che#2",
+       255
+      ],
+      [
+       "ap_hg#0",
+       205
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 686
+    }
+   },
+   "J": 3127.0421521434646
+  },
+  {
+   "label": "emulator 3",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 20.140575079872203,
+     "travel_s_mean": 802.0856230031949,
+     "travel_s_cvar80": 942.5136000000001,
+     "travel_total_person_hours": 139.47377777777777,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.92332268370607,
+     "heavy_days_mean": 3.247603833865815,
+     "hard_subject_mean_period": 3.6848022206800835,
+     "jain_travel": 0.9855173708248066,
+     "lost_min_week_mean": 148.0181082389389
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 516.9854227101201,
+     "L_cvar80": 809.7588230606061,
+     "sched_L_mean": 329.2667263121784,
+     "sched_L_cvar80": 474.57527981818185,
+     "travel_s_mean": 323.23018867924526,
+     "gaps_mean": 7.018867924528302,
+     "fatigue_excess": 0,
+     "jain_L": 0.8753105860126054,
+     "xmt_adjacent_lessons": 60,
+     "coloc_mean": 0.5754716981132075,
+     "group_cvar_sum": 7918.242916363637,
+     "group_spread": 339.08895161616175,
+     "group_cvars": {
+      "arts": 924.2324912121212,
+      "biology": 831.9148790909092,
+      "chemistry": 807.750646060606,
+      "econ": 902.0608981818182,
+      "english": 763.5444100000001,
+      "humanities": 739.7118369696971,
+      "physics": 834.6854090909092,
+      "cs": 831.8764690909092,
+      "language": 564.0702527272728,
+      "math": 718.395623939394
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 213,
+     "meetings_total": 1107,
+     "share_in_target": 0.19241192411924118
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07577327179890024,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.42105263157894735
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 113
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#1",
+       200
+      ],
+      [
+       "ap_bio#0",
+       260
+      ],
+      [
+       "ap_bio#2",
+       260
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 673
+    }
+   },
+   "J": 3174.81758727334
+  },
+  {
+   "label": "emulator 4",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.988817891373802,
+     "travel_s_mean": 771.8306709265175,
+     "travel_s_cvar80": 904.2624000000001,
+     "travel_total_person_hours": 134.21277777777777,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.7156549520766773,
+     "heavy_days_mean": 3.094249201277955,
+     "hard_subject_mean_period": 3.7739070090215128,
+     "jain_travel": 0.9835304079120022,
+     "lost_min_week_mean": 137.94855745957983
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 491.12564210977706,
+     "L_cvar80": 842.2031173030304,
+     "sched_L_mean": 303.40694571183536,
+     "sched_L_cvar80": 465.97855360606064,
+     "travel_s_mean": 329.72641509433964,
+     "gaps_mean": 6.452830188679245,
+     "fatigue_excess": 0,
+     "jain_L": 0.7794849263224598,
+     "xmt_adjacent_lessons": 65,
+     "coloc_mean": 0.6792452830188679,
+     "group_cvar_sum": 7880.38402030303,
+     "group_spread": 448.4712262626262,
+     "group_cvars": {
+      "arts": 832.156369090909,
+      "biology": 881.7309851515151,
+      "chemistry": 1038.5246163636364,
+      "econ": 855.7801821212122,
+      "english": 810.3865760606061,
+      "humanities": 512.2484766666666,
+      "physics": 788.497553030303,
+      "cs": 785.711323030303,
+      "language": 565.5625627272727,
+      "math": 809.785376060606
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 126,
+     "meetings_total": 1107,
+     "share_in_target": 0.11382113821138211
+    },
+    "contact": {
+     "minutes_dev_mean": 0.0738112480361351,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.42105263157894735
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 112
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#0",
+       215
+      ],
+      [
+       "acap11#1",
+       165
+      ],
+      [
+       "ap_bio#2",
+       250
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 662
+    }
+   },
+   "J": 3150.5777926310107
+  },
+  {
+   "label": "emulator 5",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 20.078274760383387,
+     "travel_s_mean": 788.1348242811501,
+     "travel_s_cvar80": 941.1415999999999,
+     "travel_total_person_hours": 137.0478888888889,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.81629392971246,
+     "heavy_days_mean": 3.119808306709265,
+     "hard_subject_mean_period": 3.7746009715475366,
+     "jain_travel": 0.9769315496444777,
+     "lost_min_week_mean": 142.85578565204764
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 525.7676442309892,
+     "L_cvar80": 856.6241691212123,
+     "sched_L_mean": 338.04894783304746,
+     "sched_L_cvar80": 511.9933006666667,
+     "travel_s_mean": 329.84150943396224,
+     "gaps_mean": 7.2075471698113205,
+     "fatigue_excess": 0,
+     "jain_L": 0.862569746459304,
+     "xmt_adjacent_lessons": 70,
+     "coloc_mean": 0.5566037735849056,
+     "group_cvar_sum": 8249.98776878788,
+     "group_spread": 384.53326934343437,
+     "group_cvars": {
+      "arts": 741.2375569696969,
+      "biology": 878.7537051515152,
+      "chemistry": 809.5759560606061,
+      "econ": 996.7388803030303,
+      "english": 856.5383621212122,
+      "humanities": 881.5499551515152,
+      "physics": 787.7714330303031,
+      "cs": 1015.1566433333334,
+      "language": 561.9727327272727,
+      "math": 720.692543939394
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 239,
+     "meetings_total": 1107,
+     "share_in_target": 0.21589882565492322
+    },
+    "contact": {
+     "minutes_dev_mean": 0.06968283582089553,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.44799999999999995
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 90
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#1",
+       205
+      ],
+      [
+       "ap_bio#1",
+       255
+      ],
+      [
+       "ap_che#0",
+       205
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 657
+    }
+   },
+   "J": 3308.031031790651
+  },
+  {
+   "label": "emulator 6",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.768370607028753,
+     "travel_s_mean": 773.6638977635782,
+     "travel_s_cvar80": 920.3392,
+     "travel_total_person_hours": 134.53155555555554,
+     "tight_legs_total": 0,
+     "gaps_mean": 3.169329073482428,
+     "heavy_days_mean": 3.126198083067093,
+     "hard_subject_mean_period": 3.774462179042332,
+     "jain_travel": 0.9838597255234165,
+     "lost_min_week_mean": 158.87561622615937
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 509.16611092624356,
+     "L_cvar80": 787.154671030303,
+     "sched_L_mean": 321.4474145283019,
+     "sched_L_cvar80": 521.3975388787878,
+     "travel_s_mean": 317.7188679245283,
+     "gaps_mean": 6.849056603773585,
+     "fatigue_excess": 0,
+     "jain_L": 0.760992350582814,
+     "xmt_adjacent_lessons": 71,
+     "coloc_mean": 0.6698113207547169,
+     "group_cvar_sum": 7556.927047878788,
+     "group_spread": 376.9609153872054,
+     "group_cvars": {
+      "arts": 878.0366151515152,
+      "biology": 878.3412151515151,
+      "chemistry": 901.7405881818181,
+      "econ": 672.5521178787878,
+      "english": 808.6992060606061,
+      "humanities": 695.1515609090909,
+      "physics": 789.206633030303,
+      "cs": 649.1767948484849,
+      "language": 563.5468727272728,
+      "math": 720.4754439393939
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 131,
+     "meetings_total": 1107,
+     "share_in_target": 0.11833785004516711
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07460231736056559,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.41791044776119407
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 111
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#1",
+       210
+      ],
+      [
+       "ap_bio#0",
+       250
+      ],
+      [
+       "ap_bio#2",
        255
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 697
+     "teachers": 53,
+     "room_legs": 660
     }
    },
-   "J": 152.2399192607653
+   "J": 3102.340143404293
+  },
+  {
+   "label": "emulator 7",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.809904153354633,
+     "travel_s_mean": 742.0579872204472,
+     "travel_s_cvar80": 891.252,
+     "travel_total_person_hours": 129.03563888888888,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.81629392971246,
+     "heavy_days_mean": 3.1070287539936103,
+     "hard_subject_mean_period": 3.7207494795281053,
+     "jain_travel": 0.9817561523144805,
+     "lost_min_week_mean": 142.0878383677026
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 500.86937385934823,
+     "L_cvar80": 811.9649943636364,
+     "sched_L_mean": 313.15067746140653,
+     "sched_L_cvar80": 461.686386,
+     "travel_s_mean": 293.22264150943397,
+     "gaps_mean": 6.679245283018868,
+     "fatigue_excess": 0,
+     "jain_L": 0.8589883700700589,
+     "xmt_adjacent_lessons": 65,
+     "coloc_mean": 0.6037735849056604,
+     "group_cvar_sum": 7547.896687878788,
+     "group_spread": 340.68417178451176,
+     "group_cvars": {
+      "arts": 785.4761930303031,
+      "biology": 831.2452090909092,
+      "chemistry": 899.6180181818181,
+      "econ": 717.3368439393939,
+      "english": 900.5361881818183,
+      "humanities": 512.8062566666667,
+      "physics": 740.054856969697,
+      "cs": 878.5823651515152,
+      "language": 562.3087327272727,
+      "math": 719.932023939394
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 262,
+     "meetings_total": 1107,
+     "share_in_target": 0.23667570009033423
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07609546838177533,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.43076923076923074
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 114
+    },
+    "examples": {
+     "H8": [
+      [
+       "ap_che#4",
+       210
+      ],
+      [
+       "ap_hg#0",
+       205
+      ],
+      [
+       "ap_mac#0",
+       165
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 668
+    }
+   },
+   "J": 3035.6217581388732
+  },
+  {
+   "label": "emulator 8",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.776357827476037,
+     "travel_s_mean": 776.9007987220447,
+     "travel_s_cvar80": 912.54,
+     "travel_total_person_hours": 135.09441666666666,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.637380191693291,
+     "heavy_days_mean": 3.2124600638977636,
+     "hard_subject_mean_period": 3.7780707841776544,
+     "jain_travel": 0.9786636689037262,
+     "lost_min_week_mean": 134.42767668699778
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 515.8852269353916,
+     "L_cvar80": 830.3102117878789,
+     "sched_L_mean": 328.16653053744994,
+     "sched_L_cvar80": 480.01787642424244,
+     "travel_s_mean": 305.4358490566038,
+     "gaps_mean": 7,
+     "fatigue_excess": 0,
+     "jain_L": 0.7691132472335133,
+     "xmt_adjacent_lessons": 60,
+     "coloc_mean": 0.6415094339622641,
+     "group_cvar_sum": 7872.081450303031,
+     "group_spread": 354.62546363636363,
+     "group_cvars": {
+      "arts": 787.0810630303031,
+      "biology": 924.3941412121212,
+      "chemistry": 899.3675181818182,
+      "econ": 716.045933939394,
+      "english": 720.1681639393939,
+      "humanities": 556.1197127272727,
+      "physics": 924.4318812121212,
+      "cs": 923.9916712121212,
+      "language": 562.5488827272727,
+      "math": 857.9324821212122
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 155,
+     "meetings_total": 1107,
+     "share_in_target": 0.14001806684733514
+    },
+    "contact": {
+     "minutes_dev_mean": 0.0726918450510605,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.4444444444444444
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 107
+    },
+    "examples": {
+     "H8": [
+      [
+       "ap_che#4",
+       255
+      ],
+      [
+       "ap_es#0",
+       210
+      ],
+      [
+       "ap_hg#1",
+       255
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 678
+    }
+   },
+   "J": 3152.8839464365687
+  },
+  {
+   "label": "emulator 9",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.947284345047922,
+     "travel_s_mean": 759.3429712460064,
+     "travel_s_cvar80": 875.9439999999998,
+     "travel_total_person_hours": 132.04130555555557,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.876996805111821,
+     "heavy_days_mean": 3.1070287539936103,
+     "hard_subject_mean_period": 3.7628036086051355,
+     "jain_travel": 0.9834128615746593,
+     "lost_min_week_mean": 145.17193266531123
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 506.6471643567753,
+     "L_cvar80": 821.3283165757575,
+     "sched_L_mean": 318.9284679588336,
+     "sched_L_cvar80": 484.249489030303,
+     "travel_s_mean": 328.6528301886793,
+     "gaps_mean": 6.7924528301886795,
+     "fatigue_excess": 0,
+     "jain_L": 0.776973944048939,
+     "xmt_adjacent_lessons": 61,
+     "coloc_mean": 0.5754716981132075,
+     "group_cvar_sum": 8011.525448484848,
+     "group_spread": 375.9052164983164,
+     "group_cvars": {
+      "arts": 786.4898830303031,
+      "biology": 924.9953412121213,
+      "chemistry": 853.9532021212121,
+      "econ": 993.8317403030303,
+      "english": 901.7045181818182,
+      "humanities": 694.9762109090909,
+      "physics": 835.438249090909,
+      "cs": 740.093266969697,
+      "language": 562.1400627272727,
+      "math": 717.902973939394
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 269,
+     "meetings_total": 1107,
+     "share_in_target": 0.24299909665763325
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07151782207384132,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.42748091603053434
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 103
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#0",
+       160
+      ],
+      [
+       "ap_bio#0",
+       205
+      ],
+      [
+       "ap_che#0",
+       255
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 648
+    }
+   },
+   "J": 3203.65908380933
   },
   {
    "label": "emulator 10",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 20.41373801916933,
-     "travel_s_mean": 1042.3523961661342,
-     "travel_s_cvar80": 1162.3008,
-     "travel_total_person_hours": 181.2535,
+     "room_changes_mean": 19.924920127795527,
+     "travel_s_mean": 756.8535143769968,
+     "travel_s_cvar80": 910.4584,
+     "travel_total_person_hours": 131.60841666666667,
      "tight_legs_total": 0,
-     "gaps_mean": 2.878594249201278,
-     "heavy_days_mean": 3.252396166134185,
-     "hard_subject_mean_period": 3.818825194621373,
-     "jain_travel": 0.9923118632428379,
-     "lost_min_week_mean": 149.96233565688837
+     "gaps_mean": 2.806709265175719,
+     "heavy_days_mean": 3.1389776357827475,
+     "hard_subject_mean_period": 3.6771686328938236,
+     "jain_travel": 0.9771760629292127,
+     "lost_min_week_mean": 141.8929550295285
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 17.108074074074075,
-     "L_cvar80": 23.4772,
-     "sched_L_mean": 12.635851851851852,
-     "sched_L_cvar80": 17.748400000000004,
-     "travel_s_mean": 463.73703703703706,
-     "gaps_mean": 6.722222222222222,
+     "n": 53,
+     "L_mean": 491.539725997713,
+     "L_cvar80": 809.2271950606062,
+     "sched_L_mean": 303.8210295997713,
+     "sched_L_cvar80": 474.8144568181818,
+     "travel_s_mean": 310.3905660377359,
+     "gaps_mean": 6.471698113207547,
      "fatigue_excess": 0,
-     "jain_L": 0.9235672339331852
+     "jain_L": 0.8105662989491683,
+     "xmt_adjacent_lessons": 72,
+     "coloc_mean": 0.5471698113207547,
+     "group_cvar_sum": 7860.692040303031,
+     "group_spread": 314.27957730639736,
+     "group_cvars": {
+      "arts": 832.9095390909091,
+      "biology": 876.2343451515152,
+      "chemistry": 900.5231581818182,
+      "econ": 809.0873160606061,
+      "english": 807.5702860606061,
+      "humanities": 786.5122530303031,
+      "physics": 786.6775830303031,
+      "cs": 739.470356969697,
+      "language": 556.9887827272728,
+      "math": 764.71842
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 183,
+     "meetings_total": 1107,
+     "share_in_target": 0.16531165311653118
     },
     "contact": {
-     "minutes_dev_mean": 0.06903874269005848,
-     "minutes_dev_max": 0.19407894736842102,
-     "course_section_minutes_spread_max": 0.35294117647058826
+     "minutes_dev_mean": 0.07823976335428123,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.45161290322580644
     }
    },
    "check": {
     "violations": {
-     "H8": 105
+     "H8": 116
     },
     "examples": {
      "H8": [
       [
-       "ap_hg#0",
+       "ap_bio#0",
+       205
+      ],
+      [
+       "ap_che#3",
        250
       ],
       [
-       "ap_mac#0",
-       165
-      ],
-      [
-       "ap_mic#0",
-       200
+       "ap_es#1",
+       260
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 666
+     "teachers": 53,
+     "room_legs": 652
     }
    },
-   "J": 171.4723875087402
+   "J": 3119.898719455899
   },
   {
    "label": "emulator 11",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 20.2444089456869,
-     "travel_s_mean": 1005.3916932907348,
-     "travel_s_cvar80": 1140.92,
-     "travel_total_person_hours": 174.82644444444443,
+     "room_changes_mean": 20.070287539936103,
+     "travel_s_mean": 779.055750798722,
+     "travel_s_cvar80": 909.2576,
+     "travel_total_person_hours": 135.4691388888889,
      "tight_legs_total": 0,
-     "gaps_mean": 2.805111821086262,
-     "heavy_days_mean": 3.071884984025559,
-     "hard_subject_mean_period": 3.8819532908704883,
-     "jain_travel": 0.9895749668217328,
-     "lost_min_week_mean": 145.9616787685158
+     "gaps_mean": 3.0319488817891376,
+     "heavy_days_mean": 2.9600638977635785,
+     "hard_subject_mean_period": 3.799444829979181,
+     "jain_travel": 0.9888389125047669,
+     "lost_min_week_mean": 152.63766555329656
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 16.643074074074075,
-     "L_cvar80": 22.2634,
-     "sched_L_mean": 12.170851851851852,
-     "sched_L_cvar80": 18.388799999999996,
-     "travel_s_mean": 446.9685185185185,
-     "gaps_mean": 6.462962962962963,
+     "n": 53,
+     "L_mean": 520.3724980731847,
+     "L_cvar80": 865.4878283333334,
+     "sched_L_mean": 332.653801675243,
+     "sched_L_cvar80": 521.2114018787878,
+     "travel_s_mean": 316.1943396226415,
+     "gaps_mean": 7.09433962264151,
      "fatigue_excess": 0,
-     "jain_L": 0.878868195341816
+     "jain_L": 0.8356854597713386,
+     "xmt_adjacent_lessons": 64,
+     "coloc_mean": 0.6037735849056604,
+     "group_cvar_sum": 8266.141341818182,
+     "group_spread": 510.0509221717172,
+     "group_cvars": {
+      "arts": 970.3782672727273,
+      "biology": 971.5786572727272,
+      "chemistry": 808.6975360606061,
+      "econ": 993.6710903030303,
+      "english": 742.9873769696969,
+      "humanities": 787.053003030303,
+      "physics": 879.1611851515152,
+      "cs": 878.7326651515152,
+      "language": 562.0057927272728,
+      "math": 671.8757678787879
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 195,
+     "meetings_total": 1107,
+     "share_in_target": 0.17615176151761516
     },
     "contact": {
-     "minutes_dev_mean": 0.06960709064327485,
+     "minutes_dev_mean": 0.08136660447761195,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.4444444444444444
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 126
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#0",
+       160
+      ],
+      [
+       "ap_bio#2",
+       250
+      ],
+      [
+       "ap_che#1",
+       210
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 635
+    }
+   },
+   "J": 3353.2523012563174
+  },
+  {
+   "label": "emulator 12",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 20.14856230031949,
+     "travel_s_mean": 791.041214057508,
+     "travel_s_cvar80": 955.732,
+     "travel_total_person_hours": 137.55327777777777,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.6182108626198084,
+     "heavy_days_mean": 3.142172523961661,
+     "hard_subject_mean_period": 3.8159611380985425,
+     "jain_travel": 0.9787892213657344,
+     "lost_min_week_mean": 133.78039936102238
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 494.510202378502,
+     "L_cvar80": 763.372667,
+     "sched_L_mean": 306.7915059805603,
+     "sched_L_cvar80": 466.4435816060606,
+     "travel_s_mean": 332.14339622641506,
+     "gaps_mean": 6.528301886792453,
+     "fatigue_excess": 0,
+     "jain_L": 0.8846701976378621,
+     "xmt_adjacent_lessons": 73,
+     "coloc_mean": 0.5471698113207547,
+     "group_cvar_sum": 7248.567878484849,
+     "group_spread": 333.6296822222222,
+     "group_cvars": {
+      "arts": 740.407566969697,
+      "biology": 786.593083030303,
+      "chemistry": 761.18069,
+      "econ": 718.527553939394,
+      "english": 809.2626660606061,
+      "humanities": 580.7148057575757,
+      "physics": 741.926926969697,
+      "cs": 971.0068472727273,
+      "language": 511.7224266666667,
+      "math": 627.2253118181818
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 208,
+     "meetings_total": 1107,
+     "share_in_target": 0.1878952122854562
+    },
+    "contact": {
+     "minutes_dev_mean": 0.08057553515318147,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.44036697247706424
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 121
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#1",
+       165
+      ],
+      [
+       "ap_bio#1",
+       270
+      ],
+      [
+       "ap_che#2",
+       260
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 676
+    }
+   },
+   "J": 2931.7714802456235
+  },
+  {
+   "label": "emulator 13",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 20.180511182108628,
+     "travel_s_mean": 801.4100638977635,
+     "travel_s_cvar80": 954.6224,
+     "travel_total_person_hours": 139.35630555555554,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.6118210862619806,
+     "heavy_days_mean": 3.071884984025559,
+     "hard_subject_mean_period": 3.7690492713393478,
+     "jain_travel": 0.9850877069013276,
+     "lost_min_week_mean": 133.65889655339333
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 496.5414644939966,
+     "L_cvar80": 819.6043082727272,
+     "sched_L_mean": 308.8227680960549,
+     "sched_L_cvar80": 471.4435612121212,
+     "travel_s_mean": 348.5660377358491,
+     "gaps_mean": 6.566037735849057,
+     "fatigue_excess": 0,
+     "jain_L": 0.8192546412607264,
+     "xmt_adjacent_lessons": 67,
+     "coloc_mean": 0.5660377358490566,
+     "group_cvar_sum": 7744.931972121212,
+     "group_spread": 456.4311156060607,
+     "group_cvars": {
+      "arts": 787.219673030303,
+      "biology": 925.8881212121212,
+      "chemistry": 853.9147921212121,
+      "econ": 1042.2009563636364,
+      "english": 719.484463939394,
+      "humanities": 650.6924848484848,
+      "physics": 789.089733030303,
+      "cs": 832.2939690909092,
+      "language": 471.60468060606064,
+      "math": 672.5430978787879
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 195,
+     "meetings_total": 1107,
+     "share_in_target": 0.17615176151761516
+    },
+    "contact": {
+     "minutes_dev_mean": 0.06925078554595444,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.4444444444444444
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 92
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#1",
+       200
+      ],
+      [
+       "ap_es#0",
+       200
+      ],
+      [
+       "ap_mac#0",
+       200
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 652
+    }
+   },
+   "J": 3115.790815793388
+  },
+  {
+   "label": "emulator 14",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 20.159744408945688,
+     "travel_s_mean": 802.4552715654952,
+     "travel_s_cvar80": 936.2472,
+     "travel_total_person_hours": 139.53805555555556,
+     "tight_legs_total": 0,
+     "gaps_mean": 3.1038338658146967,
+     "heavy_days_mean": 3.159744408945687,
+     "hard_subject_mean_period": 3.5805690492713396,
+     "jain_travel": 0.9844500386138438,
+     "lost_min_week_mean": 156.33872349695037
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 516.3549569353917,
+     "L_cvar80": 849.5896282121212,
+     "sched_L_mean": 328.63626053744997,
+     "sched_L_cvar80": 484.39985703030305,
+     "travel_s_mean": 334.1283018867924,
+     "gaps_mean": 7,
+     "fatigue_excess": 0,
+     "jain_L": 0.8551397212203957,
+     "xmt_adjacent_lessons": 68,
+     "coloc_mean": 0.6320754716981132,
+     "group_cvar_sum": 7968.140852424242,
+     "group_spread": 345.3846274579125,
+     "group_cvars": {
+      "arts": 832.6189590909091,
+      "biology": 879.4507651515152,
+      "chemistry": 807.5769660606061,
+      "econ": 809.674156060606,
+      "english": 901.6477381818182,
+      "humanities": 649.7900148484848,
+      "physics": 789.8702930303031,
+      "cs": 1063.4627293939395,
+      "language": 561.9069327272728,
+      "math": 672.142297878788
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 195,
+     "meetings_total": 1107,
+     "share_in_target": 0.17615176151761516
+    },
+    "contact": {
+     "minutes_dev_mean": 0.06972456794972506,
+     "minutes_dev_max": 0.21578947368421053,
+     "course_section_minutes_spread_max": 0.35294117647058826
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 100
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#0",
+       200
+      ],
+      [
+       "ap_bio#3",
+       205
+      ],
+      [
+       "ap_es#0",
+       210
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 653
+    }
+   },
+   "J": 3203.9633251413024
+  },
+  {
+   "label": "emulator 15",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.902555910543132,
+     "travel_s_mean": 783.4222044728434,
+     "travel_s_cvar80": 945.8824000000001,
+     "travel_total_person_hours": 136.22841666666667,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.6006389776357826,
+     "heavy_days_mean": 3.1070287539936103,
+     "hard_subject_mean_period": 3.7907009021512836,
+     "jain_travel": 0.9775448288816797,
+     "lost_min_week_mean": 132.84404419595313
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 501.84825887935966,
+     "L_cvar80": 858.4141424242425,
+     "sched_L_mean": 314.12956248141796,
+     "sched_L_cvar80": 475.01662781818186,
+     "travel_s_mean": 295.2792452830189,
+     "gaps_mean": 6.69811320754717,
+     "fatigue_excess": 0,
+     "jain_L": 0.8075383717786557,
+     "xmt_adjacent_lessons": 71,
+     "coloc_mean": 0.6792452830188679,
+     "group_cvar_sum": 8241.232628787879,
+     "group_spread": 327.866806147186,
+     "group_cvars": {
+      "arts": 832.0444790909091,
+      "biology": 832.3804790909091,
+      "chemistry": 1038.6966263636364,
+      "econ": 994.7108303030303,
+      "english": 857.0757721212121,
+      "humanities": 605.1135087878788,
+      "physics": 695.110810909091,
+      "cs": 831.5815490909091,
+      "language": 513.6853466666666,
+      "math": 1040.8332263636364
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 196,
+     "meetings_total": 1107,
+     "share_in_target": 0.17705510388437218
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07361608896307935,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.45901639344262296
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 115
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#1",
+       160
+      ],
+      [
+       "ap_che#0",
+       250
+      ],
+      [
+       "ap_che#1",
+       210
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 670
+    }
+   },
+   "J": 3238.8184107596217
+  },
+  {
+   "label": "emulator 16",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.8482428115016,
+     "travel_s_mean": 796.0678913738019,
+     "travel_s_cvar80": 941.5255999999999,
+     "travel_total_person_hours": 138.4273611111111,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.599041533546326,
+     "heavy_days_mean": 2.9952076677316293,
+     "hard_subject_mean_period": 3.773768216516308,
+     "jain_travel": 0.9860830086064302,
+     "lost_min_week_mean": 132.98122640139414
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 502.53807586049174,
+     "L_cvar80": 796.4123162424243,
+     "sched_L_mean": 314.81937946255005,
+     "sched_L_cvar80": 457.5484593939394,
+     "travel_s_mean": 338.8452830188679,
+     "gaps_mean": 6.69811320754717,
+     "fatigue_excess": 0,
+     "jain_L": 0.7534622149420226,
+     "xmt_adjacent_lessons": 66,
+     "coloc_mean": 0.6415094339622641,
+     "group_cvar_sum": 7644.741330000001,
+     "group_spread": 346.1088135690236,
+     "group_cvars": {
+      "arts": 785.7266930303031,
+      "biology": 831.9549590909091,
+      "chemistry": 945.8038742424243,
+      "econ": 721.2012239393939,
+      "english": 808.1982060606061,
+      "humanities": 789.796143030303,
+      "physics": 741.324056969697,
+      "cs": 833.5444690909092,
+      "language": 515.8563466666667,
+      "math": 671.3353578787879
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 131,
+     "meetings_total": 1107,
+     "share_in_target": 0.11833785004516711
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07528414670070699,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.45528455284552843
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 110
+    },
+    "examples": {
+     "H8": [
+      [
+       "ap_bio#3",
+       205
+      ],
+      [
+       "ap_che#1",
+       260
+      ],
+      [
+       "ap_che#3",
+       260
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 675
+    }
+   },
+   "J": 3056.52443795317
+  },
+  {
+   "label": "emulator 17",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.891373801916934,
+     "travel_s_mean": 769.241054313099,
+     "travel_s_cvar80": 901.9463999999999,
+     "travel_total_person_hours": 133.76247222222221,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.6118210862619806,
+     "heavy_days_mean": 3.253993610223642,
+     "hard_subject_mean_period": 3.81970853573907,
+     "jain_travel": 0.9820422187701067,
+     "lost_min_week_mean": 133.12274639364892
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 496.0853782675815,
+     "L_cvar80": 811.8760493636364,
+     "sched_L_mean": 308.3666818696398,
+     "sched_L_cvar80": 484.812014030303,
+     "travel_s_mean": 317.86603773584903,
+     "gaps_mean": 6.566037735849057,
+     "fatigue_excess": 0,
+     "jain_L": 0.7794322546595055,
+     "xmt_adjacent_lessons": 65,
+     "coloc_mean": 0.6226415094339622,
+     "group_cvar_sum": 7737.036222121213,
+     "group_spread": 396.2057820490621,
+     "group_cvars": {
+      "arts": 970.3164772727273,
+      "biology": 832.3691190909092,
+      "chemistry": 1128.4848484848485,
+      "econ": 674.1793678787878,
+      "english": 763.7965800000001,
+      "humanities": 561.9152827272727,
+      "physics": 879.5693351515151,
+      "cs": 693.7076809090909,
+      "language": 559.7770127272727,
+      "math": 672.9205178787879
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 150,
+     "meetings_total": 1107,
+     "share_in_target": 0.13550135501355012
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07615561174391203,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.45528455284552843
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 114
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#0",
+       210
+      ],
+      [
+       "acap11#1",
+       205
+      ],
+      [
+       "ap_bio#3",
+       205
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 662
+    }
+   },
+   "J": 3104.05774742707
+  },
+  {
+   "label": "emulator 18",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 20.097444089456868,
+     "travel_s_mean": 781.7015974440894,
+     "travel_s_cvar80": 920.16,
+     "travel_total_person_hours": 135.92922222222222,
+     "tight_legs_total": 0,
+     "gaps_mean": 3.1773162939297124,
+     "heavy_days_mean": 3.3466453674121404,
+     "hard_subject_mean_period": 3.8316446911866757,
+     "jain_travel": 0.9796078820549103,
+     "lost_min_week_mean": 159.37747410204278
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 512.4492485534591,
+     "L_cvar80": 826.0943631818182,
+     "sched_L_mean": 324.73055215551744,
+     "sched_L_cvar80": 488.03815263636363,
+     "travel_s_mean": 315.1924528301887,
+     "gaps_mean": 6.9245283018867925,
+     "fatigue_excess": 0,
+     "jain_L": 0.8254735659672904,
+     "xmt_adjacent_lessons": 71,
+     "coloc_mean": 0.5188679245283019,
+     "group_cvar_sum": 7917.138376363637,
+     "group_spread": 327.54669010101014,
+     "group_cvars": {
+      "arts": 878.6762251515152,
+      "biology": 879.1919151515151,
+      "chemistry": 854.9802521212122,
+      "econ": 855.6956821212121,
+      "english": 854.3413121212122,
+      "humanities": 786.629823030303,
+      "physics": 833.2876190909092,
+      "cs": 741.239886969697,
+      "language": 514.1699766666667,
+      "math": 718.925683939394
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 146,
+     "meetings_total": 1107,
+     "share_in_target": 0.13188798554652212
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07467166633935586,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.4148148148148148
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 110
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#0",
+       200
+      ],
+      [
+       "acap11#1",
+       205
+      ],
+      [
+       "ap_che#3",
+       250
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 651
+    }
+   },
+   "J": 3185.1552880100858
+  },
+  {
+   "label": "emulator 19",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.988817891373802,
+     "travel_s_mean": 770.7864217252396,
+     "travel_s_cvar80": 906.1536,
+     "travel_total_person_hours": 134.03119444444445,
+     "tight_legs_total": 0,
+     "gaps_mean": 2.7843450479233227,
+     "heavy_days_mean": 3.1629392971246006,
+     "hard_subject_mean_period": 3.7937543372657876,
+     "jain_travel": 0.9858201382409589,
+     "lost_min_week_mean": 141.0950607512828
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 505.4241636763865,
+     "L_cvar80": 787.249261030303,
+     "sched_L_mean": 317.7054672784448,
+     "sched_L_cvar80": 466.10737660606065,
+     "travel_s_mean": 304.0698113207547,
+     "gaps_mean": 6.773584905660377,
+     "fatigue_excess": 0,
+     "jain_L": 0.809014994894261,
+     "xmt_adjacent_lessons": 70,
+     "coloc_mean": 0.6320754716981132,
+     "group_cvar_sum": 7605.286913939394,
+     "group_spread": 316.42337691919187,
+     "group_cvars": {
+      "arts": 832.4202290909091,
+      "biology": 834.6075890909092,
+      "chemistry": 900.4129381818182,
+      "econ": 763.92083,
+      "english": 811.9530360606061,
+      "humanities": 693.953500909091,
+      "physics": 924.9409012121212,
+      "cs": 697.0860909090909,
+      "language": 517.8810566666667,
+      "math": 628.1107418181819
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 220,
+     "meetings_total": 1107,
+     "share_in_target": 0.1987353206865402
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07757327670856246,
      "minutes_dev_max": 0.30263157894736836,
      "course_section_minutes_spread_max": 0.4242424242424242
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 126
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#0",
+       200
+      ],
+      [
+       "acap11#1",
+       165
+      ],
+      [
+       "ap_bio#3",
+       200
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 663
+    }
+   },
+   "J": 3052.5461347443743
+  },
+  {
+   "label": "emulator 20",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 20.089456869009584,
+     "travel_s_mean": 791.0726837060703,
+     "travel_s_cvar80": 934.1936,
+     "travel_total_person_hours": 137.55875,
+     "tight_legs_total": 0,
+     "gaps_mean": 3.0079872204472844,
+     "heavy_days_mean": 3.1533546325878596,
+     "hard_subject_mean_period": 3.682997918112422,
+     "jain_travel": 0.9798905967534923,
+     "lost_min_week_mean": 151.73425912479428
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 497.29859215551744,
+     "L_cvar80": 828.0879754848486,
+     "sched_L_mean": 309.57989575757574,
+     "sched_L_cvar80": 512.5743606666667,
+     "travel_s_mean": 341.29811320754715,
+     "gaps_mean": 6.584905660377358,
+     "fatigue_excess": 0,
+     "jain_L": 0.8019146921132899,
+     "xmt_adjacent_lessons": 69,
+     "coloc_mean": 0.5754716981132075,
+     "group_cvar_sum": 7877.304870303031,
+     "group_spread": 401.5383246969698,
+     "group_cvars": {
+      "arts": 926.0143812121212,
+      "biology": 923.8807812121213,
+      "chemistry": 898.1818181818182,
+      "econ": 1085.5210924242424,
+      "english": 718.850863939394,
+      "humanities": 671.8550578787879,
+      "physics": 788.236363030303,
+      "cs": 831.8236990909091,
+      "language": 472.69052060606066,
+      "math": 560.2502927272727
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 176,
+     "meetings_total": 1107,
+     "share_in_target": 0.15898825654923215
+    },
+    "contact": {
+     "minutes_dev_mean": 0.06951283876669286,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.4057971014492754
+    }
+   },
+   "check": {
+    "violations": {
+     "H8": 97
+    },
+    "examples": {
+     "H8": [
+      [
+       "acap11#1",
+       200
+      ],
+      [
+       "ap_bio#2",
+       255
+      ],
+      [
+       "ap_che#0",
+       250
+      ]
+     ]
+    },
+    "ok": false,
+    "n_checked": {
+     "sections": 268,
+     "students": 626,
+     "teachers": 53,
+     "room_legs": 652
+    }
+   },
+   "J": 3181.1773774808553
+  },
+  {
+   "label": "emulator 21",
+   "metrics": {
+    "students": {
+     "n": 626,
+     "room_changes_mean": 19.920127795527158,
+     "travel_s_mean": 779.0186900958466,
+     "travel_s_cvar80": 968.4896,
+     "travel_total_person_hours": 135.46269444444445,
+     "tight_legs_total": 0,
+     "gaps_mean": 3.0175718849840254,
+     "heavy_days_mean": 3.070287539936102,
+     "hard_subject_mean_period": 3.6398334489937545,
+     "jain_travel": 0.9716951757713008,
+     "lost_min_week_mean": 151.97483468874043
+    },
+    "teachers": {
+     "n": 53,
+     "L_mean": 510.71339417381364,
+     "L_cvar80": 839.2634830000001,
+     "sched_L_mean": 322.99469777587194,
+     "sched_L_cvar80": 494.0934392424243,
+     "travel_s_mean": 309.11509433962266,
+     "gaps_mean": 6.886792452830188,
+     "fatigue_excess": 0,
+     "jain_L": 0.8412637904549423,
+     "xmt_adjacent_lessons": 74,
+     "coloc_mean": 0.6226415094339622,
+     "group_cvar_sum": 7985.479795454546,
+     "group_spread": 288.6677528787878,
+     "group_cvars": {
+      "arts": 785.524623030303,
+      "biology": 785.041653030303,
+      "chemistry": 807.3865860606061,
+      "econ": 1042.5256063636364,
+      "english": 901.5502081818182,
+      "humanities": 787.2176630303031,
+      "physics": 785.3172030303031,
+      "cs": 832.8464090909091,
+      "language": 558.6908427272728,
+      "math": 699.3790009090909
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 161,
+     "meetings_total": 1107,
+     "share_in_target": 0.14543812104787715
+    },
+    "contact": {
+     "minutes_dev_mean": 0.07247152395915162,
+     "minutes_dev_max": 0.30263157894736836,
+     "course_section_minutes_spread_max": 0.42105263157894735
     }
    },
    "check": {
@@ -830,783 +1947,197 @@
      "H8": [
       [
        "ap_bio#0",
-       205
-      ],
-      [
-       "ap_bio#2",
-       205
-      ],
-      [
-       "ap_mac#0",
-       160
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 652
-    }
-   },
-   "J": 167.32693062036768
-  },
-  {
-   "label": "emulator 12",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 19.905750798722046,
-     "travel_s_mean": 983.8214057507987,
-     "travel_s_cvar80": 1122.128,
-     "travel_total_person_hours": 171.0756111111111,
-     "tight_legs_total": 0,
-     "gaps_mean": 3.0351437699680512,
-     "heavy_days_mean": 3.2220447284345046,
-     "hard_subject_mean_period": 3.756121726822364,
-     "jain_travel": 0.9901068244975662,
-     "lost_min_week_mean": 156.19758495498112
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.334074074074074,
-     "L_cvar80": 22.035400000000003,
-     "sched_L_mean": 11.861851851851853,
-     "sched_L_cvar80": 17.3582,
-     "travel_s_mean": 428.74074074074076,
-     "gaps_mean": 6.574074074074074,
-     "fatigue_excess": 0,
-     "jain_L": 0.8973696051658722
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07357456140350878,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.43768996960486317
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 109
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       200
-      ],
-      [
-       "ap_bio#1",
        255
-      ],
-      [
-       "ap_bio#2",
-       250
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 653
-    }
-   },
-   "J": 176.738536806833
-  },
-  {
-   "label": "emulator 13",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.292332268370608,
-     "travel_s_mean": 1029.7023961661343,
-     "travel_s_cvar80": 1205.8072,
-     "travel_total_person_hours": 179.05380555555558,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.9041533546325877,
-     "heavy_days_mean": 3.1054313099041533,
-     "hard_subject_mean_period": 3.675300778485492,
-     "jain_travel": 0.9825404052397374,
-     "lost_min_week_mean": 150.9287702100881
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.467444444444446,
-     "L_cvar80": 22.4594,
-     "sched_L_mean": 11.995222222222223,
-     "sched_L_cvar80": 17.9166,
-     "travel_s_mean": 436.3351851851852,
-     "gaps_mean": 6.537037037037037,
-     "fatigue_excess": 0,
-     "jain_L": 0.9019869238113596
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07608552631578948,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.44094488188976383
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 113
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       160
       ],
       [
        "ap_bio#2",
        255
       ],
       [
-       "ap_bio#3",
-       210
+       "ap_che#0",
+       205
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
+     "teachers": 53,
      "room_legs": 671
     }
    },
-   "J": 171.88229243231032
-  },
-  {
-   "label": "emulator 14",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.1741214057508,
-     "travel_s_mean": 1011.7947284345048,
-     "travel_s_cvar80": 1159.9496000000001,
-     "travel_total_person_hours": 175.9398611111111,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.718849840255591,
-     "heavy_days_mean": 3.1453674121405752,
-     "hard_subject_mean_period": 3.665109695682944,
-     "jain_travel": 0.9903008618697617,
-     "lost_min_week_mean": 142.0951169038629
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.605074074074075,
-     "L_cvar80": 22.5738,
-     "sched_L_mean": 12.132851851851852,
-     "sched_L_cvar80": 17.346,
-     "travel_s_mean": 443.67962962962963,
-     "gaps_mean": 6.518518518518518,
-     "fatigue_excess": 0,
-     "jain_L": 0.9099580949880816
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07338633040935673,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.43410852713178294
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 109
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       210
-      ],
-      [
-       "ap_bio#0",
-       205
-      ],
-      [
-       "ap_bio#2",
-       255
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 693
-    }
-   },
-   "J": 162.90096875571476
-  },
-  {
-   "label": "emulator 15",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 19.996805111821086,
-     "travel_s_mean": 1000.4557507987221,
-     "travel_s_cvar80": 1174.1424,
-     "travel_total_person_hours": 173.96813888888892,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.9249201277955272,
-     "heavy_days_mean": 3.2651757188498403,
-     "hard_subject_mean_period": 3.6556263269639064,
-     "jain_travel": 0.9874216825961052,
-     "lost_min_week_mean": 151.39785627843938
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.448333333333334,
-     "L_cvar80": 22.3694,
-     "sched_L_mean": 11.976111111111111,
-     "sched_L_cvar80": 17.371000000000002,
-     "travel_s_mean": 423.3425925925926,
-     "gaps_mean": 7.018518518518518,
-     "fatigue_excess": 0,
-     "jain_L": 0.9142290926875443
-    },
-    "contact": {
-     "minutes_dev_mean": 0.0752156432748538,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.47058823529411764
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 116
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       225
-      ],
-      [
-       "ap_bio#0",
-       205
-      ],
-      [
-       "ap_che#0",
-       205
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 667
-    }
-   },
-   "J": 172.0594673895505
-  },
-  {
-   "label": "emulator 16",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.426517571884983,
-     "travel_s_mean": 1012.5281150159744,
-     "travel_s_cvar80": 1137.1184,
-     "travel_total_person_hours": 176.06738888888887,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.5782747603833864,
-     "heavy_days_mean": 3.2380191693290734,
-     "hard_subject_mean_period": 3.8066525123849964,
-     "jain_travel": 0.9918202165875083,
-     "lost_min_week_mean": 135.63236663762223
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 17.094037037037037,
-     "L_cvar80": 23.235,
-     "sched_L_mean": 12.621814814814815,
-     "sched_L_cvar80": 18.19,
-     "travel_s_mean": 461.64629629629627,
-     "gaps_mean": 6.777777777777778,
-     "fatigue_excess": 0,
-     "jain_L": 0.8791377490081681
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07694566276803119,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.4375
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 120
-    },
-    "examples": {
-     "H8": [
-      [
-       "ap_che#3",
-       265
-      ],
-      [
-       "ap_mac#0",
-       200
-      ],
-      [
-       "ap_phy#0",
-       200
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 699
-    }
-   },
-   "J": 157.34918145243705
-  },
-  {
-   "label": "emulator 17",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.123003194888177,
-     "travel_s_mean": 1006.8702875399362,
-     "travel_s_cvar80": 1206.7144,
-     "travel_total_person_hours": 175.08355555555556,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.8322683706070286,
-     "heavy_days_mean": 3.1038338658146967,
-     "hard_subject_mean_period": 3.691578202406228,
-     "jain_travel": 0.9798927328953095,
-     "lost_min_week_mean": 147.23716913544388
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.591296296296296,
-     "L_cvar80": 22.1188,
-     "sched_L_mean": 12.119074074074074,
-     "sched_L_cvar80": 17.956200000000003,
-     "travel_s_mean": 444.84259259259255,
-     "gaps_mean": 6.444444444444445,
-     "fatigue_excess": 0,
-     "jain_L": 0.9071376701149141
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07623172514619883,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.40875912408759124
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 114
-    },
-    "examples": {
-     "H8": [
-      [
-       "ap_bio#1",
-       265
-      ],
-      [
-       "ap_che#4",
-       205
-      ],
-      [
-       "ap_hg#0",
-       205
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 664
-    }
-   },
-   "J": 168.33434320951795
-  },
-  {
-   "label": "emulator 18",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.269968051118212,
-     "travel_s_mean": 1010.5212460063897,
-     "travel_s_cvar80": 1151.1576,
-     "travel_total_person_hours": 175.71841666666666,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.7619808306709266,
-     "heavy_days_mean": 3.1613418530351436,
-     "hard_subject_mean_period": 3.7612172682236378,
-     "jain_travel": 0.9896180376172411,
-     "lost_min_week_mean": 144.0605317552522
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.242444444444445,
-     "L_cvar80": 22.330599999999997,
-     "sched_L_mean": 11.770222222222221,
-     "sched_L_cvar80": 17.440199999999997,
-     "travel_s_mean": 430.64074074074074,
-     "gaps_mean": 6.314814814814815,
-     "fatigue_excess": 0,
-     "jain_L": 0.9007309513092522
-    },
-    "contact": {
-     "minutes_dev_mean": 0.06700292397660819,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.45161290322580644
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 88
-    },
-    "examples": {
-     "H8": [
-      [
-       "ap_che#2",
-       200
-      ],
-      [
-       "ap_che#3",
-       250
-      ],
-      [
-       "ap_psy#1",
-       165
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 649
-    }
-   },
-   "J": 164.55085397747445
-  },
-  {
-   "label": "emulator 19",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 19.98562300319489,
-     "travel_s_mean": 993.5246006389776,
-     "travel_s_cvar80": 1150.0072,
-     "travel_total_person_hours": 172.7628888888889,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.7555910543130993,
-     "heavy_days_mean": 3.060702875399361,
-     "hard_subject_mean_period": 3.7446567586694974,
-     "jain_travel": 0.9891820223376537,
-     "lost_min_week_mean": 143.48293736082874
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.81437037037037,
-     "L_cvar80": 22.428800000000003,
-     "sched_L_mean": 12.342148148148148,
-     "sched_L_cvar80": 16.9912,
-     "travel_s_mean": 450.44074074074075,
-     "gaps_mean": 6.666666666666667,
-     "fatigue_excess": 0,
-     "jain_L": 0.9229708853575898
-    },
-    "contact": {
-     "minutes_dev_mean": 0.0803192007797271,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.43410852713178294
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 121
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       165
-      ],
-      [
-       "ap_bio#1",
-       210
-      ],
-      [
-       "ap_che#2",
-       255
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 635
-    }
-   },
-   "J": 164.32068550897688
-  },
-  {
-   "label": "emulator 20",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 19.840255591054312,
-     "travel_s_mean": 992.1801916932908,
-     "travel_s_cvar80": 1140.9888,
-     "travel_total_person_hours": 172.52911111111112,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.9552715654952078,
-     "heavy_days_mean": 3.3370607028753994,
-     "hard_subject_mean_period": 3.800424628450106,
-     "jain_travel": 0.9887957502430005,
-     "lost_min_week_mean": 152.65793590860685
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.407703703703703,
-     "L_cvar80": 21.5622,
-     "sched_L_mean": 11.935481481481482,
-     "sched_L_cvar80": 16.831,
-     "travel_s_mean": 428.7185185185185,
-     "gaps_mean": 6.722222222222222,
-     "fatigue_excess": 0,
-     "jain_L": 0.9171518956311454
-    },
-    "contact": {
-     "minutes_dev_mean": 0.0736884746588694,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.4666666666666667
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 109
-    },
-    "examples": {
-     "H8": [
-      [
-       "acap11#0",
-       160
-      ],
-      [
-       "ap_che#2",
-       210
-      ],
-      [
-       "ap_hg#0",
-       260
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 683
-    }
-   },
-   "J": 173.00891739008833
-  },
-  {
-   "label": "emulator 21",
-   "metrics": {
-    "students": {
-     "n": 626,
-     "room_changes_mean": 20.177316293929714,
-     "travel_s_mean": 1013.8744408945687,
-     "travel_s_cvar80": 1166.7384000000002,
-     "travel_total_person_hours": 176.3015,
-     "tight_legs_total": 0,
-     "gaps_mean": 2.900958466453674,
-     "heavy_days_mean": 3.1118210862619806,
-     "hard_subject_mean_period": 3.7146496815286625,
-     "jain_travel": 0.9888929119734795,
-     "lost_min_week_mean": 150.51781246974537
-    },
-    "teachers": {
-     "n": 54,
-     "L_mean": 16.72222222222222,
-     "L_cvar80": 22.6102,
-     "sched_L_mean": 12.25,
-     "sched_L_cvar80": 16.705000000000002,
-     "travel_s_mean": 447.68518518518516,
-     "gaps_mean": 6.592592592592593,
-     "fatigue_excess": 0,
-     "jain_L": 0.9189855012499848
-    },
-    "contact": {
-     "minutes_dev_mean": 0.07580835769980508,
-     "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.43076923076923074
-    }
-   },
-   "check": {
-    "violations": {
-     "H8": 116
-    },
-    "examples": {
-     "H8": [
-      [
-       "ap_bio#3",
-       210
-      ],
-      [
-       "ap_che#0",
-       200
-      ],
-      [
-       "ap_che#1",
-       255
-      ]
-     ]
-    },
-    "ok": false,
-    "n_checked": {
-     "sections": 270,
-     "students": 626,
-     "teachers": 54,
-     "room_legs": 661
-    }
-   },
-   "J": 171.12031246974536
+   "J": 3189.8271289418853
   },
   {
    "label": "emulator 22",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 19.971246006389777,
-     "travel_s_mean": 975.2535143769967,
-     "travel_s_cvar80": 1129.728,
-     "travel_total_person_hours": 169.58575,
+     "room_changes_mean": 19.771565495207668,
+     "travel_s_mean": 762.2944089456869,
+     "travel_s_cvar80": 900.484,
+     "travel_total_person_hours": 132.55452777777776,
      "tight_legs_total": 0,
-     "gaps_mean": 2.70926517571885,
-     "heavy_days_mean": 3.1293929712460065,
-     "hard_subject_mean_period": 3.7331917905166314,
-     "jain_travel": 0.987122606196655,
-     "lost_min_week_mean": 141.04462121212123
+     "gaps_mean": 3.001597444089457,
+     "heavy_days_mean": 3.1613418530351436,
+     "hard_subject_mean_period": 3.7725190839694656,
+     "jain_travel": 0.9803669537435205,
+     "lost_min_week_mean": 150.96030424048797
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 16.673666666666666,
-     "L_cvar80": 21.5288,
-     "sched_L_mean": 12.201444444444444,
-     "sched_L_cvar80": 16.6868,
-     "travel_s_mean": 440.1648148148148,
-     "gaps_mean": 6.796296296296297,
+     "n": 53,
+     "L_mean": 523.6758781532304,
+     "L_cvar80": 851.0223875151516,
+     "sched_L_mean": 335.95718175528873,
+     "sched_L_cvar80": 480.2675424242425,
+     "travel_s_mean": 303.0169811320755,
+     "gaps_mean": 7.169811320754717,
      "fatigue_excess": 0,
-     "jain_L": 0.9228843741730861
+     "jain_L": 0.8355970720462067,
+     "xmt_adjacent_lessons": 58,
+     "coloc_mean": 0.6509433962264151,
+     "group_cvar_sum": 8129.543023636364,
+     "group_spread": 369.19103582491573,
+     "group_cvars": {
+      "arts": 925.3330212121213,
+      "biology": 876.2994751515153,
+      "chemistry": 855.9722321212121,
+      "econ": 948.3663242424243,
+      "english": 903.7469281818182,
+      "humanities": 672.6479778787879,
+      "physics": 879.2136251515152,
+      "cs": 877.7106251515152,
+      "language": 608.8209087878788,
+      "math": 581.4319057575758
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 231,
+     "meetings_total": 1107,
+     "share_in_target": 0.2086720867208672
     },
     "contact": {
-     "minutes_dev_mean": 0.07307626705653021,
+     "minutes_dev_mean": 0.07062426355066771,
      "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.44799999999999995
+     "course_section_minutes_spread_max": 0.45161290322580644
     }
    },
    "check": {
     "violations": {
-     "H8": 105
+     "H8": 106
     },
     "examples": {
      "H8": [
       [
+       "acap11#0",
+       200
+      ],
+      [
+       "acap11#1",
+       165
+      ],
+      [
        "ap_bio#0",
-       205
-      ],
-      [
-       "ap_bio#1",
-       205
-      ],
-      [
-       "ap_bio#2",
-       260
+       255
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 685
+     "teachers": 53,
+     "room_legs": 650
     }
    },
-   "J": 161.58946565656566
+   "J": 3258.211923255036
   },
   {
    "label": "emulator 23",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 19.940894568690094,
-     "travel_s_mean": 997.7539936102237,
-     "travel_s_cvar80": 1191.696,
-     "travel_total_person_hours": 173.49833333333333,
+     "room_changes_mean": 19.829073482428115,
+     "travel_s_mean": 774.0736421725239,
+     "travel_s_cvar80": 940.1224,
+     "travel_total_person_hours": 134.60280555555556,
      "tight_legs_total": 0,
-     "gaps_mean": 2.693290734824281,
-     "heavy_days_mean": 3.1757188498402558,
-     "hard_subject_mean_period": 3.7602264685067235,
-     "jain_travel": 0.9827183638440696,
-     "lost_min_week_mean": 140.6838367702585
+     "gaps_mean": 3.0399361022364215,
+     "heavy_days_mean": 3.1996805111821085,
+     "hard_subject_mean_period": 3.7276891047883414,
+     "jain_travel": 0.9792402904665406,
+     "lost_min_week_mean": 152.92252662406815
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 15.871629629629629,
-     "L_cvar80": 20.9452,
-     "sched_L_mean": 11.399407407407407,
-     "sched_L_cvar80": 16.4868,
-     "travel_s_mean": 411.17407407407404,
-     "gaps_mean": 6.351851851851852,
+     "n": 53,
+     "L_mean": 524.3107933619211,
+     "L_cvar80": 869.2953619393941,
+     "sched_L_mean": 336.59209696397943,
+     "sched_L_cvar80": 507.867065060606,
+     "travel_s_mean": 287.86603773584903,
+     "gaps_mean": 7.188679245283019,
      "fatigue_excess": 0,
-     "jain_L": 0.8992753468901582
+     "jain_L": 0.7376526869798832,
+     "xmt_adjacent_lessons": 68,
+     "coloc_mean": 0.6698113207547169,
+     "group_cvar_sum": 8240.856208787878,
+     "group_spread": 413.5299278787878,
+     "group_cvars": {
+      "arts": 785.541323030303,
+      "biology": 831.8871590909091,
+      "chemistry": 899.6063281818183,
+      "econ": 948.5099442424242,
+      "english": 902.4867481818183,
+      "humanities": 650.2900148484848,
+      "physics": 742.126656969697,
+      "cs": 1200.7651275757576,
+      "language": 607.4999387878788,
+      "math": 672.1429678787879
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 209,
+     "meetings_total": 1107,
+     "share_in_target": 0.18879855465221318
     },
     "contact": {
-     "minutes_dev_mean": 0.07784052144249513,
+     "minutes_dev_mean": 0.07360565593087195,
      "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.44094488188976383
+     "course_section_minutes_spread_max": 0.44799999999999995
     }
    },
    "check": {
     "violations": {
-     "H8": 110
+     "H8": 117
     },
     "examples": {
      "H8": [
       [
-       "ap_bio#0",
+       "acap11#0",
+       200
+      ],
+      [
+       "acap11#1",
+       200
+      ],
+      [
+       "ap_che#0",
        205
-      ],
-      [
-       "ap_bio#1",
-       255
-      ],
-      [
-       "ap_bio#2",
-       255
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 669
+     "teachers": 53,
+     "room_legs": 645
     }
    },
-   "J": 160.3266441776659
+   "J": 3319.087500724411
   }
  ],
  "optimized": {
@@ -1614,32 +2145,54 @@
   "metrics": {
    "students": {
     "n": 626,
-    "room_changes_mean": 3.718849840255591,
-    "travel_s_mean": 187.03338658146964,
-    "travel_s_cvar80": 330.776,
-    "travel_total_person_hours": 32.52302777777778,
+    "room_changes_mean": 4.228434504792332,
+    "travel_s_mean": 132.3549520766773,
+    "travel_s_cvar80": 264.8952,
+    "travel_total_person_hours": 23.015055555555556,
     "tight_legs_total": 0,
-    "gaps_mean": 0.0463258785942492,
-    "heavy_days_mean": 2.741214057507987,
-    "hard_subject_mean_period": 3.3149327671620665,
-    "jain_travel": 0.6964430129277253,
-    "lost_min_week_mean": 5.251021154032336
+    "gaps_mean": 0.35303514376996803,
+    "heavy_days_mean": 2.5175718849840254,
+    "hard_subject_mean_period": 3.1171408743927826,
+    "jain_travel": 0.6407787802683584,
+    "lost_min_week_mean": 18.466928550682542
    },
    "teachers": {
-    "n": 54,
-    "L_mean": 16.089962962962964,
-    "L_cvar80": 21.5612,
-    "sched_L_mean": 11.617740740740741,
-    "sched_L_cvar80": 18.577199999999998,
-    "travel_s_mean": 508.6648148148148,
-    "gaps_mean": 2.888888888888889,
+    "n": 53,
+    "L_mean": 377.3552422984563,
+    "L_cvar80": 671.2742018787878,
+    "sched_L_mean": 189.6365459005146,
+    "sched_L_cvar80": 343.69777424242426,
+    "travel_s_mean": 384.7132075471698,
+    "gaps_mean": 3.9622641509433962,
     "fatigue_excess": 0,
-    "jain_L": 0.8414771687149298
+    "jain_L": 0.7651058404390433,
+    "xmt_adjacent_lessons": 48,
+    "coloc_mean": 0.7075471698113207,
+    "group_cvar_sum": 6405.260266363636,
+    "group_spread": 353.67854828282833,
+    "group_cvars": {
+     "arts": 694.0563809090909,
+     "biology": 785.4641630303031,
+     "chemistry": 760.56112,
+     "econ": 670.4669578787879,
+     "english": 535.7263396969697,
+     "humanities": 376.0238984848485,
+     "physics": 833.6279690909091,
+     "cs": 647.7058548484848,
+     "language": 520.1472466666667,
+     "math": 581.4803357575759
+    }
+   },
+   "arts": {
+    "target_period": 4,
+    "meetings_in_target": 340,
+    "meetings_total": 1107,
+    "share_in_target": 0.3071364046973803
    },
    "contact": {
-    "minutes_dev_mean": 0.03713328460038986,
+    "minutes_dev_mean": 0.03765956402199527,
     "minutes_dev_max": 0.13157894736842113,
-    "course_section_minutes_spread_max": 0.13284132841328414
+    "course_section_minutes_spread_max": 0.13259668508287292
    }
   },
   "check": {
@@ -1647,121 +2200,258 @@
    "examples": {},
    "ok": true,
    "n_checked": {
-    "sections": 270,
+    "sections": 268,
     "students": 626,
-    "teachers": 54,
-    "room_legs": 720
+    "teachers": 53,
+    "room_legs": 725
    }
   },
-  "J": 26.157361894773075,
+  "J": 2389.9500785522073,
   "solver": {
    "status": "FEASIBLE",
-   "objective": 8075.0,
-   "bound": 1779.0,
-   "wall": 150.174351,
-   "room_info": {
-    "ps_before_polish": 157172.0,
-    "ps_after_polish": 144550.8
+   "objective": 4614.0,
+   "bound": 322.0,
+   "wall": 150.034567,
+   "certificate": {
+    "G9": {
+     "nodes": 98,
+     "edges": 772,
+     "clique_lb": 8,
+     "color_ub": 11,
+     "slots_available": 31,
+     "slack": 23,
+     "feasible_necessary": true,
+     "clique": [
+      "cmp9#0",
+      "art9#0",
+      "phy9#0",
+      "his9#0",
+      "che9#0",
+      "chi9#0",
+      "math9#0",
+      "eng9#0"
+     ]
+    },
+    "G10": {
+     "nodes": 112,
+     "edges": 514,
+     "clique_lb": 8,
+     "color_ub": 8,
+     "slots_available": 31,
+     "slack": 23,
+     "feasible_necessary": true,
+     "clique": [
+      "gm10#0",
+      "ma10#4",
+      "chi10#0",
+      "eng10#0",
+      "his10#0",
+      "phy10#9",
+      "math10#0",
+      "che10#7"
+     ]
+    },
+    "G11AP": {
+     "nodes": 58,
+     "edges": 164,
+     "clique_lb": 6,
+     "color_ub": 6,
+     "slots_available": 29,
+     "slack": 23,
+     "feasible_necessary": true,
+     "clique": [
+      "ap_es#0",
+      "chi11#5",
+      "ap_che#3",
+      "eng11#5",
+      "ap_psy#1",
+      "math11#5"
+     ]
+    }
    },
-   "t_slots": 151.0461094379425,
-   "t_rooms": 3.783118724822998
+   "room_info": {
+    "ps_before_polish": 110485.40000000026,
+    "ps_after_polish": 103244.00000000017
+   },
+   "t_slots": 150.36225581169128,
+   "t_rooms": 1.683577060699463
   }
  },
+ "J_note": "J is diagnostic: the reported composite at one weight setting. Decisions use fair_frontier (efficiency vs tail tradeoff), not J alone.",
+ "fair_frontier": [
+  {
+   "mu": 0.0,
+   "total_person_seconds": 105758.80000000018,
+   "student_travel_mean": 136.26485623003197,
+   "student_travel_cvar80": 265.92240000000004,
+   "teacher_sched_mean": 189.6765881646655,
+   "teacher_travel_mean": 385.9811320754717,
+   "J": 2389.9942434093905,
+   "ok": true,
+   "violations": {}
+  },
+  {
+   "mu": 1.0,
+   "total_person_seconds": 106527.10000000015,
+   "student_travel_mean": 137.35159744408946,
+   "student_travel_cvar80": 262.1664,
+   "teacher_sched_mean": 189.7043164665523,
+   "teacher_travel_mean": 387.64150943396226,
+   "J": 2389.9648762077018,
+   "ok": true,
+   "violations": {}
+  },
+  {
+   "mu": 4.0,
+   "total_person_seconds": 109260.40000000024,
+   "student_travel_mean": 141.4843450479233,
+   "student_travel_cvar80": 261.6304,
+   "teacher_sched_mean": 189.76925118353344,
+   "teacher_travel_mean": 390.40000000000003,
+   "J": 2390.3130645752226,
+   "ok": true,
+   "violations": {}
+  }
+ ],
  "ablation": {
   "blind_slots+opt_rooms": {
    "label": "blind slots + optimized rooms",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 3.9472843450479234,
-     "travel_s_mean": 193.2605431309904,
-     "travel_s_cvar80": 386.8792,
-     "travel_total_person_hours": 33.60586111111111,
+     "room_changes_mean": 3.806709265175719,
+     "travel_s_mean": 122.4944089456869,
+     "travel_s_cvar80": 248.9264,
+     "travel_total_person_hours": 21.300416666666667,
      "tight_legs_total": 0,
-     "gaps_mean": 2.8961661341853033,
-     "heavy_days_mean": 3.1996805111821085,
-     "hard_subject_mean_period": 3.8822363765038923,
-     "jain_travel": 0.6624009024260682,
-     "lost_min_week_mean": 136.62017644496078
+     "gaps_mean": 2.6900958466453675,
+     "heavy_days_mean": 3.1853035143769968,
+     "hard_subject_mean_period": 3.7686328938237335,
+     "jain_travel": 0.633294603045497,
+     "lost_min_week_mean": 125.94901854003292
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 16.628074074074075,
-     "L_cvar80": 22.051,
-     "sched_L_mean": 12.155851851851851,
-     "sched_L_cvar80": 18.476,
-     "travel_s_mean": 439.27407407407406,
-     "gaps_mean": 6.7407407407407405,
+     "n": 53,
+     "L_mean": 500.1574688393368,
+     "L_cvar80": 815.783783969697,
+     "sched_L_mean": 312.4387724413951,
+     "sched_L_cvar80": 484.29464803030305,
+     "travel_s_mean": 298.6792452830189,
+     "gaps_mean": 6.660377358490566,
      "fatigue_excess": 0,
-     "jain_L": 0.8829736375472222
+     "jain_L": 0.8175318305661944,
+     "xmt_adjacent_lessons": 67,
+     "coloc_mean": 0.6698113207547169,
+     "group_cvar_sum": 7983.009535454546,
+     "group_spread": 311.7382084175084,
+     "group_cvars": {
+      "arts": 923.7882712121212,
+      "biology": 968.3922972727273,
+      "chemistry": 806.060606060606,
+      "econ": 899.9199581818182,
+      "english": 810.1968660606061,
+      "humanities": 648.8421248484849,
+      "physics": 785.747063030303,
+      "cs": 924.1980812121212,
+      "language": 564.6417227272727,
+      "math": 651.2225448484849
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 237,
+     "meetings_total": 1107,
+     "share_in_target": 0.2140921409214092
     },
     "contact": {
-     "minutes_dev_mean": 0.07844541910331383,
+     "minutes_dev_mean": 0.06614296936370778,
      "minutes_dev_max": 0.30263157894736836,
-     "course_section_minutes_spread_max": 0.3888888888888889
+     "course_section_minutes_spread_max": 0.4375
     }
    },
    "check": {
     "violations": {
-     "H8": 120
+     "H8": 89
     },
     "examples": {
      "H8": [
       [
-       "ap_bio#2",
+       "acap11#0",
        200
       ],
       [
-       "ap_che#1",
-       250
+       "acap11#1",
+       220
       ],
       [
-       "ap_mac#0",
-       220
+       "ap_che#5",
+       210
       ]
      ]
     },
     "ok": false,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 681
+     "teachers": 53,
+     "room_legs": 662
     }
    },
-   "J": 158.01402829681263
+   "J": 3153.37252773732
   },
   "opt_slots+owned_rooms": {
    "label": "optimized slots + owned rooms",
    "metrics": {
     "students": {
      "n": 626,
-     "room_changes_mean": 20.570287539936103,
-     "travel_s_mean": 1043.5592651757188,
-     "travel_s_cvar80": 1191.6584,
-     "travel_total_person_hours": 181.4633611111111,
+     "room_changes_mean": 20.549520766773163,
+     "travel_s_mean": 797.0643769968051,
+     "travel_s_cvar80": 929.7615999999999,
+     "travel_total_person_hours": 138.60063888888888,
      "tight_legs_total": 0,
-     "gaps_mean": 0.0463258785942492,
-     "heavy_days_mean": 2.741214057507987,
-     "hard_subject_mean_period": 3.3149327671620665,
-     "jain_travel": 0.9900737516229909,
-     "lost_min_week_mean": 19.52645246393649
+     "gaps_mean": 0.35303514376996803,
+     "heavy_days_mean": 2.5175718849840254,
+     "hard_subject_mean_period": 3.1171408743927826,
+     "jain_travel": 0.9838700762986605,
+     "lost_min_week_mean": 29.545418966018005
     },
     "teachers": {
-     "n": 54,
-     "L_mean": 15.10674074074074,
-     "L_cvar80": 20.5516,
-     "sched_L_mean": 10.634518518518519,
-     "sched_L_cvar80": 15.9114,
-     "travel_s_mean": 459.5037037037037,
-     "gaps_mean": 2.888888888888889,
+     "n": 53,
+     "L_mean": 376.9299781475129,
+     "L_cvar80": 672.4014518787878,
+     "sched_L_mean": 189.21128174957119,
+     "sched_L_cvar80": 342.7304102424242,
+     "travel_s_mean": 362.6377358490566,
+     "gaps_mean": 3.9622641509433962,
      "fatigue_excess": 0,
-     "jain_L": 0.8861107561824898
+     "jain_L": 0.7619956260188865,
+     "xmt_adjacent_lessons": 48,
+     "coloc_mean": 0.6509433962264151,
+     "group_cvar_sum": 6409.247886363636,
+     "group_spread": 357.23372447330445,
+     "group_cvars": {
+      "arts": 694.1549109090909,
+      "biology": 786.5797230303031,
+      "chemistry": 762.15597,
+      "econ": 673.0648078787879,
+      "english": 536.2189896969697,
+      "humanities": 374.85823848484847,
+      "physics": 835.6436590909091,
+      "cs": 648.2375848484849,
+      "language": 515.9792566666667,
+      "math": 582.3547457575758
+     }
+    },
+    "arts": {
+     "target_period": 4,
+     "meetings_in_target": 340,
+     "meetings_total": 1107,
+     "share_in_target": 0.3071364046973803
     },
     "contact": {
-     "minutes_dev_mean": 0.03713328460038986,
+     "minutes_dev_mean": 0.03765956402199527,
      "minutes_dev_max": 0.13157894736842113,
-     "course_section_minutes_spread_max": 0.13284132841328414
+     "course_section_minutes_spread_max": 0.13259668508287292
     }
    },
    "check": {
@@ -1769,13 +2459,13 @@
     "examples": {},
     "ok": true,
     "n_checked": {
-     "sections": 270,
+     "sections": 268,
      "students": 626,
-     "teachers": 54,
-     "room_legs": 720
+     "teachers": 53,
+     "room_legs": 725
     }
    },
-   "J": 38.116670982455005
+   "J": 2402.2047028642182
   }
  },
  "shocks": {
@@ -1784,97 +2474,60 @@
     {
      "feasible": true,
      "level": "substitute",
-     "teacher": "ENG06",
-     "day": "Tue",
-     "affected_meetings": 3,
-     "covered": 3,
-     "uncovered": 0,
-     "moved_meetings": 0,
-     "room_changes": 0,
-     "delta_student_lost_min_mean": 0.0,
-     "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 0
-    },
-    {
-     "feasible": true,
-     "level": "substitute",
-     "teacher": "ART02",
-     "day": "Thu",
-     "affected_meetings": 4,
-     "covered": 3,
-     "uncovered": 1,
-     "moved_meetings": 0,
-     "room_changes": 0,
-     "delta_student_lost_min_mean": 0.0,
-     "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 17
-    },
-    {
-     "feasible": true,
-     "level": "substitute",
      "teacher": "ENG07",
-     "day": "Fri",
-     "affected_meetings": 4,
-     "covered": 4,
-     "uncovered": 0,
-     "moved_meetings": 0,
-     "room_changes": 0,
-     "delta_student_lost_min_mean": 0.0,
-     "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 0
-    },
-    {
-     "feasible": true,
-     "level": "substitute",
-     "teacher": "HUM03",
-     "day": "Thu",
-     "affected_meetings": 4,
-     "covered": 4,
-     "uncovered": 0,
-     "moved_meetings": 0,
-     "room_changes": 0,
-     "delta_student_lost_min_mean": 0.0,
-     "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 0
-    },
-    {
-     "feasible": true,
-     "level": "substitute",
-     "teacher": "ART01",
      "day": "Tue",
      "affected_meetings": 4,
-     "covered": 3,
+     "covered": 4,
+     "uncovered": 0,
+     "moved_meetings": 0,
+     "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "eng10#6|12": "ENG04",
+      "eng11#4|8": "ENG09",
+      "eng11#4|11": "ENG05",
+      "eng9#6|7": "ENG08"
+     },
+     "delta_student_lost_min_mean": 0.0,
+     "delta_student_travel_s_mean": 0.0,
+     "lost_student_periods": 0
+    },
+    {
+     "feasible": true,
+     "level": "substitute",
+     "teacher": "ENG04",
+     "day": "Wed",
+     "affected_meetings": 3,
+     "covered": 2,
      "uncovered": 1,
      "moved_meetings": 0,
      "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "eng10#3|14": "ENG07",
+      "eng9#3|15": "ENG08"
+     },
      "delta_student_lost_min_mean": 0.0,
      "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 12
+     "lost_student_periods": 21
     },
     {
      "feasible": true,
      "level": "substitute",
-     "teacher": "CHE02",
-     "day": "Thu",
-     "affected_meetings": 3,
-     "covered": 3,
-     "uncovered": 0,
-     "moved_meetings": 0,
-     "room_changes": 0,
-     "delta_student_lost_min_mean": 0.0,
-     "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 0
-    },
-    {
-     "feasible": true,
-     "level": "substitute",
-     "teacher": "ENG03",
-     "day": "Wed",
+     "teacher": "ENG09",
+     "day": "Fri",
      "affected_meetings": 4,
      "covered": 4,
      "uncovered": 0,
      "moved_meetings": 0,
      "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "chi9#2|31": "LAN02",
+      "eng10#8|28": "ENG06",
+      "eng11#6|32": "ENG04",
+      "eng9#8|29": "ENG06"
+     },
      "delta_student_lost_min_mean": 0.0,
      "delta_student_travel_s_mean": 0.0,
      "lost_student_periods": 0
@@ -1882,13 +2535,78 @@
     {
      "feasible": true,
      "level": "substitute",
-     "teacher": "MAT06",
+     "teacher": "ECO00",
      "day": "Fri",
+     "affected_meetings": 2,
+     "covered": 1,
+     "uncovered": 1,
+     "moved_meetings": 0,
+     "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "ap_psy#0|31": "MAT03"
+     },
+     "delta_student_lost_min_mean": 0.0,
+     "delta_student_travel_s_mean": 0.0,
+     "lost_student_periods": 14
+    },
+    {
+     "feasible": true,
+     "level": "substitute",
+     "teacher": "PHY03",
+     "day": "Fri",
+     "affected_meetings": 3,
+     "covered": 1,
+     "uncovered": 2,
+     "moved_meetings": 0,
+     "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "phy10#8|31": "PHY01"
+     },
+     "delta_student_lost_min_mean": 0.0,
+     "delta_student_travel_s_mean": 0.0,
+     "lost_student_periods": 42
+    },
+    {
+     "feasible": true,
+     "level": "substitute",
+     "teacher": "MAT07",
+     "day": "Thu",
+     "affected_meetings": 4,
+     "covered": 4,
+     "uncovered": 0,
+     "moved_meetings": 0,
+     "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "math10#8|21": "MAT02",
+      "math11#4|23": "MAT00",
+      "math9#4|22": "MAT03",
+      "math9#10|24": "MAT04"
+     },
+     "delta_student_lost_min_mean": 0.0,
+     "delta_student_travel_s_mean": 0.0,
+     "lost_student_periods": 0
+    },
+    {
+     "feasible": true,
+     "level": "substitute",
+     "teacher": "LAN05",
+     "day": "Mon",
      "affected_meetings": 5,
      "covered": 5,
      "uncovered": 0,
      "moved_meetings": 0,
      "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "chi9#4|3": "ENG09",
+      "chi9#11|6": "ENG09",
+      "eng10#10|0": "ENG05",
+      "eng11#8|1": "ENG04",
+      "eng9#10|5": "ENG06"
+     },
      "delta_student_lost_min_mean": 0.0,
      "delta_student_travel_s_mean": 0.0,
      "lost_student_periods": 0
@@ -1896,41 +2614,19 @@
     {
      "feasible": true,
      "level": "substitute",
-     "teacher": "MAT06",
-     "day": "Thu",
-     "affected_meetings": 5,
-     "covered": 4,
-     "uncovered": 1,
-     "moved_meetings": 0,
-     "room_changes": 0,
-     "delta_student_lost_min_mean": 0.0,
-     "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 15
-    },
-    {
-     "feasible": true,
-     "level": "substitute",
-     "teacher": "MAT00",
-     "day": "Mon",
-     "affected_meetings": 4,
-     "covered": 4,
-     "uncovered": 0,
-     "moved_meetings": 0,
-     "room_changes": 0,
-     "delta_student_lost_min_mean": 0.0,
-     "delta_student_travel_s_mean": 0.0,
-     "lost_student_periods": 0
-    },
-    {
-     "feasible": true,
-     "level": "substitute",
-     "teacher": "HUM04",
-     "day": "Mon",
+     "teacher": "BIO01",
+     "day": "Wed",
      "affected_meetings": 3,
      "covered": 3,
      "uncovered": 0,
      "moved_meetings": 0,
      "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "ap_bio#1|17": "BIO00",
+      "bio10#3|18": "BIO02",
+      "bio10#9|19": "BIO00"
+     },
      "delta_student_lost_min_mean": 0.0,
      "delta_student_travel_s_mean": 0.0,
      "lost_student_periods": 0
@@ -1940,11 +2636,75 @@
      "level": "substitute",
      "teacher": "ART01",
      "day": "Wed",
-     "affected_meetings": 3,
-     "covered": 3,
+     "affected_meetings": 2,
+     "covered": 1,
+     "uncovered": 1,
+     "moved_meetings": 0,
+     "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "acap11#1|19": "ART03"
+     },
+     "delta_student_lost_min_mean": 0.0,
+     "delta_student_travel_s_mean": 0.0,
+     "lost_student_periods": 20
+    },
+    {
+     "feasible": true,
+     "level": "substitute",
+     "teacher": "ECO00",
+     "day": "Fri",
+     "affected_meetings": 2,
+     "covered": 1,
+     "uncovered": 1,
+     "moved_meetings": 0,
+     "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "ap_psy#0|31": "MAT03"
+     },
+     "delta_student_lost_min_mean": 0.0,
+     "delta_student_travel_s_mean": 0.0,
+     "lost_student_periods": 14
+    },
+    {
+     "feasible": true,
+     "level": "substitute",
+     "teacher": "MAT07",
+     "day": "Fri",
+     "affected_meetings": 4,
+     "covered": 4,
      "uncovered": 0,
      "moved_meetings": 0,
      "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "math10#8|29": "MAT00",
+      "math11#4|28": "MAT04",
+      "math9#4|30": "MAT06",
+      "math9#10|32": "MAT03"
+     },
+     "delta_student_lost_min_mean": 0.0,
+     "delta_student_travel_s_mean": 0.0,
+     "lost_student_periods": 0
+    },
+    {
+     "feasible": true,
+     "level": "substitute",
+     "teacher": "MAT01",
+     "day": "Wed",
+     "affected_meetings": 4,
+     "covered": 4,
+     "uncovered": 0,
+     "moved_meetings": 0,
+     "room_changes": 0,
+     "energy_total": 0,
+     "replacements": {
+      "math10#2|17": "MAT02",
+      "math10#12|15": "MAT03",
+      "math9#2|16": "MAT04",
+      "math9#8|14": "MAT00"
+     },
      "delta_student_lost_min_mean": 0.0,
      "delta_student_travel_s_mean": 0.0,
      "lost_student_periods": 0
@@ -1955,476 +2715,147 @@
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 21,
-     "delta_student_lost_min_mean": 0.2477848775292868,
-     "delta_student_travel_s_mean": 14.86709265175719,
+     "room_changes": 22,
+     "energy_total": 22,
+     "delta_student_lost_min_mean": 0.0932854100106475,
+     "delta_student_travel_s_mean": 5.597124600638978,
      "level": "re-room",
      "closed": [
       "106"
      ],
-     "affected_meetings": 21,
+     "affected_meetings": 22,
      "moves": [
       [
-       "chi11#3",
-       24,
-       "106",
-       "306"
-      ],
-      [
-       "ap_phy#0",
-       18,
-       "106",
-       "115"
-      ],
-      [
-       "eng11#9",
-       14,
+       "eng11#3",
+       15,
        "106",
        "107"
       ],
       [
-       "math11#9",
-       2,
+       "ap_che#2",
+       13,
        "106",
-       "207"
+       "107"
       ],
       [
-       "ap_mic#0",
-       12,
-       "106",
-       "206"
-      ],
-      [
-       "math11#9",
-       11,
-       "106",
-       "206"
-      ],
-      [
-       "chi11#9",
-       0,
-       "106",
-       "207"
-      ],
-      [
-       "math11#9",
-       8,
-       "106",
-       "109"
-      ],
-      [
-       "chi11#9",
-       15,
-       "106",
-       "212"
-      ],
-      [
-       "eng11#9",
-       1,
-       "106",
-       "207"
-      ],
-      [
-       "eng11#9",
-       7,
-       "106",
-       "109"
-      ],
-      [
-       "chi11#9",
-       30,
-       "106",
-       "206"
-      ],
-      [
-       "ap_phy#0",
-       29,
-       "106",
-       "203"
-      ],
-      [
-       "eng11#9",
-       22,
-       "106",
-       "206"
-      ],
-      [
-       "eng11#9",
-       31,
-       "106",
-       "207"
-      ],
-      [
-       "math11#9",
-       16,
-       "106",
-       "209"
-      ],
-      [
-       "math11#9",
-       28,
-       "106",
-       "203"
-      ],
-      [
-       "ap_mic#0",
-       32,
-       "106",
-       "111"
-      ],
-      [
-       "ap_phy#0",
-       10,
-       "106",
-       "109"
-      ],
-      [
-       "ap_mic#0",
-       19,
+       "ap_hg#0",
+       24,
        "106",
        "208"
       ],
       [
-       "ap_phy#0",
-       9,
-       "106",
-       "204"
-      ]
-     ]
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 24,
-     "delta_student_lost_min_mean": 0.0399653887113951,
-     "delta_student_travel_s_mean": 2.3979233226837096,
-     "level": "re-room",
-     "closed": [
-      "116"
-     ],
-     "affected_meetings": 24,
-     "moves": [
-      [
-       "math11#4",
-       18,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       11,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       20,
-       "116",
-       "112"
-      ],
-      [
-       "ap_bio#1",
-       14,
-       "116",
-       "115"
-      ],
-      [
-       "eng11#4",
-       24,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       23,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       17,
-       "116",
-       "115"
-      ],
-      [
-       "bm11#2",
-       29,
-       "116",
-       "115"
-      ],
-      [
-       "math11#4",
-       2,
-       "116",
-       "115"
-      ],
-      [
-       "phy10#5",
-       32,
-       "116",
-       "111"
-      ],
-      [
-       "eng9#4",
-       9,
-       "116",
-       "218"
-      ],
-      [
-       "ap_bio#0",
-       8,
-       "116",
-       "112"
-      ],
-      [
-       "eng11#4",
-       3,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       31,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       19,
-       "116",
-       "112"
-      ],
-      [
-       "eng11#4",
-       13,
-       "116",
-       "111"
-      ],
-      [
-       "eng11#4",
-       16,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       28,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       15,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#0",
-       7,
-       "116",
-       "112"
-      ],
-      [
-       "ap_bio#1",
-       30,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       6,
-       "116",
-       "115"
-      ],
-      [
-       "bm11#2",
-       5,
-       "116",
-       "218"
-      ],
-      [
-       "math11#4",
-       12,
-       "116",
-       "219"
-      ]
-     ]
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 27,
-     "delta_student_lost_min_mean": 0.1475452609158685,
-     "delta_student_travel_s_mean": 8.852715654952078,
-     "level": "re-room",
-     "closed": [
-      "108"
-     ],
-     "affected_meetings": 27,
-     "moves": [
-      [
-       "ap_che#2",
-       11,
-       "108",
-       "206"
-      ],
-      [
-       "ap_che#2",
-       14,
-       "108",
-       "107"
-      ],
-      [
-       "math11#3",
-       9,
-       "108",
-       "204"
-      ],
-      [
-       "ap_phy#0",
-       24,
-       "108",
-       "115"
-      ],
-      [
-       "math11#3",
-       21,
-       "108",
-       "106"
-      ],
-      [
-       "math11#3",
-       30,
-       "108",
-       "206"
-      ],
-      [
-       "law11#0",
-       18,
-       "108",
-       "115"
-      ],
-      [
-       "chi11#3",
-       8,
-       "108",
-       "109"
-      ],
-      [
-       "eng11#3",
-       32,
-       "108",
-       "111"
-      ],
-      [
-       "ap_psy#0",
-       2,
-       "108",
-       "115"
-      ],
-      [
-       "eng11#3",
-       29,
-       "108",
-       "115"
-      ],
-      [
-       "ap_che#2",
-       16,
-       "108",
-       "115"
-      ],
-      [
-       "ap_psy#0",
-       17,
-       "108",
-       "106"
-      ],
-      [
-       "ap_psy#0",
-       23,
-       "108",
-       "106"
-      ],
-      [
-       "math11#3",
-       20,
-       "108",
-       "107"
-      ],
-      [
-       "ap_mic#0",
-       5,
-       "108",
-       "107"
-      ],
-      [
-       "eng11#3",
-       19,
-       "108",
-       "112"
-      ],
-      [
        "math11#3",
        1,
-       "108",
-       "116"
+       "106",
+       "306"
       ],
       [
        "ap_che#2",
-       3,
-       "108",
-       "106"
+       22,
+       "106",
+       "104"
       ],
       [
-       "ap_psy#0",
-       7,
-       "108",
-       "109"
+       "math11#3",
+       28,
+       "106",
+       "207"
       ],
       [
-       "ap_che#2",
-       12,
-       "108",
-       "206"
+       "his9#0",
+       10,
+       "106",
+       "115"
       ],
       [
        "chi11#3",
-       28,
-       "108",
+       12,
+       "106",
+       "104"
+      ],
+      [
+       "ap_hg#0",
+       17,
+       "106",
+       "208"
+      ],
+      [
+       "ap_che#2",
+       21,
+       "106",
+       "206"
+      ],
+      [
+       "eng11#3",
+       32,
+       "106",
+       "111"
+      ],
+      [
+       "ap_hg#0",
+       9,
+       "106",
+       "104"
+      ],
+      [
+       "math11#3",
+       18,
+       "106",
+       "203"
+      ],
+      [
+       "eng11#3",
+       16,
+       "106",
+       "208"
+      ],
+      [
+       "ap_che#2",
+       14,
+       "106",
+       "208"
+      ],
+      [
+       "ap_hg#0",
+       31,
+       "106",
+       "203"
+      ],
+      [
+       "math11#3",
+       8,
+       "106",
+       "104"
+      ],
+      [
+       "ap_che#2",
+       29,
+       "106",
+       "107"
+      ],
+      [
+       "math11#3",
+       23,
+       "106",
        "115"
+      ],
+      [
+       "eng11#7",
+       11,
+       "106",
+       "107"
+      ],
+      [
+       "chi11#3",
+       7,
+       "106",
+       "107"
       ],
       [
        "eng11#3",
        0,
-       "108",
-       "116"
-      ],
-      [
-       "law11#0",
-       10,
-       "108",
-       "109"
-      ],
-      [
-       "eng11#3",
-       15,
-       "108",
-       "115"
-      ],
-      [
-       "law11#0",
-       22,
-       "108",
-       "116"
-      ],
-      [
-       "law11#0",
-       31,
-       "108",
-       "115"
+       "106",
+       "104"
       ]
      ]
     },
@@ -2433,808 +2864,146 @@
      "violations": {},
      "moved_meetings": 0,
      "room_changes": 22,
-     "delta_student_lost_min_mean": 0.29413205537806153,
-     "delta_student_travel_s_mean": 17.64792332268371,
+     "energy_total": 22,
+     "delta_student_lost_min_mean": 0.0932854100106475,
+     "delta_student_travel_s_mean": 5.597124600638978,
      "level": "re-room",
      "closed": [
-      "405"
+      "106"
      ],
      "affected_meetings": 22,
      "moves": [
       [
-       "phy9#5",
-       31,
-       "405",
-       "411"
+       "eng11#3",
+       15,
+       "106",
+       "107"
       ],
       [
-       "prg9#1",
-       26,
-       "405",
-       "402"
+       "ap_che#2",
+       13,
+       "106",
+       "107"
       ],
       [
-       "che9#5",
-       3,
-       "405",
-       "403"
+       "ap_hg#0",
+       24,
+       "106",
+       "208"
       ],
       [
-       "eng9#5",
-       23,
-       "405",
-       "413"
-      ],
-      [
-       "math9#5",
-       5,
-       "405",
-       "404"
-      ],
-      [
-       "math9#5",
-       11,
-       "405",
-       "413"
-      ],
-      [
-       "phy9#5",
-       0,
-       "405",
-       "307"
-      ],
-      [
-       "math9#5",
-       29,
-       "405",
-       "413"
-      ],
-      [
-       "eng9#5",
+       "math11#3",
        1,
-       "405",
-       "413"
-      ],
-      [
-       "eng9#5",
-       16,
-       "405",
-       "413"
-      ],
-      [
-       "phy9#5",
-       30,
-       "405",
+       "106",
        "306"
       ],
       [
-       "che9#5",
-       2,
-       "405",
-       "413"
-      ],
-      [
-       "his9#5",
-       6,
-       "405",
-       "404"
-      ],
-      [
-       "chi9#5",
-       19,
-       "405",
-       "413"
-      ],
-      [
-       "math9#5",
+       "ap_che#2",
        22,
-       "405",
-       "413"
+       "106",
+       "104"
       ],
       [
-       "che9#5",
-       32,
-       "405",
-       "402"
-      ],
-      [
-       "chi9#5",
+       "math11#3",
        28,
-       "405",
-       "404"
-      ],
-      [
-       "his9#5",
-       24,
-       "405",
-       "402"
-      ],
-      [
-       "eng9#5",
-       12,
-       "405",
-       "404"
-      ],
-      [
-       "eng9#5",
-       18,
-       "405",
-       "413"
-      ],
-      [
-       "math9#5",
-       15,
-       "405",
-       "307"
-      ],
-      [
-       "his9#5",
-       17,
-       "405",
-       "404"
-      ]
-     ]
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 25,
-     "delta_student_lost_min_mean": 0.013700745473909315,
-     "delta_student_travel_s_mean": 0.8220447284345198,
-     "level": "re-room",
-     "closed": [
-      "308"
-     ],
-     "affected_meetings": 25,
-     "moves": [
-      [
-       "phy9#4",
-       1,
-       "308",
-       "309"
-      ],
-      [
-       "chi9#4",
-       3,
-       "308",
-       "309"
-      ],
-      [
-       "math9#4",
-       16,
-       "308",
-       "309"
-      ],
-      [
-       "eng9#4",
-       28,
-       "308",
-       "309"
-      ],
-      [
-       "phy9#4",
-       19,
-       "308",
-       "309"
-      ],
-      [
-       "math9#4",
-       31,
-       "308",
-       "309"
-      ],
-      [
-       "chi9#4",
-       24,
-       "308",
-       "309"
-      ],
-      [
-       "cmp9#1",
-       27,
-       "308",
-       "309"
-      ],
-      [
-       "his9#4",
-       18,
-       "308",
-       "309"
-      ],
-      [
-       "che9#4",
-       6,
-       "308",
-       "309"
-      ],
-      [
-       "eng9#4",
-       12,
-       "308",
-       "309"
-      ],
-      [
-       "his9#4",
-       30,
-       "308",
-       "309"
-      ],
-      [
-       "eng9#4",
-       15,
-       "308",
-       "309"
-      ],
-      [
-       "phy9#4",
-       0,
-       "308",
-       "309"
-      ],
-      [
-       "geo9#1",
-       14,
-       "308",
-       "309"
-      ],
-      [
-       "chi9#4",
-       20,
-       "308",
-       "309"
-      ],
-      [
-       "cmp9#1",
-       26,
-       "308",
-       "312"
-      ],
-      [
-       "his9#4",
-       2,
-       "308",
-       "309"
-      ],
-      [
-       "che9#4",
-       5,
-       "308",
-       "309"
-      ],
-      [
-       "math9#4",
-       11,
-       "308",
-       "309"
-      ],
-      [
-       "che9#4",
-       32,
-       "308",
-       "309"
-      ],
-      [
-       "eng9#4",
-       29,
-       "308",
-       "309"
-      ],
-      [
-       "math9#4",
-       17,
-       "308",
-       "309"
-      ],
-      [
-       "math9#4",
-       23,
-       "308",
-       "309"
-      ],
-      [
-       "geo9#1",
-       13,
-       "308",
-       "309"
-      ]
-     ]
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 1,
-     "delta_student_lost_min_mean": -0.0010809371671989254,
-     "delta_student_travel_s_mean": -0.06485623003194974,
-     "level": "re-room",
-     "closed": [
-      "410"
-     ],
-     "affected_meetings": 1,
-     "moves": [
-      [
-       "geo9#3",
-       14,
-       "410",
-       "409"
-      ]
-     ]
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 24,
-     "delta_student_lost_min_mean": 0.12167731629393064,
-     "delta_student_travel_s_mean": 7.300638977635799,
-     "level": "re-room",
-     "closed": [
-      "203"
-     ],
-     "affected_meetings": 24,
-     "moves": [
-      [
-       "bio10#7",
-       16,
-       "203",
-       "218"
-      ],
-      [
-       "chi10#8",
-       5,
-       "203",
-       "206"
-      ],
-      [
-       "eng10#8",
-       18,
-       "203",
-       "218"
-      ],
-      [
-       "prg9#2",
-       27,
-       "203",
-       "206"
-      ],
-      [
-       "his10#8",
-       3,
-       "203",
-       "218"
-      ],
-      [
-       "math10#8",
-       32,
-       "203",
+       "106",
        "207"
       ],
       [
-       "eng10#8",
-       2,
-       "203",
-       "207"
-      ],
-      [
-       "bio10#7",
-       24,
-       "203",
-       "218"
-      ],
-      [
-       "gm10#8",
-       12,
-       "203",
-       "206"
-      ],
-      [
-       "phy10#7",
-       30,
-       "203",
-       "206"
-      ],
-      [
-       "chi10#8",
-       13,
-       "203",
-       "206"
-      ],
-      [
-       "his10#8",
-       11,
-       "203",
-       "206"
-      ],
-      [
-       "math10#8",
-       1,
-       "203",
-       "207"
-      ],
-      [
-       "phy10#7",
-       8,
-       "203",
-       "204"
-      ],
-      [
-       "bio10#7",
-       17,
-       "203",
-       "218"
-      ],
-      [
-       "his9#8",
-       26,
-       "203",
-       "206"
-      ],
-      [
-       "eng10#8",
+       "his9#0",
        10,
-       "203",
-       "218"
+       "106",
+       "115"
       ],
       [
-       "eng10#8",
-       22,
-       "203",
-       "206"
+       "chi11#3",
+       12,
+       "106",
+       "104"
       ],
       [
-       "math10#8",
-       9,
-       "203",
-       "204"
+       "ap_hg#0",
+       17,
+       "106",
+       "208"
       ],
       [
-       "eng10#8",
-       31,
-       "203",
-       "207"
-      ],
-      [
-       "his10#8",
-       19,
-       "203",
-       "218"
-      ],
-      [
-       "math10#8",
-       15,
-       "203",
-       "218"
-      ],
-      [
-       "math10#8",
+       "ap_che#2",
        21,
-       "203",
+       "106",
        "206"
       ],
       [
-       "phy10#7",
-       7,
-       "203",
-       "204"
-      ]
-     ]
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 24,
-     "delta_student_lost_min_mean": 0.0399653887113951,
-     "delta_student_travel_s_mean": 2.3979233226837096,
-     "level": "re-room",
-     "closed": [
-      "116"
-     ],
-     "affected_meetings": 24,
-     "moves": [
-      [
-       "math11#4",
-       18,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       11,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       20,
-       "116",
-       "112"
-      ],
-      [
-       "ap_bio#1",
-       14,
-       "116",
-       "115"
-      ],
-      [
-       "eng11#4",
-       24,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       23,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       17,
-       "116",
-       "115"
-      ],
-      [
-       "bm11#2",
-       29,
-       "116",
-       "115"
-      ],
-      [
-       "math11#4",
-       2,
-       "116",
-       "115"
-      ],
-      [
-       "phy10#5",
+       "eng11#3",
        32,
-       "116",
+       "106",
        "111"
       ],
       [
-       "eng9#4",
+       "ap_hg#0",
        9,
-       "116",
-       "218"
+       "106",
+       "104"
       ],
       [
-       "ap_bio#0",
-       8,
-       "116",
-       "112"
-      ],
-      [
-       "eng11#4",
-       3,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       31,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       19,
-       "116",
-       "112"
-      ],
-      [
-       "eng11#4",
-       13,
-       "116",
-       "111"
-      ],
-      [
-       "eng11#4",
-       16,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       28,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       15,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#0",
-       7,
-       "116",
-       "112"
-      ],
-      [
-       "ap_bio#1",
-       30,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       6,
-       "116",
-       "115"
-      ],
-      [
-       "bm11#2",
-       5,
-       "116",
-       "218"
-      ],
-      [
-       "math11#4",
-       12,
-       "116",
-       "219"
-      ]
-     ]
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 24,
-     "delta_student_lost_min_mean": 0.0399653887113951,
-     "delta_student_travel_s_mean": 2.3979233226837096,
-     "level": "re-room",
-     "closed": [
-      "116"
-     ],
-     "affected_meetings": 24,
-     "moves": [
-      [
-       "math11#4",
+       "math11#3",
        18,
-       "116",
-       "115"
+       "106",
+       "203"
       ],
       [
-       "chi11#4",
-       11,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       20,
-       "116",
-       "112"
-      ],
-      [
-       "ap_bio#1",
-       14,
-       "116",
-       "115"
-      ],
-      [
-       "eng11#4",
-       24,
-       "116",
-       "115"
-      ],
-      [
-       "chi11#4",
-       23,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       17,
-       "116",
-       "115"
-      ],
-      [
-       "bm11#2",
-       29,
-       "116",
-       "115"
-      ],
-      [
-       "math11#4",
-       2,
-       "116",
-       "115"
-      ],
-      [
-       "phy10#5",
-       32,
-       "116",
-       "111"
-      ],
-      [
-       "eng9#4",
-       9,
-       "116",
-       "218"
-      ],
-      [
-       "ap_bio#0",
-       8,
-       "116",
-       "112"
-      ],
-      [
-       "eng11#4",
-       3,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#1",
-       31,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       19,
-       "116",
-       "112"
-      ],
-      [
-       "eng11#4",
-       13,
-       "116",
-       "111"
-      ],
-      [
-       "eng11#4",
+       "eng11#3",
        16,
-       "116",
+       "106",
+       "208"
+      ],
+      [
+       "ap_che#2",
+       14,
+       "106",
+       "208"
+      ],
+      [
+       "ap_hg#0",
+       31,
+       "106",
+       "203"
+      ],
+      [
+       "math11#3",
+       8,
+       "106",
+       "104"
+      ],
+      [
+       "ap_che#2",
+       29,
+       "106",
+       "107"
+      ],
+      [
+       "math11#3",
+       23,
+       "106",
        "115"
       ],
       [
-       "ap_psy#1",
-       28,
-       "116",
-       "115"
+       "eng11#7",
+       11,
+       "106",
+       "107"
       ],
       [
-       "ap_bio#1",
-       15,
-       "116",
-       "115"
-      ],
-      [
-       "ap_bio#0",
+       "chi11#3",
        7,
-       "116",
-       "112"
+       "106",
+       "107"
       ],
       [
-       "ap_bio#1",
-       30,
-       "116",
-       "115"
-      ],
-      [
-       "ap_psy#1",
-       6,
-       "116",
-       "115"
-      ],
-      [
-       "bm11#2",
-       5,
-       "116",
-       "218"
-      ],
-      [
-       "math11#4",
-       12,
-       "116",
-       "219"
+       "eng11#3",
+       0,
+       "106",
+       "104"
       ]
      ]
     },
@@ -3242,19 +3011,204 @@
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 1,
-     "delta_student_lost_min_mean": 0.0025292864749735244,
-     "delta_student_travel_s_mean": 0.1517571884984079,
+     "room_changes": 27,
+     "energy_total": 27,
+     "delta_student_lost_min_mean": 0.055862619808305425,
+     "delta_student_travel_s_mean": 3.3517571884983965,
      "level": "re-room",
      "closed": [
-      "319"
+      "114"
      ],
-     "affected_meetings": 1,
+     "affected_meetings": 27,
      "moves": [
       [
-       "eng11#8",
+       "ap_psy#1",
+       3,
+       "114",
+       "218"
+      ],
+      [
+       "ap_es#0",
+       24,
+       "114",
+       "217"
+      ],
+      [
+       "ap_psy#1",
        9,
-       "319",
+       "114",
+       "115"
+      ],
+      [
+       "ap_psy#1",
+       15,
+       "114",
+       "217"
+      ],
+      [
+       "ap_che#3",
+       18,
+       "114",
+       "115"
+      ],
+      [
+       "ap_psy#1",
+       21,
+       "114",
+       "115"
+      ],
+      [
+       "chi11#5",
+       19,
+       "114",
+       "115"
+      ],
+      [
+       "math11#5",
+       22,
+       "114",
+       "115"
+      ],
+      [
+       "ap_che#3",
+       30,
+       "114",
+       "115"
+      ],
+      [
+       "math11#5",
+       31,
+       "114",
+       "115"
+      ],
+      [
+       "eng11#5",
+       2,
+       "114",
+       "217"
+      ],
+      [
+       "eng11#5",
+       8,
+       "114",
+       "115"
+      ],
+      [
+       "eng11#5",
+       23,
+       "114",
+       "115"
+      ],
+      [
+       "chi11#5",
+       6,
+       "114",
+       "115"
+      ],
+      [
+       "ap_che#3",
+       29,
+       "114",
+       "115"
+      ],
+      [
+       "ap_es#0",
+       1,
+       "114",
+       "115"
+      ],
+      [
+       "ap_es#0",
+       13,
+       "114",
+       "115"
+      ],
+      [
+       "eng11#5",
+       16,
+       "114",
+       "115"
+      ],
+      [
+       "ap_che#3",
+       7,
+       "114",
+       "115"
+      ],
+      [
+       "ap_che#3",
+       10,
+       "114",
+       "115"
+      ],
+      [
+       "math11#5",
+       5,
+       "114",
+       "115"
+      ],
+      [
+       "math11#5",
+       11,
+       "114",
+       "115"
+      ],
+      [
+       "eng11#5",
+       28,
+       "114",
+       "115"
+      ],
+      [
+       "math11#5",
+       17,
+       "114",
+       "214"
+      ],
+      [
+       "ap_es#0",
+       0,
+       "114",
+       "112"
+      ],
+      [
+       "chi11#5",
+       32,
+       "114",
+       "111"
+      ],
+      [
+       "ap_es#0",
+       12,
+       "114",
+       "112"
+      ]
+     ]
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 2,
+     "energy_total": 2,
+     "delta_student_lost_min_mean": 0.0011182108626179854,
+     "delta_student_travel_s_mean": 0.06709265175720702,
+     "level": "re-room",
+     "closed": [
+      "317"
+     ],
+     "affected_meetings": 2,
+     "moves": [
+      [
+       "cmp9#2",
+       2,
+       "317",
+       "318"
+      ],
+      [
+       "math9#11",
+       32,
+       "317",
        "318"
       ]
      ]
@@ -3264,151 +3218,472 @@
      "violations": {},
      "moved_meetings": 0,
      "room_changes": 23,
-     "delta_student_lost_min_mean": 0.027697018104366755,
-     "delta_student_travel_s_mean": 1.6618210862619947,
+     "energy_total": 23,
+     "delta_student_lost_min_mean": 0.17865548455803903,
+     "delta_student_travel_s_mean": 10.719329073482442,
      "level": "re-room",
      "closed": [
-      "219"
+      "404"
      ],
      "affected_meetings": 23,
      "moves": [
       [
-       "his10#0",
-       21,
-       "219",
-       "218"
-      ],
-      [
-       "phy10#9",
-       29,
-       "219",
-       "218"
-      ],
-      [
-       "math10#0",
-       32,
-       "219",
-       "218"
-      ],
-      [
-       "eng10#0",
-       10,
-       "219",
-       "218"
-      ],
-      [
-       "che10#4",
-       0,
-       "219",
-       "218"
-      ],
-      [
-       "che10#7",
-       26,
-       "219",
-       "218"
-      ],
-      [
-       "eng10#0",
-       31,
-       "219",
-       "218"
-      ],
-      [
-       "phy10#9",
-       28,
-       "219",
-       "218"
-      ],
-      [
-       "math10#0",
-       22,
-       "219",
-       "218"
-      ],
-      [
-       "eng10#0",
-       3,
-       "219",
-       "218"
-      ],
-      [
-       "eng10#0",
-       24,
-       "219",
-       "218"
-      ],
-      [
-       "math10#0",
-       6,
-       "219",
-       "218"
-      ],
-      [
-       "chi10#0",
+       "phy9#3",
        2,
-       "219",
-       "218"
+       "404",
+       "405"
       ],
       [
-       "che10#7",
-       27,
-       "219",
-       "218"
+       "math9#3",
+       0,
+       "404",
+       "405"
       ],
       [
-       "chi10#0",
-       23,
-       "219",
-       "218"
+       "his9#3",
+       16,
+       "404",
+       "306"
       ],
       [
-       "eng10#0",
-       17,
-       "219",
-       "218"
-      ],
-      [
-       "phy10#9",
+       "eng9#3",
        5,
-       "219",
-       "218"
+       "404",
+       "206"
       ],
       [
-       "che10#7",
-       18,
-       "219",
-       "218"
+       "math9#3",
+       24,
+       "404",
+       "403"
       ],
       [
-       "math10#0",
+       "che9#3",
        8,
-       "219",
-       "213"
+       "404",
+       "413"
       ],
       [
-       "math10#0",
-       14,
-       "219",
-       "218"
+       "eng9#3",
+       29,
+       "404",
+       "413"
       ],
       [
-       "his10#0",
-       9,
-       "219",
-       "218"
+       "eng9#3",
+       23,
+       "404",
+       "307"
       ],
       [
-       "chi10#0",
+       "phy9#3",
+       1,
+       "404",
+       "405"
+      ],
+      [
+       "his9#3",
+       6,
+       "404",
+       "403"
+      ],
+      [
+       "phy9#3",
+       28,
+       "404",
+       "405"
+      ],
+      [
+       "prg9#0",
+       21,
+       "404",
+       "307"
+      ],
+      [
+       "chi9#3",
+       20,
+       "404",
+       "405"
+      ],
+      [
+       "eng9#3",
        7,
-       "219",
+       "404",
+       "304"
+      ],
+      [
+       "chi9#3",
+       26,
+       "404",
+       "403"
+      ],
+      [
+       "his9#3",
+       11,
+       "404",
+       "413"
+      ],
+      [
+       "math9#3",
+       10,
+       "404",
+       "403"
+      ],
+      [
+       "bio9#0",
+       3,
+       "404",
+       "405"
+      ],
+      [
+       "math9#3",
+       19,
+       "404",
+       "411"
+      ],
+      [
+       "cmp9#2",
+       17,
+       "404",
+       "402"
+      ],
+      [
+       "eng9#3",
+       15,
+       "404",
+       "413"
+      ],
+      [
+       "che9#3",
+       9,
+       "404",
+       "403"
+      ],
+      [
+       "che9#3",
+       18,
+       "404",
+       "411"
+      ]
+     ]
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 22,
+     "energy_total": 22,
+     "delta_student_lost_min_mean": 0.021389776357828794,
+     "delta_student_travel_s_mean": 1.2833865814696708,
+     "level": "re-room",
+     "closed": [
+      "215"
+     ],
+     "affected_meetings": 22,
+     "moves": [
+      [
+       "eng10#7",
+       29,
+       "215",
        "217"
       ],
       [
-       "his10#0",
+       "chi10#7",
+       6,
+       "215",
+       "216"
+      ],
+      [
+       "che10#2",
+       3,
+       "215",
+       "216"
+      ],
+      [
+       "his10#7",
+       23,
+       "215",
+       "214"
+      ],
+      [
+       "chi10#7",
+       18,
+       "215",
+       "216"
+      ],
+      [
+       "his10#7",
+       32,
+       "215",
+       "217"
+      ],
+      [
+       "math10#7",
+       9,
+       "215",
+       "219"
+      ],
+      [
+       "chi10#7",
+       30,
+       "215",
+       "217"
+      ],
+      [
+       "eng10#7",
+       10,
+       "215",
+       "219"
+      ],
+      [
+       "bio10#4",
+       8,
+       "215",
+       "217"
+      ],
+      [
+       "his10#7",
+       16,
+       "215",
+       "214"
+      ],
+      [
+       "math10#7",
+       5,
+       "215",
+       "213"
+      ],
+      [
+       "che10#2",
+       2,
+       "215",
+       "216"
+      ],
+      [
+       "che10#2",
+       11,
+       "215",
+       "219"
+      ],
+      [
+       "math10#7",
+       14,
+       "215",
+       "217"
+      ],
+      [
+       "bio10#4",
+       7,
+       "215",
+       "214"
+      ],
+      [
+       "eng10#7",
+       24,
+       "215",
+       "214"
+      ],
+      [
+       "bio10#4",
+       19,
+       "215",
+       "216"
+      ],
+      [
+       "gm10#7",
+       20,
+       "215",
+       "216"
+      ],
+      [
+       "math10#7",
+       22,
+       "215",
+       "217"
+      ],
+      [
+       "math10#7",
+       31,
+       "215",
+       "115"
+      ],
+      [
+       "eng10#7",
+       17,
+       "215",
+       "214"
+      ]
+     ]
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 26,
+     "energy_total": 26,
+     "delta_student_lost_min_mean": 0.0864856230031954,
+     "delta_student_travel_s_mean": 5.18913738019171,
+     "level": "re-room",
+     "closed": [
+      "306"
+     ],
+     "affected_meetings": 26,
+     "moves": [
+      [
+       "chi9#6",
+       11,
+       "306",
+       "309"
+      ],
+      [
+       "eng9#6",
+       2,
+       "306",
+       "309"
+      ],
+      [
+       "che9#6",
+       28,
+       "306",
+       "309"
+      ],
+      [
+       "phy9#6",
        15,
-       "219",
-       "218"
+       "306",
+       "309"
+      ],
+      [
+       "math9#6",
+       12,
+       "306",
+       "309"
+      ],
+      [
+       "math9#6",
+       21,
+       "306",
+       "307"
+      ],
+      [
+       "bio9#1",
+       18,
+       "306",
+       "312"
+      ],
+      [
+       "bio9#1",
+       27,
+       "306",
+       "307"
+      ],
+      [
+       "che9#6",
+       9,
+       "306",
+       "307"
+      ],
+      [
+       "prg9#1",
+       24,
+       "306",
+       "308"
+      ],
+      [
+       "his9#6",
+       20,
+       "306",
+       "308"
+      ],
+      [
+       "his9#6",
+       32,
+       "306",
+       "304"
+      ],
+      [
+       "eng9#6",
+       7,
+       "306",
+       "304"
+      ],
+      [
+       "math9#6",
+       5,
+       "306",
+       "309"
+      ],
+      [
+       "phy9#6",
+       14,
+       "306",
+       "304"
+      ],
+      [
+       "eng9#6",
+       22,
+       "306",
+       "307"
+      ],
+      [
+       "phy9#6",
+       23,
+       "306",
+       "307"
+      ],
+      [
+       "eng9#6",
+       31,
+       "306",
+       "304"
+      ],
+      [
+       "math9#6",
+       29,
+       "306",
+       "309"
+      ],
+      [
+       "che9#6",
+       8,
+       "306",
+       "309"
+      ],
+      [
+       "eng11#3",
+       10,
+       "306",
+       "307"
+      ],
+      [
+       "chi9#6",
+       3,
+       "306",
+       "309"
+      ],
+      [
+       "his9#6",
+       13,
+       "306",
+       "307"
+      ],
+      [
+       "prg9#1",
+       26,
+       "306",
+       "308"
+      ],
+      [
+       "chi9#6",
+       30,
+       "306",
+       "304"
+      ],
+      [
+       "math9#6",
+       19,
+       "306",
+       "309"
       ]
      ]
     },
@@ -3417,175 +3692,534 @@
      "violations": {},
      "moved_meetings": 0,
      "room_changes": 27,
-     "delta_student_lost_min_mean": 0.06967518636847725,
-     "delta_student_travel_s_mean": 4.180511182108631,
+     "energy_total": 27,
+     "delta_student_lost_min_mean": 0.19724440894568573,
+     "delta_student_travel_s_mean": 11.83466453674123,
      "level": "re-room",
      "closed": [
-      "216"
+      "103"
      ],
      "affected_meetings": 27,
      "moves": [
       [
-       "phy10#2",
-       19,
-       "216",
-       "215"
-      ],
-      [
-       "eng10#6",
-       1,
-       "216",
-       "219"
-      ],
-      [
-       "chi10#6",
-       31,
-       "216",
-       "214"
-      ],
-      [
-       "hg10#0",
-       13,
-       "216",
-       "219"
-      ],
-      [
-       "phy10#2",
-       18,
-       "216",
-       "218"
-      ],
-      [
-       "chi10#6",
-       3,
-       "216",
-       "218"
-      ],
-      [
-       "bm11#2",
-       7,
-       "216",
-       "214"
-      ],
-      [
-       "che10#1",
-       15,
-       "216",
-       "214"
-      ],
-      [
-       "chi10#6",
-       9,
-       "216",
-       "218"
-      ],
-      [
-       "che10#1",
-       30,
-       "216",
-       "219"
-      ],
-      [
-       "math10#6",
+       "eng11#1",
        16,
-       "216",
-       "219"
+       "103",
+       "115"
       ],
       [
-       "gm10#6",
-       10,
-       "216",
-       "218"
-      ],
-      [
-       "math10#6",
-       28,
-       "216",
-       "218"
-      ],
-      [
-       "math10#6",
-       0,
-       "216",
-       "215"
-      ],
-      [
-       "eng10#6",
-       21,
-       "216",
-       "218"
-      ],
-      [
-       "che10#1",
-       14,
-       "216",
-       "214"
-      ],
-      [
-       "math10#6",
-       12,
-       "216",
-       "219"
-      ],
-      [
-       "math10#6",
+       "ap_es#1",
        24,
-       "216",
-       "218"
+       "103",
+       "208"
       ],
       [
-       "his10#6",
-       2,
-       "216",
-       "218"
-      ],
-      [
-       "eng10#6",
-       8,
-       "216",
-       "213"
-      ],
-      [
-       "his10#6",
-       11,
-       "216",
-       "219"
-      ],
-      [
-       "his10#6",
-       23,
-       "216",
-       "218"
-      ],
-      [
-       "hg10#0",
-       20,
-       "216",
-       "215"
-      ],
-      [
-       "eng10#6",
-       17,
-       "216",
-       "218"
-      ],
-      [
-       "eng10#6",
-       29,
-       "216",
-       "218"
-      ],
-      [
-       "hg10#0",
-       32,
-       "216",
-       "214"
-      ],
-      [
-       "phy10#2",
+       "eng11#1",
        22,
-       "216",
+       "103",
+       "104"
+      ],
+      [
+       "eng11#1",
+       28,
+       "103",
+       "115"
+      ],
+      [
+       "ch11#0",
+       5,
+       "103",
+       "106"
+      ],
+      [
+       "ch11#0",
+       17,
+       "103",
+       "208"
+      ],
+      [
+       "math11#1",
+       15,
+       "103",
+       "107"
+      ],
+      [
+       "math11#1",
+       21,
+       "103",
+       "116"
+      ],
+      [
+       "chi11#1",
+       6,
+       "103",
+       "106"
+      ],
+      [
+       "ap_es#1",
+       8,
+       "103",
+       "104"
+      ],
+      [
+       "eng11#1",
+       9,
+       "103",
+       "104"
+      ],
+      [
+       "ap_es#1",
+       14,
+       "103",
+       "115"
+      ],
+      [
+       "ap_es#1",
+       23,
+       "103",
+       "115"
+      ],
+      [
+       "math11#1",
+       11,
+       "103",
+       "104"
+      ],
+      [
+       "ap_che#5",
+       10,
+       "103",
+       "115"
+      ],
+      [
+       "math11#1",
+       29,
+       "103",
+       "107"
+      ],
+      [
+       "ap_che#5",
+       31,
+       "103",
+       "203"
+      ],
+      [
+       "eng11#1",
+       2,
+       "103",
+       "106"
+      ],
+      [
+       "ap_es#1",
+       7,
+       "103",
+       "104"
+      ],
+      [
+       "chi11#1",
+       32,
+       "103",
+       "203"
+      ],
+      [
+       "ap_che#5",
+       0,
+       "103",
+       "104"
+      ],
+      [
+       "math11#1",
+       1,
+       "103",
+       "115"
+      ],
+      [
+       "ap_che#5",
+       3,
+       "103",
+       "106"
+      ],
+      [
+       "ch11#0",
+       12,
+       "103",
+       "104"
+      ],
+      [
+       "ch11#0",
+       18,
+       "103",
+       "203"
+      ],
+      [
+       "ap_che#5",
+       30,
+       "103",
+       "106"
+      ],
+      [
+       "chi11#1",
+       13,
+       "103",
+       "104"
+      ]
+     ]
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 1,
+     "energy_total": 1,
+     "delta_student_lost_min_mean": 0.00087593184238699,
+     "delta_student_travel_s_mean": 0.052555910543162554,
+     "level": "re-room",
+     "closed": [
+      "309"
+     ],
+     "affected_meetings": 1,
+     "moves": [
+      [
+       "cmp9#1",
+       18,
+       "309",
+       "312"
+      ]
+     ]
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 23,
+     "energy_total": 23,
+     "delta_student_lost_min_mean": 0.013575612353566413,
+     "delta_student_travel_s_mean": 0.8145367412140843,
+     "level": "re-room",
+     "closed": [
+      "308"
+     ],
+     "affected_meetings": 23,
+     "moves": [
+      [
+       "che9#5",
+       22,
+       "308",
+       "309"
+      ],
+      [
+       "chi9#5",
+       12,
+       "308",
+       "309"
+      ],
+      [
+       "phy9#5",
+       1,
+       "308",
+       "309"
+      ],
+      [
+       "math9#5",
+       8,
+       "308",
+       "309"
+      ],
+      [
+       "eng9#5",
+       7,
+       "308",
+       "309"
+      ],
+      [
+       "prg9#1",
+       18,
+       "308",
+       "312"
+      ],
+      [
+       "eng9#5",
+       31,
+       "308",
+       "309"
+      ],
+      [
+       "phy9#5",
+       0,
+       "308",
+       "309"
+      ],
+      [
+       "his9#5",
+       5,
+       "308",
+       "309"
+      ],
+      [
+       "his9#5",
+       11,
+       "308",
+       "309"
+      ],
+      [
+       "his9#5",
+       17,
+       "308",
+       "309"
+      ],
+      [
+       "eng9#5",
+       9,
+       "308",
+       "309"
+      ],
+      [
+       "math9#5",
+       3,
+       "308",
+       "309"
+      ],
+      [
+       "che9#5",
+       23,
+       "308",
+       "309"
+      ],
+      [
+       "chi9#5",
+       19,
+       "308",
+       "309"
+      ],
+      [
+       "che9#5",
+       32,
+       "308",
+       "309"
+      ],
+      [
+       "math9#5",
+       15,
+       "308",
+       "309"
+      ],
+      [
+       "math9#5",
+       21,
+       "308",
+       "309"
+      ],
+      [
+       "chi9#5",
+       28,
+       "308",
+       "309"
+      ],
+      [
+       "eng9#5",
+       2,
+       "308",
+       "309"
+      ],
+      [
+       "math9#5",
+       30,
+       "308",
+       "309"
+      ],
+      [
+       "phy9#5",
+       29,
+       "308",
+       "309"
+      ],
+      [
+       "eng9#5",
+       14,
+       "308",
+       "309"
+      ]
+     ]
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 24,
+     "energy_total": 24,
+     "delta_student_lost_min_mean": 0.19702609158679607,
+     "delta_student_travel_s_mean": 11.821565495207665,
+     "level": "re-room",
+     "closed": [
+      "203"
+     ],
+     "affected_meetings": 24,
+     "moves": [
+      [
+       "math10#8",
+       10,
+       "203",
+       "301"
+      ],
+      [
+       "math10#8",
+       16,
+       "203",
+       "217"
+      ],
+      [
+       "eng10#8",
+       2,
+       "203",
        "218"
+      ],
+      [
+       "eng10#8",
+       14,
+       "203",
+       "217"
+      ],
+      [
+       "phy10#7",
+       12,
+       "203",
+       "201"
+      ],
+      [
+       "eng10#8",
+       26,
+       "203",
+       "204"
+      ],
+      [
+       "bio10#7",
+       24,
+       "203",
+       "217"
+      ],
+      [
+       "his10#8",
+       27,
+       "203",
+       "204"
+      ],
+      [
+       "phy10#7",
+       30,
+       "203",
+       "217"
+      ],
+      [
+       "math10#8",
+       0,
+       "203",
+       "206"
+      ],
+      [
+       "his10#8",
+       8,
+       "203",
+       "204"
+      ],
+      [
+       "math10#8",
+       21,
+       "203",
+       "206"
+      ],
+      [
+       "math10#10",
+       6,
+       "203",
+       "204"
+      ],
+      [
+       "phy10#7",
+       11,
+       "203",
+       "104"
+      ],
+      [
+       "bio10#7",
+       17,
+       "203",
+       "208"
+      ],
+      [
+       "bio10#7",
+       23,
+       "203",
+       "218"
+      ],
+      [
+       "eng10#8",
+       28,
+       "203",
+       "204"
+      ],
+      [
+       "chi10#8",
+       7,
+       "203",
+       "204"
+      ],
+      [
+       "gm10#8",
+       1,
+       "203",
+       "217"
+      ],
+      [
+       "chi10#8",
+       22,
+       "203",
+       "104"
+      ],
+      [
+       "eng10#8",
+       9,
+       "203",
+       "206"
+      ],
+      [
+       "math10#8",
+       29,
+       "203",
+       "217"
+      ],
+      [
+       "ap_hg#0",
+       3,
+       "203",
+       "218"
+      ],
+      [
+       "chi10#8",
+       15,
+       "203",
+       "217"
+      ]
+     ]
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 1,
+     "energy_total": 1,
+     "delta_student_lost_min_mean": 0.00087593184238699,
+     "delta_student_travel_s_mean": 0.052555910543162554,
+     "level": "re-room",
+     "closed": [
+      "309"
+     ],
+     "affected_meetings": 1,
+     "moves": [
+      [
+       "cmp9#1",
+       18,
+       "309",
+       "312"
       ]
      ]
     }
@@ -3596,71 +4230,90 @@
      "violations": {},
      "moved_meetings": 0,
      "room_changes": 48,
-     "delta_student_lost_min_mean": 0.24158945686900957,
-     "delta_student_travel_s_mean": 14.495367412140581,
+     "energy_total": 48,
+     "delta_student_lost_min_mean": 0.3268583599574022,
+     "delta_student_travel_s_mean": 19.61150159744409,
      "level": "re-room",
-     "extra_seats": 245,
+     "extra_seats": 237,
      "rooms_outgrown": 48,
-     "sections_over_cap": 7
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
-     "level": "re-room",
-     "extra_seats": 240,
-     "rooms_outgrown": 49,
      "sections_over_cap": 5
     },
     {
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 52,
-     "delta_student_lost_min_mean": 0.2582827476038343,
-     "delta_student_travel_s_mean": 15.49696485623005,
+     "room_changes": 55,
+     "energy_total": 55,
+     "delta_student_lost_min_mean": 0.3998961661341873,
+     "delta_student_travel_s_mean": 23.99376996805114,
      "level": "re-room",
-     "extra_seats": 236,
-     "rooms_outgrown": 52,
+     "extra_seats": 239,
+     "rooms_outgrown": 55,
      "sections_over_cap": 8
     },
     {
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
+     "room_changes": 53,
+     "energy_total": 53,
+     "delta_student_lost_min_mean": 0.5026011714589984,
+     "delta_student_travel_s_mean": 30.15607028753996,
      "level": "re-room",
-     "extra_seats": 243,
-     "rooms_outgrown": 49,
-     "sections_over_cap": 5
+     "extra_seats": 225,
+     "rooms_outgrown": 53,
+     "sections_over_cap": 7
     },
     {
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
+     "room_changes": 48,
+     "energy_total": 48,
+     "delta_student_lost_min_mean": 0.3268583599574022,
+     "delta_student_travel_s_mean": 19.61150159744409,
      "level": "re-room",
-     "extra_seats": 230,
-     "rooms_outgrown": 49,
-     "sections_over_cap": 5
+     "extra_seats": 227,
+     "rooms_outgrown": 48,
+     "sections_over_cap": 6
     },
     {
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
+     "room_changes": 48,
+     "energy_total": 48,
+     "delta_student_lost_min_mean": 0.3268583599574022,
+     "delta_student_travel_s_mean": 19.61150159744409,
      "level": "re-room",
-     "extra_seats": 241,
-     "rooms_outgrown": 49,
+     "extra_seats": 233,
+     "rooms_outgrown": 48,
+     "sections_over_cap": 4
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 53,
+     "energy_total": 53,
+     "delta_student_lost_min_mean": 0.4223988285410023,
+     "delta_student_travel_s_mean": 25.343929712460067,
+     "level": "re-room",
+     "extra_seats": 238,
+     "rooms_outgrown": 53,
+     "sections_over_cap": 6
+    },
+    {
+     "feasible": true,
+     "violations": {},
+     "moved_meetings": 0,
+     "room_changes": 53,
+     "energy_total": 53,
+     "delta_student_lost_min_mean": 0.4192012779552705,
+     "delta_student_travel_s_mean": 25.152076677316302,
+     "level": "re-room",
+     "extra_seats": 227,
+     "rooms_outgrown": 53,
      "sections_over_cap": 6
     },
     {
@@ -3668,23 +4321,12 @@
      "violations": {},
      "moved_meetings": 0,
      "room_changes": 51,
-     "delta_student_lost_min_mean": 0.25988019169329046,
-     "delta_student_travel_s_mean": 15.592811501597453,
+     "energy_total": 51,
+     "delta_student_lost_min_mean": 0.3448615548455791,
+     "delta_student_travel_s_mean": 20.691693290734833,
      "level": "re-room",
      "extra_seats": 239,
      "rooms_outgrown": 51,
-     "sections_over_cap": 6
-    },
-    {
-     "feasible": true,
-     "violations": {},
-     "moved_meetings": 0,
-     "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
-     "level": "re-room",
-     "extra_seats": 234,
-     "rooms_outgrown": 49,
      "sections_over_cap": 5
     },
     {
@@ -3692,55 +4334,59 @@
      "violations": {},
      "moved_meetings": 0,
      "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
+     "energy_total": 49,
+     "delta_student_lost_min_mean": 0.3420447284345052,
+     "delta_student_travel_s_mean": 20.522683706070296,
      "level": "re-room",
-     "extra_seats": 246,
+     "extra_seats": 241,
      "rooms_outgrown": 49,
-     "sections_over_cap": 8
+     "sections_over_cap": 7
     },
     {
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
+     "room_changes": 48,
+     "energy_total": 48,
+     "delta_student_lost_min_mean": 0.3268583599574022,
+     "delta_student_travel_s_mean": 19.61150159744409,
      "level": "re-room",
-     "extra_seats": 231,
-     "rooms_outgrown": 49,
-     "sections_over_cap": 6
+     "extra_seats": 234,
+     "rooms_outgrown": 48,
+     "sections_over_cap": 5
     },
     {
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 49,
-     "delta_student_lost_min_mean": 0.24174920127795563,
-     "delta_student_travel_s_mean": 14.504952076677313,
+     "room_changes": 48,
+     "energy_total": 48,
+     "delta_student_lost_min_mean": 0.33005591054313044,
+     "delta_student_travel_s_mean": 19.803354632587883,
      "level": "re-room",
      "extra_seats": 242,
-     "rooms_outgrown": 49,
-     "sections_over_cap": 8
+     "rooms_outgrown": 48,
+     "sections_over_cap": 4
     },
     {
      "feasible": true,
      "violations": {},
      "moved_meetings": 0,
-     "room_changes": 52,
-     "delta_student_lost_min_mean": 0.2582827476038343,
-     "delta_student_travel_s_mean": 15.49696485623005,
+     "room_changes": 51,
+     "energy_total": 51,
+     "delta_student_lost_min_mean": 0.35837060702875334,
+     "delta_student_travel_s_mean": 21.502236421725257,
      "level": "re-room",
      "extra_seats": 236,
-     "rooms_outgrown": 52,
+     "rooms_outgrown": 51,
      "sections_over_cap": 5
     }
    ]
   },
   "expected": {
    "moved_meetings": 0.0,
-   "room_changes": 20.95,
-   "uncovered_student_periods": 1.4666666666666668,
+   "room_changes": 20.625,
+   "uncovered_student_periods": 3.7000000000000006,
    "infeasible_rate": 0.0
   }
  }
