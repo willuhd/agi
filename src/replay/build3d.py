@@ -144,8 +144,8 @@ def main() -> None:
     h = ["<!DOCTYPE html><html><head><meta charset='utf-8'><title>3D break replay</title>",
          "<style>body{font-family:system-ui,sans-serif;background:#101318;color:#e8e4da;max-width:1200px;margin:auto;padding:16px}"
          "#bar{display:flex;gap:8px;align-items:center;margin:12px 0;color:#e8e4da}"
-         "#stage{width:100%;height:620px;perspective:1400px;position:relative;overflow:hidden;background:#171b22;border-radius:8px}"
-         "#scene{position:absolute;left:50%;top:56%;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(38deg)}"
+         "#stage{width:100%;height:740px;perspective:1500px;position:relative;overflow:hidden;background:#171b22;border-radius:8px}"
+         "#scene{position:absolute;left:50%;top:62%;transform-style:preserve-3d;transform:rotateX(52deg) rotateZ(38deg) scale(.86);transition:opacity .25s}"
          ".plate{position:absolute;transform-style:preserve-3d;border:1px solid #3a4150}"
          ".plate svg{display:block;background:#fbfaf6}"
          ".dot{position:absolute;width:7px;height:7px;border-radius:50%;margin:-3.5px;box-shadow:0 0 4px #000}"
@@ -153,6 +153,7 @@ def main() -> None:
          "select,button{font-size:14px}</style></head><body>",
          "<h1>3D break replay (schematic)</h1>",
          "<div id='bar'><select id='brk'></select><button id='play'>Play</button>",
+         "<button id='playall'>Play week</button>",
          "<label>speed <input id='spd' type='range' min='1' max='8' value='3'></label>",
          "<span id='info'></span></div>",
          "<div id='stage'><div id='scene'></div></div>",
@@ -202,7 +203,29 @@ function render(t){
 document.getElementById('play').onclick=()=>{if(timer){clearInterval(timer);timer=null;return;}
   let t=0;const sp=+document.getElementById('spd').value;
   timer=setInterval(()=>{t+=0.01*sp;if(t>1){clearInterval(timer);timer=null;}render(Math.min(t,1));},50);};
-sel.onchange=()=>draw(sel.value,1);draw(sel.value||Object.keys(DATA)[0],1);
+const DAY={Mon:0,Tue:1,Wed:2,Thu:3,Fri:4};
+const KEYS=Object.keys(DATA).sort((a,b)=>{const pa=a.match(/(...) P(\d+)/),pb=b.match(/(...) P(\d+)/);
+  return (DAY[pa[1]]-DAY[pb[1]])||(+pa[2]-+pb[2]);});
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let playingAll=false;
+function fadeTo(key){
+  scene.style.opacity=0;
+  return sleep(260).then(()=>{sel.value=key;draw(key,0);scene.style.opacity=1;return sleep(260);});
+}
+document.getElementById('playall').onclick=async()=>{
+  if(playingAll){playingAll=false;return;}
+  playingAll=true;
+  for(const key of KEYS){
+    if(!playingAll) break;
+    await fadeTo(key);
+    const sp=+document.getElementById('spd').value;
+    let t=0;
+    await new Promise(done=>{const iv=setInterval(()=>{if(!playingAll){clearInterval(iv);done();return;}
+      t+=0.008*sp;if(t>=1){clearInterval(iv);done();return;}render(Math.min(t,1));},40);});
+    await sleep(350);
+  }
+  playingAll=false;};
+sel.onchange=()=>draw(sel.value,1);draw(sel.value||KEYS[0],1);
 </script></body></html>"""]
     Path(a.out).write_text("\n".join(h), encoding="utf-8")
     print(f"wrote {a.out} with {len(data)} breaks, "
