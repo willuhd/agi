@@ -21,7 +21,7 @@ from viz import plan
 
 from .build import FLOORS, SC, sol_rooms_floor, stair_landmarks, xy
 
-FLOOR_Z = {f: i * 170 for i, f in enumerate(FLOORS)}  # px depth per level
+FLOOR_Z = {f: i * 100 for i, f in enumerate(FLOORS)}  # px depth per level
 
 
 def load_via() -> dict:
@@ -144,8 +144,8 @@ def main() -> None:
     h = ["<!DOCTYPE html><html><head><meta charset='utf-8'><title>3D break replay</title>",
          "<style>body{font-family:system-ui,sans-serif;background:#101318;color:#e8e4da;max-width:1200px;margin:auto;padding:16px}"
          "#bar{display:flex;gap:8px;align-items:center;margin:12px 0;color:#e8e4da}"
-         "#stage{width:100%;height:740px;perspective:1500px;position:relative;overflow:hidden;background:#171b22;border-radius:8px}"
-         "#scene{position:absolute;left:50%;top:62%;transform-style:preserve-3d;transform:rotateX(52deg) rotateZ(38deg) scale(.86);transition:opacity .25s}"
+         "#stage{width:100%;height:760px;perspective:1500px;position:relative;overflow:hidden;background:#171b22;border-radius:8px}"
+         "#scene{position:absolute;left:50%;top:64%;transform-style:preserve-3d;transform:rotateX(50deg) rotateZ(38deg) scale(.9)}"
          ".plate{position:absolute;transform-style:preserve-3d;border:1px solid #3a4150}"
          ".plate svg{display:block;background:#fbfaf6}"
          ".dot{position:absolute;width:7px;height:7px;border-radius:50%;margin:-3.5px;box-shadow:0 0 4px #000}"
@@ -209,8 +209,9 @@ const KEYS=Object.keys(DATA).sort((a,b)=>{const pa=a.match(/(...) P(\d+)/),pb=b.
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 let playingAll=false;
 function fadeTo(key){
-  scene.style.opacity=0;
-  return sleep(260).then(()=>{sel.value=key;draw(key,0);scene.style.opacity=1;return sleep(260);});
+  const olds=[...document.querySelectorAll('#scene .dot,#scene .car')];
+  olds.forEach(e=>{e.style.transition='opacity .22s';e.style.opacity=0;});
+  return sleep(240).then(()=>{olds.forEach(e=>e.remove());sel.value=key;draw(key,0);});
 }
 document.getElementById('playall').onclick=async()=>{
   if(playingAll){playingAll=false;return;}
