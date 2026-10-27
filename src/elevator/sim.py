@@ -61,18 +61,22 @@ def teacher_legs(sol: dict, rooms: dict, share: float, seed: int) -> dict:
 
 def simulate_break(reqs: list, gap: float, timing: dict, capacity: int,
                     rest: list, seed: int) -> dict:
-    """Pooled FIFO queue, 2 cars. Cars start at ``rest`` floors (order values);
-    empty travel to pickup costs per_floor_s per floor (no doors); a loaded
-    trip takes up to ``capacity`` waiting passengers, costs
-    door + per_floor_s * span + door, and rests at the farthest drop.
-    Returns waits, rides, misses (board + ride > gap)."""
+    """Pooled FIFO queue, 2 cars with collective control. Cars start at
+    ``rest`` floors (order values); empty travel to pickup costs per_floor_s
+    per floor (no doors); a loaded trip takes up to ``capacity`` waiting
+    passengers, costs door + per_floor_s * span + door, and rests at the
+    farthest drop. Collective control: a car is never dispatched empty to a
+    pickup floor where the other car is already heading with spare room --
+    no double-dispatch to the same hall call (shared_avoided counts these).
+    Returns waits, rides, misses (board + ride > gap) plus the trip log
+    (car trajectories for the visual)."""
     import heapq
     rng = random.Random(seed)
     arr = sorted((rng.uniform(0, 45.0), tid, fa, fb) for tid, fa, fb in reqs)
-    cars = [{"floor": r} for r in rest]
+    cars = [{"floor": r, "target": None, "spare": 0} for r in rest]
     free_at = [(0.0, c) for c in range(len(cars))]
     heapq.heapify(free_at)
-    waits, rides, missed = [], [], 0
+    waits, rides, missed, trips, avoided = [], [], 0, [], 0
     i = 0
     waiting = []  # arrived, not yet boarded
     while i < len(arr) or waiting:
@@ -89,8 +93,14 @@ def simulate_break(reqs: list, gap: float, timing: dict, capacity: int,
             heapq.heappush(free_at, (start, c))
             continue
         batch = waiting[:capacity]
-        waiting = waiting[capacity:]
         pickup = FLOOR_ORDER[batch[0][2]]
+        o = 1 - c if len(cars) == 2 else None
+        if o is not None and cars[o]["target"] == pickup and cars[o]["spare"] >= len(batch):
+            # other car already serving this hall call with room: hold
+            avoided += 1
+            heapq.heappush(free_at, (start + 1.0, c))
+            continue
+        waiting = waiting[capacity:]
         empty = timing["per_floor_s"] * abs(cars[c]["floor"] - pickup)
         span = max(abs(FLOOR_ORDER[fb] - pickup) for _, _, _, fb in batch)
         ride = timing["door_s"] + timing["per_floor_s"] * max(span, 1) + timing["door_s"]
@@ -100,11 +110,16 @@ def simulate_break(reqs: list, gap: float, timing: dict, capacity: int,
             rides.append(ride)
             if board + ride > gap:
                 missed += 1
-        cars[c]["floor"] = max(FLOOR_ORDER[fb] for _, _, _, fb in batch)
+        drop = max(FLOOR_ORDER[fb] for _, _, _, fb in batch)
+        cars[c]["floor"] = drop
+        cars[c]["target"] = pickup
+        cars[c]["spare"] = capacity - len(batch)
+        trips.append({"car": c, "t_board": round(board, 1), "pickup": pickup,
+                      "drop": drop, "t_free": round(board + ride, 1)})
         heapq.heappush(free_at, (board + ride, c))
     return {"requests": len(reqs), "avg_wait_s": sum(waits) / len(waits) if waits else 0.0,
             "p95_wait_s": sorted(waits)[min(len(waits) - 1, int(len(waits) * 0.95))] if waits else 0.0,
-            "missed": missed}
+            "missed": missed, "shared_avoided": avoided, "trips": trips}
 
 
 def main() -> None:
