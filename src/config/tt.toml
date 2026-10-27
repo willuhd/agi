@@ -1,4 +1,4 @@
-# Full-school timetable pipeline (src/tt). Every number here is a knob; sensitivity.py sweeps them.
+# Full-school timetable pipeline (src/). Every number here is a knob; sensitivity.py sweeps them.
 # Dotted override example: {"loads.k": 0.9, "solve.w_gap": 2}
 
 [loads]
@@ -99,7 +99,7 @@ even_courses = []
 odd_courses = []
 
 [offices]
-# Ported from sched teachers.toml [homeroom]+[dept_offices]. No hardcoded
+# Office defaults carried over from the original teacher model ([homeroom]+[dept_offices]). No hardcoded
 # offices in code: build_teachers reads these. Set enabled=false to skip
 # office assignment (offices recorded as "") and zero colocation cost.
 # Home zones: G9 around 406 (4F, spilling to the shared 3F), G10 around 210
@@ -121,7 +121,8 @@ cs = "313"
 colocation_price_per_floor = 0.5
 
 [preference]
-# Ported from sched teachers.toml [load]+[travel]+[fatigue]. All soft costs;
+# Teacher-loss weights carried over from the original teacher model
+# ([load]+[travel]+[fatigue]). All soft costs;
 # set any price to 0 to disable that term. tt metrics TCFG defaults are kept
 # as fallback when a key is missing here.
 target_periods = 20

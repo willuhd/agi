@@ -66,11 +66,11 @@ A teacher absence is covered by a qualified free colleague for 93% of lessons. A
 ```
 python -m venv .venv && .venv/Scripts/pip install ortools numpy matplotlib pytest
 cd src
-PYTHONPATH=. python -m tt.run 24 150          # main run
-PYTHONPATH=. python -m tt.sensitivity all     # sweeps (about 40 min on 12 cores)
-PYTHONPATH=. python -m tt.poster2             # poster -> output/poster_large.html
-PYTHONPATH=. python -m tt.readme              # this file and docs/img
+PYTHONPATH=. python -m run 24 150          # main run
+PYTHONPATH=. python -m sensitivity all     # sweeps (about 40 min on 12 cores)
+PYTHONPATH=. python -m poster2             # poster -> output/poster_large.html
+PYTHONPATH=. python -m readme              # this file and docs/img
 cd .. && python -m pytest tests/test_tt.py
 ```
 
-`submissions/` holds the thumbnail and eight evidence images. `src/tt/` holds the pipeline, `src/config/tt.toml` every parameter, `docs/Question.txt` the prompt and `docs/improvement_proposal.md` the design rationale.
+`submissions/` holds the thumbnail and eight evidence images. `src/` holds the pipeline, `src/config/tt.toml` every parameter, `docs/Question.txt` the prompt and `docs/improvement_proposal.md` the design rationale.

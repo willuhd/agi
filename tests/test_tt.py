@@ -8,7 +8,7 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from tt import catalog, checker, config, emulator, metrics, model, mutations, shocks, world  # noqa: E402
+import catalog, checker, config, emulator, metrics, model, mutations, shocks, world  # noqa: E402
 
 SMALL = {"school.G9": 84, "school.G10": 66, "school.G11AP": 40,
          "school.homerooms": {"G9": 4, "G10": 3, "G11AP": 3},
